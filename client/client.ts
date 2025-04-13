@@ -34,30 +34,28 @@ export const logger = pino({
   },
 });
 
-export interface CommandList
-  extends Map<
-    string,
-    {
-      name: string;
-      description: string;
-      alias?: Array<string>;
-      args?: Array<{ name: string; description: string; required: boolean }>;
-      modsOnly?: boolean;
-      broadcasterOnly?: boolean;
-      execute: (
-        client: { chat: ChatClient; io: any; api: ApiClient },
-        meta: {
-          channel: string;
-          user: string;
-          userID: string;
-          channelID: string;
-          commands: CommandList;
-        },
-        message: string,
-        args: Array<string>,
-      ) => void;
-    }
-  > {}
+export interface Command {
+  name: string;
+  description: string;
+  alias?: Array<string>;
+  args?: Array<{ name: string; description: string; required: boolean }>;
+  modsOnly?: boolean;
+  broadcasterOnly?: boolean;
+  execute: (
+    client: { chat: ChatClient; io: any; api: ApiClient },
+    meta: {
+      channel: string;
+      user: string;
+      userID: string;
+      channelID: string;
+      commands: CommandList;
+    },
+    message: string,
+    args: Array<string>,
+  ) => void;
+}
+
+export interface CommandList extends Map<string, Command> {}
 
 export interface SongInfo {
   user: string;

@@ -109,8 +109,8 @@ CLIENT_ID= # Read FAQ to get your creditentials
 CLIENT_SECRET= # Read FAQ to get your creditentials
 USER_ACCESS_TOKEN= # Read FAQ to get your creditentials
 REFRESH_TOKEN= # Read FAQ to get your creditentials
-TW_CHANNEL= # Your channel name
-TW_ID= # Your channel ID (You can get it from the Twitch API or this site: https://www.streamweasels.com/support/convert-twitch-username-to-user-id)
+TW_CHANNEL= # Your channel name that wants the bot to connect to
+TW_ID= # Your bot's channel ID (You can get it from the Twitch API or this site: https://www.streamweasels.com/support/convert-twitch-username-to-user-id)
 NODE_ENV= # Set it to "production" if you are running the bot in production
 OVERLAY_TOKEN= # A random string to authenticate the overlay (E.g. /chat-[your-token])
 ```
@@ -154,7 +154,8 @@ other tools. If you don't want to use HTTPS, you can remove the `server.crt` and
 
 ### I couldn't install Bun in my system
 
-Currently, Bun is only available for Linux and MacOS. If you are using Windows, you can use WSL or a virtual machine to
-run the project.
-For the WSL installation, you can follow
-the [official documentation](https://docs.microsoft.com/en-us/windows/wsl/install).
+_~~Currently, Bun is only available for Linux and MacOS. If you are using Windows, you can use WSL or a virtual machine to
+run the project.~~_
+**Bun is now available for Windows**, you can follow the [official documentation](https://bun.sh/docs/installation/windows) 
+for the installation.
+For further assistance about installing Bun, you may ask in the [Bun official Discord server](https://bun.sh/discord).

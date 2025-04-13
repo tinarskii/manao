@@ -4,7 +4,7 @@ import { CommandList } from "../client";
 
 export default {
   name: "love",
-  description: "How much is your love?",
+  description: "How deep is your love?",
   alias: ["รัก"],
   args: [
     {
