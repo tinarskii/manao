@@ -1,6 +1,7 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { CommandList, logger } from "../client";
+import { CommandList } from "../types";
+import { logger } from "../helpers/logger";
 
 export default {
   name: "announce",

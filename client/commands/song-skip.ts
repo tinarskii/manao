@@ -1,6 +1,7 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { CommandList, songQueue } from "../client";
+import { CommandList } from "../types";
+import { songQueue } from "../services/chat";
 
 export default {
   name: "song-skip",

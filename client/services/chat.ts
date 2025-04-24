@@ -71,6 +71,6 @@ async function loadCommands() {
 
     logger.info(`[Commands] Loaded ${commandFiles.length} commands`);
   } catch (error) {
-    logger.error("[Commands] Failed to load commands:", error);
+    throw error;
   }
 }

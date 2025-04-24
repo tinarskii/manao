@@ -1,6 +1,7 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { CommandList, songQueue } from "../client";
+import { CommandList } from "../types";
+import { songQueue } from "../services/chat";
 import YouTube from "youtube-sr";
 import ytdl from "@distube/ytdl-core";
 

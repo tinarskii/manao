@@ -1,4 +1,4 @@
-import { CommandList } from "../client";
+import { CommandList } from "../types";
 import { db } from "../helpers/database";
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
