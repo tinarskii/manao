@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Music</title>
+    <link rel="stylesheet" href="/css/music.css" />
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/common.js"></script>
+  </head>
+  <body>
+    <div id="player">
+      <iframe
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        frameborder="0"
+        height="315"
+        id="playframe"
+        src="https://www.youtube.com/embed/agPF9Eptt1s?autoplay=1&enablejsapi=1"
+        width="560"
+      >
+      </iframe>
+    </div>
+
+    <div class="flex flex-row gap-2 p-1" id="np">
+      <img
+        alt="Album art"
+        class="w-20 h-20 rounded-full object-cover animate-[spin_10s_linear_infinite] shadow-lg"
+        id="cover"
+        src=""
+      />
+      <div class="rounded-lg w-[275px]" id="info-container">
+        <div
+          class="flex flex-col bg-black/50 backdrop-blur-lg text-white py-2 px-4 shadow-lg w-full h-full rounded-lg justify-center"
+        >
+          <h1 class="text-xl font-extrabold truncate" id="songTitle"></h1>
+          <h1
+            class="leading-none text-sm font-medium truncate"
+            id="author"
+          ></h1>
+        </div>
+      </div>
+      <div class="rounded-lg w-[275px]" id="time-container">
+        <div
+          class="flex flex-col bg-[#3b3b3b] backdrop-blur-lg text-white py-2 px-4 shadow-lg w-full h-full rounded-lg justify-center"
+        >
+          <div class="flex w-full justify-between">
+            <h1 class="text-sm font-medium truncate" id="currentTime">0:00</h1>
+            <h1 class="text-sm font-medium truncate" id="duration">0:00</h1>
+          </div>
+          <progress
+            class="w-full h-2 bg-[#75797c] rounded-full"
+            id="progress"
+            max="100"
+            value="0"
+          ></progress>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="/js/music.js"></script>
+  </body>
+</html>

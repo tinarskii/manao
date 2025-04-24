@@ -1,0 +1,117 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped&family=Outfit&display=swap");
+
+html {
+  padding: 0.5em;
+  margin: 0;
+  max-width: 500px;
+}
+
+body {
+  overflow: hidden;
+}
+
+#log {
+  display: flex;
+  flex-direction: column-reverse;
+  row-gap: 1em;
+}
+
+.chatbox-container {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  padding: 0.75em;
+  border-radius: 0 0 1em;
+  border-left: 10px solid;
+  font-family: "Outfit", "Noto Sans Thai Looped", sans-serif;
+}
+
+.chatbox-container.normal {
+  background: linear-gradient(
+    45deg,
+    rgba(78, 78, 72, 0.85),
+    rgba(56, 52, 43, 0.85)
+  );
+}
+
+.chatbox-container.sub {
+  background: linear-gradient(
+    45deg,
+    rgba(138, 138, 11, 0.85),
+    rgba(181, 137, 35, 0.85)
+  );
+}
+
+.chatbox-container.vip {
+  background: linear-gradient(
+    45deg,
+    rgba(50, 11, 77, 0.85),
+    rgba(107, 19, 107, 0.85)
+  );
+}
+
+.chatbox-container.broadcaster {
+  background: linear-gradient(
+    45deg,
+    rgba(77, 11, 11, 0.85),
+    rgba(107, 19, 32, 0.85)
+  );
+}
+
+.chatbox-container.mod {
+  background: linear-gradient(
+    45deg,
+    rgba(12, 77, 11, 0.85),
+    rgba(21, 116, 38, 0.85)
+  );
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  column-gap: 0.25em;
+  width: 100%;
+  font-size: 2em;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.75);
+}
+
+.badges {
+  display: flex;
+  align-items: center;
+  column-gap: 0.25em;
+  font-size: 1.5em;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.75);
+}
+
+.badges img,
+.message img {
+  width: 24px;
+  height: 24px;
+}
+
+.message {
+  color: white;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.75);
+  font-size: 1.25rem;
+  word-wrap: break-word;
+  word-break: break-word;
+  z-index: 5;
+}
+
+#log > div {
+  animation: fadeInRight 0.75s ease forwards;
+  -webkit-animation: fadeInRight 0.75s ease forwards;
+}
+
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

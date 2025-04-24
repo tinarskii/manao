@@ -1,0 +1,45 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped&family=Outfit&display=swap");
+
+html {
+  padding: 0.5em;
+  margin: 0;
+  max-width: 1500px;
+}
+
+.feed-container {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-radius: 0.5em;
+  font-family: "Outfit", "Noto Sans Thai Looped", sans-serif;
+  color: white;
+  font-size: 1.25em;
+}
+
+.feed-container h1 {
+  width: 100%;
+}
+
+.feed-container.normal {
+  background: rgba(28, 86, 199, 0.75);
+}
+
+.feed-container.success {
+  background: rgba(28, 199, 113, 0.75);
+}
+
+.feed-container.danger {
+  background: rgba(199, 28, 59, 0.75);
+}
+
+.feed-container.neutral {
+  background: rgba(15, 5, 17, 0.75);
+}
+
+.feedlist {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 1em;
+}

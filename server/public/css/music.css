@@ -1,0 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@100..900&display=swap");
+
+* {
+  font-family: "Noto Serif Thai", sans-serif;
+}
+
+progress::-webkit-progress-bar {
+  background-color: #75797c;
+}
+
+progress::-webkit-progress-value {
+  background-color: #ffffff;
+}
+
+progress::-moz-progress-bar {
+  background-color: #ffffff;
+}

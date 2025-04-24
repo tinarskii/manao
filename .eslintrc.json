@@ -11,18 +11,9 @@
     "sourceType": "module"
   },
   "rules": {
-    "linebreak-style": [
-      "error",
-      "windows"
-    ],
-    "quotes": [
-      "error",
-      "double"
-    ],
-    "semi": [
-      "error",
-      "always"
-    ],
+    "linebreak-style": ["error", "windows"],
+    "quotes": ["error", "double"],
+    "semi": ["error", "always"],
     "prefer-template": "error",
     "no-console": "error",
     "default-case": "error",

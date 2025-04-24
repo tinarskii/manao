@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+      name="viewport"
+    />
+    <meta content="ie=edge" http-equiv="X-UA-Compatible" />
+    <link rel="stylesheet" href="/css/chat.css" />
+    <title>Chat</title>
+  </head>
+  <body>
+    <!-- item will be appended to this layout -->
+    <div class="sl__chat__layout" id="log"></div>
+
+    <!-- Template will be added by JavaScript -->
+    <div id="template-container" style="display: none"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/common.js"></script>
+    <script src="/js/chat.js"></script>
+  </body>
+</html>
