@@ -36,7 +36,10 @@ export default {
         lastDailyDate.getMonth() === currentDate.getMonth() &&
         lastDailyDate.getFullYear() === currentDate.getFullYear()
       ) {
-        await client.chat.say(meta.channel, `@${meta.user} เองรับเงินไปแล้ววันนี้แล้วนะ`);
+        await client.chat.say(
+          meta.channel,
+          `@${meta.user} เองรับเงินไปแล้ววันนี้แล้วนะ`,
+        );
         return;
       }
     }

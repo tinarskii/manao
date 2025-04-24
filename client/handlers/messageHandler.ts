@@ -1,4 +1,8 @@
-import { buildEmoteImageUrl, ChatClient, parseEmotePositions } from "@twurple/chat";
+import {
+  buildEmoteImageUrl,
+  ChatClient,
+  parseEmotePositions,
+} from "@twurple/chat";
 import { ApiClient } from "@twurple/api";
 import { PREFIX } from "../config/constants";
 import { handleCommand } from "./commandHandler";
@@ -18,7 +22,7 @@ export async function handleMessage(
   userID: string,
   channelID: string,
   chatClient: ChatClient,
-  apiClient: ApiClient
+  apiClient: ApiClient,
 ) {
   try {
     // Check if message is a command
@@ -30,7 +34,7 @@ export async function handleMessage(
         channelID,
         message,
         chatClient,
-        apiClient
+        apiClient,
       );
     } else {
       await handleRegularMessage(
@@ -39,7 +43,7 @@ export async function handleMessage(
         message,
         msgObj,
         userID,
-        apiClient
+        apiClient,
       );
     }
   } catch (error) {
@@ -56,7 +60,7 @@ async function handleRegularMessage(
   message: string,
   msgObj: any,
   userID: string,
-  apiClient: ApiClient
+  apiClient: ApiClient,
 ) {
   try {
     // Get user nickname & determine role
@@ -67,7 +71,10 @@ async function handleRegularMessage(
     const processedMessage = await processEmotes(message, msgObj);
 
     // Get user badges
-    const badgeList = await processUserBadges(msgObj.userInfo.badges, apiClient);
+    const badgeList = await processUserBadges(
+      msgObj.userInfo.badges,
+      apiClient,
+    );
 
     // Build message data object
     const messageData: MessageData = {
@@ -111,7 +118,7 @@ async function processEmotes(message: string, msgObj: any): Promise<string> {
     const emoteUrl = buildEmoteImageUrl(emote.id, { size: "3.0" });
     processedMessage = processedMessage.replace(
       emote.name,
-      `<img src="${emoteUrl}" alt="emote" /> `
+      `<img src="${emoteUrl}" alt="emote" /> `,
     );
   }
 
@@ -123,7 +130,7 @@ async function processEmotes(message: string, msgObj: any): Promise<string> {
  */
 async function processUserBadges(
   badges: Map<string, string>,
-  apiClient: ApiClient
+  apiClient: ApiClient,
 ): Promise<string[]> {
   try {
     const badgeList: string[] = [];
@@ -136,7 +143,7 @@ async function processUserBadges(
 
     [...badges.keys()].forEach((badge) => {
       const badgeTitle = globalBadgeTitles.find(
-        (b) => b.title?.toLowerCase().split(" ").join("-") === badge
+        (b) => b.title?.toLowerCase().split(" ").join("-") === badge,
       );
 
       if (badgeTitle && badgeTitle.link) {

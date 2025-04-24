@@ -12,7 +12,7 @@ export const REQUIRED_ENV_VARS = [
   "USER_ACCESS_TOKEN",
   "TW_ID",
   "BROADCASTER_ID",
-  "TW_CHANNEL"
+  "TW_CHANNEL",
 ];
 
 // Twitch API scopes
@@ -60,7 +60,7 @@ export const SUB_REWARD_AMOUNT = 6900;
  */
 export function validateEnv() {
   const missingVars = REQUIRED_ENV_VARS.filter(
-    (varName) => !process.env[varName]
+    (varName) => !process.env[varName],
   );
 
   if (missingVars.length > 0) {

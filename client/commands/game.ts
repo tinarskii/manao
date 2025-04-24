@@ -48,6 +48,9 @@ export default {
       gameId: game.id,
     });
 
-    await client.chat.say(meta.channel, `@${meta.user} เปลี่ยนเกมเป็น ${game.name} แล้ว!`);
+    await client.chat.say(
+      meta.channel,
+      `@${meta.user} เปลี่ยนเกมเป็น ${game.name} แล้ว!`,
+    );
   },
 };

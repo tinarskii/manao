@@ -2,7 +2,7 @@ import { Elysia } from "elysia";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { db } from "../client/helpers/database";
-import { songQueue, commands } from "../client/services/chat";
+import { commands, songQueue } from "../client/services/chat";
 import { logger } from "../client/helpers/logger";
 import { createServer } from "node:https";
 import { Server, Socket } from "socket.io";
@@ -26,7 +26,7 @@ const server = createServer(
 
 const randomToken = () => {
   return Math.random().toString(36).substring(2, 15);
-}
+};
 
 let token = process.env.OVERLAY_TOKEN || randomToken();
 
@@ -59,10 +59,12 @@ io.on("connection", (socket: Socket) => {
 
 export const app = new Elysia();
 
-app.use(staticPlugin({
-  prefix: "/",
-  assets: join(dirname(fileURLToPath(import.meta.url)), "./public"),
-}))
+app.use(
+  staticPlugin({
+    prefix: "/",
+    assets: join(dirname(fileURLToPath(import.meta.url)), "./public"),
+  }),
+);
 
 app.get("/", () => {
   return new Response("Hello World!");
@@ -117,7 +119,7 @@ app.get(`/music-${token}`, () => {
 
 app.get("/queue", () => {
   return Bun.file(__dirname + "/app/queue.html");
-})
+});
 
 app.get("/socket.io/socket.io.js", () => {
   return Bun.file("./node_modules/socket.io/client-dist/socket.io.js");

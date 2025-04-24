@@ -14,7 +14,7 @@ export async function handleCommand(
   channelID: string,
   message: string,
   chatClient: ChatClient,
-  apiClient: ApiClient
+  apiClient: ApiClient,
 ) {
   try {
     const args = message.split(" ").slice(1);

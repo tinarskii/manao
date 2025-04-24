@@ -45,7 +45,10 @@ export default {
     // Check if target is valid
     let targetUser = await client.api.users.getUserByName(target);
     if (!targetUser) {
-      await client.chat.say(meta.channel, `@${meta.user} ไม่พบผู้ใช้ ${args[0]}`);
+      await client.chat.say(
+        meta.channel,
+        `@${meta.user} ไม่พบผู้ใช้ ${args[0]}`,
+      );
       return;
     }
     let targetID = targetUser.id;

@@ -14,7 +14,9 @@ export let songQueue: any[] = [];
 /**
  * Initializes the Twitch chat client and API client
  */
-export async function initializeChatClient(authProvider: RefreshingAuthProvider) {
+export async function initializeChatClient(
+  authProvider: RefreshingAuthProvider,
+) {
   const apiClient = new ApiClient({ authProvider });
 
   const chatClient = new ChatClient({
@@ -36,7 +38,16 @@ export async function initializeChatClient(authProvider: RefreshingAuthProvider)
     const userID = msgObj.userInfo.userId!;
     const channelID = msgObj.channelId!;
 
-    await handleMessage(channel, user, message, msgObj, userID, channelID, chatClient, apiClient);
+    await handleMessage(
+      channel,
+      user,
+      message,
+      msgObj,
+      userID,
+      channelID,
+      chatClient,
+      apiClient,
+    );
   });
 
   return { chatClient, apiClient };
@@ -48,8 +59,8 @@ export async function initializeChatClient(authProvider: RefreshingAuthProvider)
 async function loadCommands() {
   try {
     const commandsDir = join(__dirname, "../commands");
-    const commandFiles = readdirSync(commandsDir).filter((file) =>
-      file.endsWith(".ts") || file.endsWith(".js")
+    const commandFiles = readdirSync(commandsDir).filter(
+      (file) => file.endsWith(".ts") || file.endsWith(".js"),
     );
 
     for (const file of commandFiles) {

@@ -13,7 +13,7 @@ export function handleReward(
   data: any,
   chatClient: ChatClient,
   icon: string = "🔁",
-  type: string = "Redeem"
+  type: string = "Redeem",
 ) {
   try {
     // Initialize user account if not exists
@@ -22,7 +22,7 @@ export function handleReward(
     // Update user's currency in database
     db.prepare("UPDATE users SET money = money + ? WHERE user = ?").run(
       amount,
-      data.userId
+      data.userId,
     );
 
     // Log the transaction
@@ -44,15 +44,18 @@ export function handleReward(
       process.env.TW_CHANNEL!,
       `@${data.userName} 💵 ${type === "Redeem" ? "แลกรับ" : "ได้รับ"} ${amount} กีบสำเร็จแล้ว!${
         type !== "Redeem" ? " ขอบคุณที่สนับสนุนช่องนี้ด้วยนะ!" : ""
-      }`
+      }`,
     );
   } catch (error) {
-    logger.error(`[Reward] Error processing ${amount} KEEB for ${data.userName}:`, error);
+    logger.error(
+      `[Reward] Error processing ${amount} KEEB for ${data.userName}:`,
+      error,
+    );
 
     // Notify in chat if there was an error
     chatClient.say(
       process.env.TW_CHANNEL!,
-      `@${data.userName} เกิดข้อผิดพลาดในการประมวลผลรางวัล กรุณาแจ้งผู้ดูแล`
+      `@${data.userName} เกิดข้อผิดพลาดในการประมวลผลรางวัล กรุณาแจ้งผู้ดูแล`,
     );
   }
 }

@@ -33,7 +33,10 @@ export default {
       });
     } catch (e) {
       logger.error(e);
-      await client.chat.say(meta.channel, `@${meta.user} ไม่สามารถ announce ได้`);
+      await client.chat.say(
+        meta.channel,
+        `@${meta.user} ไม่สามารถ announce ได้`,
+      );
       return;
     }
   },

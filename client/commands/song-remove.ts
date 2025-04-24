@@ -27,7 +27,10 @@ export default {
   ) => {
     let index = parseInt(args[0]);
     if (isNaN(index) || index <= 0 || index >= songQueue.length) {
-      await client.chat.say(meta.channel, `@${meta.user} ใส่เลขคิวที่ถูกต้องด้วย`);
+      await client.chat.say(
+        meta.channel,
+        `@${meta.user} ใส่เลขคิวที่ถูกต้องด้วย`,
+      );
       return;
     }
 
@@ -38,7 +41,10 @@ export default {
         meta.userID,
       );
       if (!isMod) {
-        await client.chat.say(meta.channel, `@${meta.user} ไม่สามารถลบเพลงของคนอื่นได้`);
+        await client.chat.say(
+          meta.channel,
+          `@${meta.user} ไม่สามารถลบเพลงของคนอื่นได้`,
+        );
         return;
       }
     }

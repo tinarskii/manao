@@ -31,7 +31,10 @@ export default {
         meta.userID,
       );
       if (!isMod) {
-        await client.chat.say(meta.channel, `@${meta.user} ไม่สามารถลบเพลงของคนอื่นได้`);
+        await client.chat.say(
+          meta.channel,
+          `@${meta.user} ไม่สามารถลบเพลงของคนอื่นได้`,
+        );
         return;
       }
     }

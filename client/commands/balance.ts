@@ -32,7 +32,10 @@ export default {
 
     // If user is not found
     if (!user) {
-      await client.chat.say(meta.channel, `@${meta.user} ไม่พบผู้ใช้ ${args[0]}`);
+      await client.chat.say(
+        meta.channel,
+        `@${meta.user} ไม่พบผู้ใช้ ${args[0]}`,
+      );
       return;
     }
 
