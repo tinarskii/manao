@@ -102,17 +102,23 @@ cd twitch-utils
 bun install
 ```
 
-3. Rename a `.env.example` file to `.env` in the root directory and add the following environment variables
+3. Rename a `.env.example` file to `.env` in the root directory, the file content should be something like this:
 
 ```dotenv
 CLIENT_ID= # Read FAQ to get your creditentials
 CLIENT_SECRET= # Read FAQ to get your creditentials
+
 USER_ACCESS_TOKEN= # Read FAQ to get your creditentials
 REFRESH_TOKEN= # Read FAQ to get your creditentials
+
+BROADCASTER_USER_ACCESS_TOKEN= # Read FAQ to get your creditentials
+BROADCASTER_REFRESH_TOKEN= # Read FAQ to get your creditentials
+
 TW_CHANNEL= # Your channel name that wants the bot to connect to
 TW_ID= # Your bot's channel ID (You can get it from the Twitch API or this site: https://www.streamweasels.com/support/convert-twitch-username-to-user-id)
 BROADCASTER_ID= # Your channel ID (You can get it from the Twitch API or this site: https://www.streamweasels.com/support/convert-twitch-username-to-user-id)
-NODE_ENV= # Set it to "production" if you are running the bot in production
+
+NODE_ENV= # Set it to "production" if you are running the bot in production, otherwise prefer "development"
 OVERLAY_TOKEN= # A random string to authenticate the overlay (E.g. /chat-[your-token])
 ```
 
@@ -135,9 +141,10 @@ This project is licensed under the [Mozilla Public License 2.0](/LICENSE).
 
 ### How do I get my Twitch API credentials?
 
-You can get your Twitch API credentials by creating a new application on
-the [Twitch Developer Portal](https://dev.twitch.tv/).
-Get your ClientID and Client Secret from the application's dashboard.
+You can get your Twitch API credentials by creating a **new application** (not extensions) in
+the [Twitch Developer Portal](https://dev.twitch.tv/). Set "OAuth Redirect URL" to `http://localhost:3000/`, set the category
+to "Chat Bot" and client type to "Confidential". After that, you will be redirected to the application page.
+Get your client ID and client secret from the application's dashboard, and add them to your `.env` file.
 After that, you can install [TwitchCLI](https://dev.twitch.tv/docs/cli/) and run the following command to get your
 access token:
 
@@ -146,12 +153,13 @@ twitch token -u -s "user:edit user:read:email chat:read chat:edit channel:modera
 ```
 
 You will receive a user access token and a refresh token, add them to your `.env` file.
+**Note:** You should run the following command 2 times, once for the bot account and once for the broadcaster account, make sure
+to logout of Twitch before running the command again. Put the access token and refresh token in the `.env` file accordingly.
 
 ### What's `server.crt` and `server.key` files?
 
 These files are used to run the webserver in HTTPS. If you want to use HTTPS, you can generate these files using OpenSSL
-or
-other tools. If you don't want to use HTTPS, you can remove the `server.crt` and `server.key` in `server/server.ts`.
+or any other tools. If you don't want to use HTTPS, you can remove the `server.crt` and `server.key` in `server/server.ts`.
 
 ### I couldn't install Bun in my system
 
