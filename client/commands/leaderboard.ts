@@ -1,7 +1,7 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
 import { CommandList } from "../client";
-import { db } from "../../helpers/database";
+import { db } from "../helpers/database";
 
 export default {
   name: "leaderboard",

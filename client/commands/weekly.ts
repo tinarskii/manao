@@ -1,8 +1,8 @@
 import { CommandList } from "../client";
-import { db } from "../../helpers/database";
+import { db } from "../helpers/database";
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { initAccount } from "../../helpers/twitch";
+import { initAccount } from "../helpers/twitch";
 
 export default {
   name: "weekly",

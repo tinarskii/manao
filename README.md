@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/tinarskii/twitch-utils">
-    <img src="" />
+    <img src="/docs/manao.svg" height="64px" width="auto" />
     <h2 align="center">
       Manao
     </h2>
@@ -30,8 +30,8 @@
 
 ## 🤔 About
 
-This repo is a collection of utilities and tools for my Twitch channel (tinarskii). Inspired
-from [thananon/twitch_tools](https://github.com/thananon/twitch_tools)
+This project includes a Twitch chatbot and some overlays used in my Twitch channel (tinarskii). Inspired
+by [thananon/twitch_tools](https://github.com/thananon/twitch_tools)
 and [lucidkarn/luciabot](https://github.com/lucidkarn/luciabot).
 The project is written in TypeScript and uses Bun instead of Node.js, many features may be unavailable or not working as
 expected if you are not using Bun.
@@ -85,7 +85,7 @@ expected if you are not using Bun.
 ### Prerequisites
 
 - [Bun](https://bun.sh) (Version 1.0.0 or higher is recommended)
-- [Twitch Developer Account](https://dev.twitch.tv/) (For the chat bot)
+- [Twitch Developer Account](https://dev.twitch.tv/) (For the chatbot)
 
 ### Setup
 
@@ -102,7 +102,7 @@ cd twitch-utils
 bun install
 ```
 
-3. Create a `.env` file in the root directory and add the following environment variables
+3. Rename a `.env.example` file to `.env` in the root directory and add the following environment variables
 
 ```dotenv
 CLIENT_ID= # Read FAQ to get your creditentials
@@ -111,6 +111,7 @@ USER_ACCESS_TOKEN= # Read FAQ to get your creditentials
 REFRESH_TOKEN= # Read FAQ to get your creditentials
 TW_CHANNEL= # Your channel name that wants the bot to connect to
 TW_ID= # Your bot's channel ID (You can get it from the Twitch API or this site: https://www.streamweasels.com/support/convert-twitch-username-to-user-id)
+BROADCASTER_ID= # Your channel ID (You can get it from the Twitch API or this site: https://www.streamweasels.com/support/convert-twitch-username-to-user-id)
 NODE_ENV= # Set it to "production" if you are running the bot in production
 OVERLAY_TOKEN= # A random string to authenticate the overlay (E.g. /chat-[your-token])
 ```
@@ -141,7 +142,7 @@ After that, you can install [TwitchCLI](https://dev.twitch.tv/docs/cli/) and run
 access token:
 
 ```sh
-twitch token -u -s "user:edit user:read:email chat:read chat:edit channel:moderate moderation:read moderator:manage:shoutouts moderator:manage:announcements channel:manage:moderators channel:manage:broadcast channel:read:vips channel:read:subscriptions channel:manage:vips"
+twitch token -u -s "user:edit user:read:email chat:read chat:edit channel:moderate moderation:read moderator:manage:shoutouts moderator:manage:announcements channel:manage:moderators channel:manage:broadcast channel:read:vips channel:read:subscriptions channel:manage:vips channel:read:redemptions channel:manage:redemptions moderator:read:followers bits:read"
 ```
 
 You will receive a user access token and a refresh token, add them to your `.env` file.

@@ -1,13 +1,15 @@
 import { Elysia } from "elysia";
 import { fileURLToPath } from "node:url";
-import { dirname } from "node:path";
-import { db } from "../helpers/database";
-import { commands, logger, songQueue } from "../client/client";
+import { dirname, join } from "node:path";
+import { db } from "../client/helpers/database";
+import { songQueue, commands } from "../client/services/chat";
+import { logger } from "../client/helpers/logger";
 import { createServer } from "node:https";
 import { Server, Socket } from "socket.io";
 import express from "express";
 import cors from "cors";
 import * as process from "process";
+import staticPlugin from "@elysiajs/static";
 
 const expressApp = express();
 expressApp.use(cors());
@@ -55,8 +57,12 @@ io.on("connection", (socket: Socket) => {
   });
 });
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
 export const app = new Elysia();
+
+app.use(staticPlugin({
+  prefix: "/",
+  assets: join(dirname(fileURLToPath(import.meta.url)), "./public"),
+}))
 
 app.get("/", () => {
   return new Response("Hello World!");
@@ -85,6 +91,18 @@ app.get("/api/commands", () => {
 
 app.get("/api/queue", () => {
   return songQueue;
+});
+
+app.get("/api/default-songs", async () => {
+  // Import the default songs dynamically to avoid bundling issues
+  try {
+    // @ts-ignore
+    const module = await import("./public/js/defaultSongs.js");
+    return module.defaultSongs;
+  } catch (error) {
+    logger.error(`Error loading default songs: ${error}`);
+    return [];
+  }
 });
 app.get(`/feed-${token}`, () => {
   return Bun.file(__dirname + "/app/feed.html");
