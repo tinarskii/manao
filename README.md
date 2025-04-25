@@ -131,7 +131,7 @@ bun start
 ## 👋 Contributing
 
 If you want to contribute to the project, please read the [CONTRIBUTING.md](/.github/CONTRIBUTING.md) file.
-However, if you have any questions, feel free to ask in the [Discord index](https://discord.gg/vkW7YMyYaf).
+However, if you have any questions, feel free to ask in the [Discord server](https://discord.gg/vkW7YMyYaf).
 
 ## 📜 License
 
