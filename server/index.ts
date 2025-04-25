@@ -35,15 +35,17 @@ app.get("/socket.io/socket.io.js", () => {
   return Bun.file("./node_modules/socket.io/client-dist/socket.io.js");
 });
 
+function startApp() {
 // Start Elysia server
-app.listen(
-  {
-    port: PORT,
-    tls: tlsOptions,
-  },
-  ({ hostname, port }) => {
-    logger.info(`[Elysia] Running on https://${hostname}:${port}`);
-  }
-);
+  app.listen(
+    {
+      port: PORT,
+      tls: tlsOptions,
+    },
+    ({ hostname, port }) => {
+      logger.info(`[Elysia] Running on https://${hostname}:${port}`);
+    }
+  );
+}
 
-export { app, io };
+export { app, io, startApp };

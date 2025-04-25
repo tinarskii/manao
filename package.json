@@ -25,11 +25,13 @@
   "dependencies": {
     "@distube/ytdl-core": "^4.16.0",
     "@elysiajs/static": "^1.2.0",
+    "@inquirer/prompts": "^7.5.0",
     "@twurple/api": "^7.2.1",
     "@twurple/auth": "^7.2.1",
     "@twurple/chat": "^7.2.1",
     "@twurple/eventsub-ws": "^7.2.1",
     "@types/tough-cookie": "^4.0.5",
+    "chalk": "^5.4.1",
     "cors": "^2.8.5",
     "elysia": "^0.8.17",
     "express": "^4.18.2",

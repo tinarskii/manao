@@ -3,7 +3,7 @@ import { Server, Socket } from "socket.io";
 import { Express } from "express";
 import { songQueue } from "../../client/services/chat";
 import { logger } from "../../client/helpers/logger";
-import { tlsOptions } from "../config";
+import { SOCKET_PORT, tlsOptions } from "../config";
 
 export function setupSocketIO(expressApp: Express) {
   // Create HTTPS server with Express
@@ -25,7 +25,7 @@ export function setupSocketIO(expressApp: Express) {
   io.on("connection", handleSocketConnection);
 
   // Start listening on the server
-  server.listen(3001, () => {
+  server.listen(SOCKET_PORT, () => {
     logger.info("[Socket.IO] Running on http://localhost:3001");
   });
 

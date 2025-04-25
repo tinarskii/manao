@@ -24,8 +24,8 @@ export const APP_DIR = join(ROOT_DIR, "server/app");
 
 // TLS options
 export const tlsOptions = {
-  cert: isProduction ? Bun.file(join(ROOT_DIR, "server/server.crt")) : "",
-  key: isProduction ? Bun.file(join(ROOT_DIR, "server/server.key")) : "",
+  cert: "" /* isProduction ? Bun.file(join(ROOT_DIR, "server/server.crt")) : "" */,
+  key: "" /* isProduction ? Bun.file(join(ROOT_DIR, "server/server.key")) : "" */,
 };
 
 // Log configuration at startup

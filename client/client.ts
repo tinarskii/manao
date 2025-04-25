@@ -8,7 +8,7 @@ import { logger } from "./helpers/logger";
 /**
  * Main application entry point
  */
-async function main() {
+export async function main() {
   try {
     // Validate environment variables
     validateEnv();
@@ -28,6 +28,3 @@ async function main() {
     process.exit(1);
   }
 }
-
-// Start the application
-main();
