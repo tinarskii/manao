@@ -119,7 +119,7 @@ TW_ID= # Your bot's channel ID (You can get it from the Twitch API or this site:
 BROADCASTER_ID= # Your channel ID (You can get it from the Twitch API or this site: https://www.streamweasels.com/support/convert-twitch-username-to-user-id)
 
 NODE_ENV= # Set it to "production" if you are running the bot in production, otherwise prefer "development"
-OVERLAY_TOKEN= # A random string to authenticate the overlay (E.g. /chat-[your-token])
+OVERLAY_TOKEN= # A random string to authenticate the overlay (E.g. if token is "abcde", you can access the chatbox at http://localhost:3000/chat?token=abcde)
 ```
 
 4. Start the bot
