@@ -7,7 +7,7 @@ import { ApiClient } from "@twurple/api";
 import { PREFIX } from "../config/constants";
 import { handleCommand } from "./commandHandler";
 import { checkNickname } from "../helpers/twitch";
-import { io } from "../../server/server";
+import { io } from "../../server";
 import { MessageData, UserBadge } from "../types";
 import { logger } from "../helpers/logger";
 

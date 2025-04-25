@@ -18,9 +18,9 @@ pnpm-debug.log
 package.json
 node_modules/
 
-# Documention
+# Documentation
 LICENSE
 README.md
 
-# Build artifacts
+# Build files
 dist/

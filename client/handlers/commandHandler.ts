@@ -2,7 +2,7 @@ import { ChatClient } from "@twurple/chat";
 import { ApiClient } from "@twurple/api";
 import { commands } from "../services/chat";
 import { logger } from "../helpers/logger";
-import { io } from "../../server/server";
+import { io } from "../../server";
 
 /**
  * Processes a chat command

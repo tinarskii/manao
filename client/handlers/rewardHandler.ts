@@ -2,7 +2,7 @@ import { ChatClient } from "@twurple/chat";
 import { initAccount } from "../helpers/twitch";
 import { db } from "../helpers/database";
 import { logger } from "../helpers/logger";
-import { io } from "../../server/server";
+import { io } from "../../server";
 import { FeedEvent } from "../types";
 
 /**

@@ -131,7 +131,7 @@ bun start
 ## 👋 Contributing
 
 If you want to contribute to the project, please read the [CONTRIBUTING.md](/.github/CONTRIBUTING.md) file.
-However, if you have any questions, feel free to ask in the [Discord server](https://discord.gg/vkW7YMyYaf).
+However, if you have any questions, feel free to ask in the [Discord index](https://discord.gg/vkW7YMyYaf).
 
 ## 📜 License
 
@@ -156,10 +156,10 @@ You will receive a user access token and a refresh token, add them to your `.env
 **Note:** You should run the following command 2 times, once for the bot account and once for the broadcaster account, make sure
 to logout of Twitch before running the command again. Put the access token and refresh token in the `.env` file accordingly.
 
-### What's `server.crt` and `server.key` files?
+### What's `index.crt` and `index.key` files?
 
 These files are used to run the webserver in HTTPS. If you want to use HTTPS, you can generate these files using OpenSSL
-or any other tools. If you don't want to use HTTPS, you can remove the `server.crt` and `server.key` in `server/server.ts`.
+or any other tools. If you don't want to use HTTPS, you can remove the `index.crt` and `index.key` in `index/index.ts`.
 
 ### I couldn't install Bun in my system
 
@@ -167,4 +167,4 @@ _~~Currently, Bun is only available for Linux and MacOS. If you are using Window
 run the project.~~_
 **Bun is now available for Windows**, you can follow the [official documentation](https://bun.sh/docs/installation/windows) 
 for the installation.
-For further assistance about installing Bun, you may ask in the [Bun official Discord server](https://bun.sh/discord).
+For further assistance about installing Bun, you may ask in the [Bun official Discord index](https://bun.sh/discord).

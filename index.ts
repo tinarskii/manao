@@ -1,2 +1,2 @@
-import "./server/server";
+import "./server";
 import "./client/client";
