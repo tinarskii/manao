@@ -1,33 +1,31 @@
-import { createServer } from "node:https";
 import { Server, Socket } from "socket.io";
-import { Express } from "express";
 import { songQueue } from "../../client/services/chat";
 import { logger } from "../../client/helpers/logger";
-import { SOCKET_PORT, tlsOptions } from "../config";
+import { SOCKET_PORT } from "../config";
+import { Elysia } from "elysia";
 
-export function setupSocketIO(expressApp: Express) {
-  // Create HTTPS server with Express
-  const server = createServer(tlsOptions, expressApp);
-
-  // Initialize Socket.IO
-  const io = new Server(server, {
+export function setupSocketIO(app: Elysia) {
+  const io = new Server({
     cors: {
       origin: "*",
       methods: ["GET", "POST"],
+      allowedHeaders: ["Content-Type"],
+      credentials: true,
     },
-    // Add these options to help with connection issues
-    transports: ['websocket', 'polling'],
-    pingTimeout: 30000,
-    pingInterval: 25000,
-  });
+  }).listen(SOCKET_PORT)
 
   // Register event handlers
   io.on("connection", handleSocketConnection);
 
-  // Start listening on the server
-  server.listen(SOCKET_PORT, () => {
-    logger.info("[Socket.IO] Running on http://localhost:3001");
-  });
+  app.all('/socket.io*', async ({ request }) => {
+    const url = new URL(request.url)
+
+    return fetch(url.toString().replace(url.origin, 'http://localhost:' + SOCKET_PORT), {
+      method: request.method,
+      headers: request.headers,
+      body: new Uint8Array(await request.arrayBuffer()),
+    })
+  })
 
   return io;
 }

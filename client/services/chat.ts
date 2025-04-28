@@ -58,7 +58,8 @@ export async function initializeChatClient(
  */
 async function loadCommands() {
   try {
-    const commandsDir = join(__dirname, "../commands");
+    let commandsDir = join(__dirname, "./client/commands");
+    if (!await Bun.file(commandsDir).exists()) commandsDir = join(__dirname, "../commands");
     const commandFiles = readdirSync(commandsDir).filter(
       (file) => file.endsWith(".ts") || file.endsWith(".js"),
     );

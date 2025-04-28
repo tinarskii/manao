@@ -1,4 +1,3 @@
-import "dotenv/config";
 import { validateEnv } from "./config/constants";
 import { setupAuthProvider } from "./services/auth";
 import { initializeChatClient } from "./services/chat";
@@ -19,12 +18,13 @@ export async function main() {
     // Initialize chat client
     const { chatClient, apiClient } = await initializeChatClient(authProvider);
 
-    // Setup EventSub listener
-    await initializeEventSub(chatClient, apiClient);
+    if (Bun.env.TW_CHANNEL === "tinarskii") {
+      // Setup EventSub listener
+      await initializeEventSub(chatClient, apiClient);
+    }
 
     logger.info("[Manao] Bot successfully initialized");
   } catch (error) {
-    logger.error("[Manao] Failed to initialize:", error);
-    process.exit(1);
+    throw error
   }
 }
