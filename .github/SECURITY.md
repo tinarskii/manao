@@ -1,6 +1,6 @@
 # Security Policies and Procedures
 
-This document outlines security procedures and general policies for the `twitch-utils`
+This document outlines security procedures and general policies for the `manao`
 project.
 
 - [Reporting a Bug](#reporting-a-bug)
@@ -9,9 +9,9 @@ project.
 
 ## Reporting a Bug
 
-The `twitch-utils` team and community take all security bugs in `twitch-utils` seriously. Thank you for improving the
+The `manao` team and community take all security bugs in `manao` seriously. Thank you for improving the
 security
-of `twitch-utils`. We appreciate your efforts and responsible disclosure and will make every effort to acknowledge your
+of `manao`. We appreciate your efforts and responsible disclosure and will make every effort to acknowledge your
 contributions.
 
 Report security bugs by emailing the lead maintainer at `tinarskii@tinarskii.com`.
