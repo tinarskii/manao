@@ -20,10 +20,18 @@ set "PATH=%ProgramFiles%\Git\cmd;%PATH%"
 set /p folderName=Enter a folder name for installation (default: manao):
 if "%folderName%"=="" set folderName=manao
 
-echo Cloning repository into %folderName%...
-git clone https://github.com/tinarskii/manao.git "%folderName%"
-cd "%folderName%"
-echo.
+:: Check if the folder already exists
+if exist "%folderName%" (
+    echo Folder %folderName% already exists. Pulling latest changes...
+    cd %folderName%
+    git pull
+    echo.
+) else (
+    echo Cloning repository into %folderName%...
+    git clone https://github.com/tinarskii/manao.git "%folderName%"
+    cd "%folderName%"
+    echo.
+)
 
 :: Check if Bun is installed
 where bun >nul 2>nul
