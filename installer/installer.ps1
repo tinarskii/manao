@@ -21,10 +21,17 @@ if (-not $folderName) {
     $folderName = "manao"
 }
 
-Write-Host "Cloning repository into $folderName..."
-git clone https://github.com/tinarskii/manao.git $folderName
-Set-Location -Path $folderName
-Write-Host ""
+$folderPath = Join-Path -Path $env:USERPROFILE -ChildPath $folderName
+if (Test-Path -Path $folderPath) {
+    Write-Host "Folder $folderName already exists. Pulling latest changes..."
+    Set-Location -Path $folderPath
+    git pull
+} else {
+    Write-Host "Cloning repository into $folderName..."
+    git clone https://github.com/tinarskii/manao.git $folderName
+    Set-Location -Path $folderPath
+    Write-Host ""
+}
 
 # Check if Bun is installed
 $bunInstalled = Get-Command bun -ErrorAction SilentlyContinue

@@ -22,9 +22,15 @@ fi
 read -p "Enter a folder name for installation (default: manao): " folderName
 folderName=${folderName:-manao}
 
-echo "Cloning repository into $folderName..."
-git clone https://github.com/tinarskii/manao.git "$folderName"
-cd "$folderName" || exit
+if [ -d "$folderName" ]; then
+    echo "Directory $folderName already exists. Pulling latest changes..."
+    cd "$folderName" || exit
+    git pull origin main
+else
+    echo "Cloning repository into $folderName..."
+    git clone https://github.com/tinarskii/manao.git "$folderName"
+    cd "$folderName" || exit
+fi
 
 # Check if Bun is installed
 if ! command -v bun &> /dev/null
