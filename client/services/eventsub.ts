@@ -29,7 +29,7 @@ export async function initializeEventSub(
     setupSubscriptionListeners(listener, chatClient);
 
     // Start the listener
-    await listener.start();
+    listener.start();
     logger.info("[EventSub] Listener started successfully");
 
     return listener;
@@ -68,11 +68,11 @@ function setupFollowListener(
   chatClient: ChatClient,
 ) {
   listener.onChannelFollow(
-    process.env.BROADCASTER_ID!,
-    process.env.TW_ID!,
+    Bun.env.BROADCASTER_ID!,
+    Bun.env.TW_ID!,
     (data) => {
       chatClient.say(
-        process.env.TW_CHANNEL!,
+        Bun.env.TW_CHANNEL!,
         `🎉 ${data.userName} Selamat Pagi! ยินดีต้อนรับสู่ช่องของคนรั่ว ๆ เน้ออ`,
       );
       logger.info(`[EventSub] New follower: ${data.userName}`);
@@ -89,7 +89,7 @@ function setupSubscriptionListeners(
   chatClient: ChatClient,
 ) {
   // Regular subscription
-  listener.onChannelSubscription(process.env.BROADCASTER_ID!, (data) => {
+  listener.onChannelSubscription(Bun.env.BROADCASTER_ID!, (data) => {
     handleReward(
       SUB_REWARD_AMOUNT,
       {
@@ -104,7 +104,7 @@ function setupSubscriptionListeners(
   });
 
   // Gift subscription
-  listener.onChannelSubscriptionGift(process.env.BROADCASTER_ID!, (data) => {
+  listener.onChannelSubscriptionGift(Bun.env.BROADCASTER_ID!, (data) => {
     const giftAmount = SUB_REWARD_AMOUNT * data.amount;
     handleReward(
       giftAmount,
@@ -120,7 +120,7 @@ function setupSubscriptionListeners(
   });
 
   // Placeholder for cheer events
-  listener.onChannelCheer(process.env.BROADCASTER_ID!, () => {
+  listener.onChannelCheer(Bun.env.BROADCASTER_ID!, () => {
     // Future implementation
   });
 
