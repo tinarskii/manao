@@ -25,6 +25,6 @@ export async function main() {
 
     logger.info("[Manao] Bot successfully initialized");
   } catch (error) {
-    throw error
+    throw error;
   }
 }

@@ -17,17 +17,13 @@ export function setupAuthProvider(): RefreshingAuthProvider {
       Bun.env.REFRESH_TOKEN = newTokenData.refreshToken!;
       Bun.env.USER_ACCESS_TOKEN = newTokenData.accessToken!;
       Bun.env.EXPIRES_IN = String(newTokenData.expiresIn || 0);
-      Bun.env.OBTAINMENT_TIMESTAMP = String(
-        newTokenData.obtainmentTimestamp,
-      );
+      Bun.env.OBTAINMENT_TIMESTAMP = String(newTokenData.obtainmentTimestamp);
       logger.info(`[Auth] Refreshed bot user token`);
     } else if (userID === Bun.env.BROADCASTER_ID) {
       Bun.env.BROADCASTER_REFRESH_TOKEN = newTokenData.refreshToken!;
       Bun.env.BROADCASTER_USER_ACCESS_TOKEN = newTokenData.accessToken!;
       Bun.env.EXPIRES_IN = String(newTokenData.expiresIn || 0);
-      Bun.env.OBTAINMENT_TIMESTAMP = String(
-        newTokenData.obtainmentTimestamp,
-      );
+      Bun.env.OBTAINMENT_TIMESTAMP = String(newTokenData.obtainmentTimestamp);
       logger.info(`[Auth] Refreshed broadcaster token`);
     }
   });

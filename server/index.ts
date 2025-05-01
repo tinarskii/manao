@@ -10,10 +10,12 @@ import staticPlugin from "@elysiajs/static";
 const app = new Elysia();
 
 // Static file serving
-app.use(staticPlugin({
-  prefix: "/",
-  assets: PUBLIC_DIR,
-}))
+app.use(
+  staticPlugin({
+    prefix: "/",
+    assets: PUBLIC_DIR,
+  }),
+);
 
 // Register routes
 registerApiRoutes(app);
@@ -27,9 +29,8 @@ app.get("/js/socket.io/socket.io.js", () => {
 // Setup Socket.IO with Express - this now starts its own server
 const io = setupSocketIO(app);
 
-
 function startApp() {
-// Start Elysia server
+  // Start Elysia server
   app.listen(
     {
       port: PORT,
@@ -37,7 +38,7 @@ function startApp() {
     },
     ({ hostname, port }) => {
       logger.info(`[Elysia] Running on https://${hostname}:${port}`);
-    }
+    },
   );
 }
 

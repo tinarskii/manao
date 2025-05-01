@@ -12,20 +12,23 @@ export function setupSocketIO(app: Elysia) {
       allowedHeaders: ["Content-Type"],
       credentials: true,
     },
-  }).listen(SOCKET_PORT)
+  }).listen(SOCKET_PORT);
 
   // Register event handlers
   io.on("connection", handleSocketConnection);
 
-  app.all('/socket.io*', async ({ request }) => {
-    const url = new URL(request.url)
+  app.all("/socket.io*", async ({ request }) => {
+    const url = new URL(request.url);
 
-    return fetch(url.toString().replace(url.origin, 'http://localhost:' + SOCKET_PORT), {
-      method: request.method,
-      headers: request.headers,
-      body: new Uint8Array(await request.arrayBuffer()),
-    })
-  })
+    return fetch(
+      url.toString().replace(url.origin, "http://localhost:" + SOCKET_PORT),
+      {
+        method: request.method,
+        headers: request.headers,
+        body: new Uint8Array(await request.arrayBuffer()),
+      },
+    );
+  });
 
   return io;
 }
@@ -46,8 +49,8 @@ function handleSocketConnection(socket: Socket) {
     socket.emit("songQueue", songQueue);
   });
 
-  socket.on('play-sound', (data) => {
+  socket.on("play-sound", (data) => {
     logger.info(`[Socket.IO] ${socket.id} playing`);
-    socket.broadcast.emit('play-sound', data);
+    socket.broadcast.emit("play-sound", data);
   });
 }

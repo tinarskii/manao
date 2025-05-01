@@ -1,7 +1,7 @@
-const sidebar = document.getElementById('sidebar');
+const sidebar = document.getElementById("sidebar");
 
 function toggleSidebar() {
-  sidebar.classList.toggle('visible');
+  sidebar.classList.toggle("visible");
 }
 
 const dropdowns = document.querySelectorAll(".dropdown");

@@ -26,5 +26,7 @@ export const tlsOptions = {
 };
 
 // Log configuration at startup
-logger.info(`[Config] Environment: ${isProduction ? 'Production' : 'Development'}`);
+logger.info(
+  `[Config] Environment: ${isProduction ? "Production" : "Development"}`,
+);
 logger.info(`[Config] Token: ${token}`);

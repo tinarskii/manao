@@ -1,111 +1,111 @@
 body {
-    font-family: Arial, sans-serif;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f5f5f5;
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f5f5f5;
 }
 
 h1 {
-    text-align: center;
+  text-align: center;
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
 
 .sound-log {
-    margin-top: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: white;
-    max-height: 300px;
-    overflow-y: auto;
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: white;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 .log-entry {
-    padding: 5px;
-    border-bottom: 1px solid #eee;
+  padding: 5px;
+  border-bottom: 1px solid #eee;
 }
 
 .log-entry:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .status {
-    margin-top: 20px;
-    padding: 10px;
-    border-radius: 5px;
-    text-align: center;
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
 }
 
 .connected {
-    background-color: #dff0d8;
-    color: #3c763d;
+  background-color: #dff0d8;
+  color: #3c763d;
 }
 
 .disconnected {
-    background-color: #f2dede;
-    color: #a94442;
+  background-color: #f2dede;
+  color: #a94442;
 }
 
 .volume-control {
-    margin: 20px 0;
-    padding: 15px;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+  margin: 20px 0;
+  padding: 15px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
 
 .volume-slider {
-    width: 100%;
-    margin: 10px 0;
+  width: 100%;
+  margin: 10px 0;
 }
 
 .volume-display {
-    text-align: center;
-    font-weight: bold;
-    margin-top: 5px;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 5px;
 }
 
 .controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .mute-btn {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 3px;
-    cursor: pointer;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
 }
 
 .unmute-btn {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 3px;
-    cursor: pointer;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
 }
 
 .hide-btn {
-    background-color: #2196F3;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 3px;
-    cursor: pointer;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
 }
 
 .now-playing {
-    margin-top: 15px;
-    padding: 10px;
-    background-color: #e1f5fe;
-    border-radius: 5px;
-    text-align: center;
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #e1f5fe;
+  border-radius: 5px;
+  text-align: center;
 }

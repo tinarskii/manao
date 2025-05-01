@@ -17,47 +17,48 @@ const defaultSounds = [
 ];
 
 // Load sounds from local storage or use defaults
-let sounds = JSON.parse(localStorage.getItem('soundboardSounds')) || defaultSounds;
+let sounds =
+  JSON.parse(localStorage.getItem("soundboardSounds")) || defaultSounds;
 
 // Save sounds to local storage
 function saveSounds() {
-  localStorage.setItem('soundboardSounds', JSON.stringify(sounds));
+  localStorage.setItem("soundboardSounds", JSON.stringify(sounds));
 }
 
 // Modal elements
-const modal = document.getElementById('editModal');
-const closeModal = document.getElementById('closeModal');
-const editSoundNameInput = document.getElementById('editSoundName');
-const editSoundUrlInput = document.getElementById('editSoundUrl');
-const saveEditSoundBtn = document.getElementById('saveEditSound');
-const deleteSoundBtn = document.getElementById('deleteSound');
+const modal = document.getElementById("editModal");
+const closeModal = document.getElementById("closeModal");
+const editSoundNameInput = document.getElementById("editSoundName");
+const editSoundUrlInput = document.getElementById("editSoundUrl");
+const saveEditSoundBtn = document.getElementById("saveEditSound");
+const deleteSoundBtn = document.getElementById("deleteSound");
 
 // Current sound being edited
 let currentEditIndex = -1;
 
 // Render sound buttons
 function renderSoundButtons() {
-  const soundboard = document.getElementById('soundboard');
-  soundboard.innerHTML = '';
+  const soundboard = document.getElementById("soundboard");
+  soundboard.innerHTML = "";
 
   sounds.forEach((sound, index) => {
-    const buttonContainer = document.createElement('div');
-    buttonContainer.className = 'sound-button';
+    const buttonContainer = document.createElement("div");
+    buttonContainer.className = "sound-button";
 
     // Main text of the button
-    const buttonText = document.createElement('span');
+    const buttonText = document.createElement("span");
     buttonText.textContent = sound.name;
     buttonContainer.appendChild(buttonText);
 
     // Controls container
-    const controlsContainer = document.createElement('div');
-    controlsContainer.className = 'sound-controls';
+    const controlsContainer = document.createElement("div");
+    controlsContainer.className = "sound-controls";
 
     // Edit button
-    const editBtn = document.createElement('button');
-    editBtn.className = 'edit-btn';
-    editBtn.textContent = 'Edit';
-    editBtn.addEventListener('click', (e) => {
+    const editBtn = document.createElement("button");
+    editBtn.className = "edit-btn";
+    editBtn.textContent = "Edit";
+    editBtn.addEventListener("click", (e) => {
       e.stopPropagation(); // Prevent button click
       openEditModal(index);
     });
@@ -67,8 +68,8 @@ function renderSoundButtons() {
     buttonContainer.appendChild(controlsContainer);
 
     // Button click to play sound
-    buttonContainer.addEventListener('click', () => {
-      socket.emit('play-sound', { url: sound.url, name: sound.name });
+    buttonContainer.addEventListener("click", () => {
+      socket.emit("play-sound", { url: sound.url, name: sound.name });
     });
 
     soundboard.appendChild(buttonContainer);
@@ -83,23 +84,23 @@ function openEditModal(index) {
   editSoundNameInput.value = sound.name;
   editSoundUrlInput.value = sound.url;
 
-  modal.style.display = 'block';
+  modal.style.display = "block";
 }
 
 // Close modal
-closeModal.addEventListener('click', () => {
-  modal.style.display = 'none';
+closeModal.addEventListener("click", () => {
+  modal.style.display = "none";
 });
 
 // Close modal when clicking outside
-window.addEventListener('click', (event) => {
+window.addEventListener("click", (event) => {
   if (event.target === modal) {
-    modal.style.display = 'none';
+    modal.style.display = "none";
   }
 });
 
 // Save edit
-saveEditSoundBtn.addEventListener('click', () => {
+saveEditSoundBtn.addEventListener("click", () => {
   if (currentEditIndex >= 0) {
     const name = editSoundNameInput.value.trim();
     const url = editSoundUrlInput.value.trim();
@@ -108,29 +109,29 @@ saveEditSoundBtn.addEventListener('click', () => {
       sounds[currentEditIndex] = { name, url };
       saveSounds();
       renderSoundButtons();
-      modal.style.display = 'none';
+      modal.style.display = "none";
     } else {
-      alert('Please enter both a name and URL for the sound');
+      alert("Please enter both a name and URL for the sound");
     }
   }
 });
 
 // Delete sound
-deleteSoundBtn.addEventListener('click', () => {
+deleteSoundBtn.addEventListener("click", () => {
   if (currentEditIndex >= 0) {
-    if (confirm('Are you sure you want to delete this sound?')) {
+    if (confirm("Are you sure you want to delete this sound?")) {
       sounds.splice(currentEditIndex, 1);
       saveSounds();
       renderSoundButtons();
-      modal.style.display = 'none';
+      modal.style.display = "none";
     }
   }
 });
 
 // Add new sound
-document.getElementById('addSound').addEventListener('click', () => {
-  const nameInput = document.getElementById('soundName');
-  const urlInput = document.getElementById('soundUrl');
+document.getElementById("addSound").addEventListener("click", () => {
+  const nameInput = document.getElementById("soundName");
+  const urlInput = document.getElementById("soundUrl");
 
   const name = nameInput.value.trim();
   const url = urlInput.value.trim();
@@ -141,22 +142,22 @@ document.getElementById('addSound').addEventListener('click', () => {
     renderSoundButtons();
 
     // Clear inputs
-    nameInput.value = '';
-    urlInput.value = '';
+    nameInput.value = "";
+    urlInput.value = "";
   } else {
-    alert('Please enter both a name and URL for the sound');
+    alert("Please enter both a name and URL for the sound");
   }
 });
 
 // Export sounds to JSON file
-document.getElementById('exportBtn').addEventListener('click', () => {
+document.getElementById("exportBtn").addEventListener("click", () => {
   const data = JSON.stringify(sounds, null, 2);
-  const blob = new Blob([data], { type: 'application/json' });
+  const blob = new Blob([data], { type: "application/json" });
   const url = URL.createObjectURL(blob);
 
-  const a = document.createElement('a');
+  const a = document.createElement("a");
   a.href = url;
-  a.download = 'soundboard-config.json';
+  a.download = "soundboard-config.json";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -164,7 +165,7 @@ document.getElementById('exportBtn').addEventListener('click', () => {
 });
 
 // Import sounds from JSON file
-document.getElementById('importFile').addEventListener('change', (event) => {
+document.getElementById("importFile").addEventListener("change", (event) => {
   const file = event.target.files[0];
 
   if (file) {
@@ -174,19 +175,27 @@ document.getElementById('importFile').addEventListener('change', (event) => {
       try {
         const importedSounds = JSON.parse(e.target.result);
 
-        if (Array.isArray(importedSounds) && importedSounds.every(sound =>
-          typeof sound === 'object' && 'name' in sound && 'url' in sound)) {
-
-          if (confirm(`Import ${importedSounds.length} sounds? This will replace your current sounds.`)) {
+        if (
+          Array.isArray(importedSounds) &&
+          importedSounds.every(
+            (sound) =>
+              typeof sound === "object" && "name" in sound && "url" in sound,
+          )
+        ) {
+          if (
+            confirm(
+              `Import ${importedSounds.length} sounds? This will replace your current sounds.`,
+            )
+          ) {
             sounds = importedSounds;
             saveSounds();
             renderSoundButtons();
           }
         } else {
-          alert('Invalid sound configuration file');
+          alert("Invalid sound configuration file");
         }
       } catch (error) {
-        alert('Error parsing file: ' + error.message);
+        alert("Error parsing file: " + error.message);
       }
     };
 
@@ -195,8 +204,10 @@ document.getElementById('importFile').addEventListener('change', (event) => {
 });
 
 // Reset to default sounds
-document.getElementById('resetBtn').addEventListener('click', () => {
-  if (confirm('Reset to default sounds? This will remove all your custom sounds.')) {
+document.getElementById("resetBtn").addEventListener("click", () => {
+  if (
+    confirm("Reset to default sounds? This will remove all your custom sounds.")
+  ) {
     sounds = [...defaultSounds];
     saveSounds();
     renderSoundButtons();
@@ -204,13 +215,13 @@ document.getElementById('resetBtn').addEventListener('click', () => {
 });
 
 // Socket connection status
-socket.on('connect', () => {
-  console.log('Connected to server');
+socket.on("connect", () => {
+  console.log("Connected to server");
 });
 
-socket.on('connect_error', (error) => {
-  console.error('Connection error:', error);
-  alert('Could not connect to the server. Make sure the server is running.');
+socket.on("connect_error", (error) => {
+  console.error("Connection error:", error);
+  alert("Could not connect to the server. Make sure the server is running.");
 });
 
 // Initialize
