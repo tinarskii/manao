@@ -7,6 +7,7 @@ export function registerPageRoutes(app: Elysia) {
   registerSecuredPageRoutes(app);
 
   // Public routes
+  app.get("/", () => Bun.file(`${APP_DIR}/index.html`));
   app.get("/soundplayer", () => Bun.file(`${APP_DIR}/soundplayer.html`));
   app.get("/queue", () => Bun.file(`${APP_DIR}/queue.html`));
 

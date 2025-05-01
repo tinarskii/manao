@@ -4,6 +4,7 @@ import { writeFile } from "fs/promises";
 import path from "node:path";
 import { spawn } from "node:child_process";
 import * as process from "node:process";
+import { version } from "./package.json";
 
 const TWITCH_SCOPES = [
   "user:edit",
@@ -83,7 +84,7 @@ async function promptLogin(promptMsg: string): Promise<void> {
 
 async function startConfig(): Promise<void> {
   console.log(
-    chalk.bold.underline.magenta("⟦◄ ManaoBot v1.0.0 - Configuration ►⟧"),
+    chalk.bold.underline.magenta(`⟦◄ ManaoBot v${version} - Configuration ►⟧`),
   );
 
   let lang = {
