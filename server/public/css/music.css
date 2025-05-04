@@ -4,6 +4,10 @@
   font-family: "Noto Serif Thai", sans-serif;
 }
 
+:root {
+  background: transparent;
+}
+
 progress::-webkit-progress-bar {
   background-color: #75797c;
 }

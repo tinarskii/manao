@@ -1,52 +1,37 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Soundboard Controller</title>
-    <link rel="stylesheet" href="/css/dist/tailwind.css" />
-    <link rel="stylesheet" href="/css/soundboard.css" />
-    <script src="/js/socket.io/socket.io.js"></script>
-  </head>
-  <body>
-    <h1>Soundboard Controller</h1>
+<h1>Soundboard Controller</h1>
 
-    <div class="soundboard" id="soundboard">
-      <!-- Sound buttons will be added here -->
+<div class="soundboard" id="soundboard">
+  <!-- Sound buttons will be added here -->
+</div>
+
+<div class="sound-manage">
+  <h3>Add New Sound</h3>
+  <div class="sound-form">
+    <input type="text" id="soundName" placeholder="Sound name" />
+    <input type="text" id="soundUrl" placeholder="Sound URL" />
+    <button id="addSound">Add Sound</button>
+  </div>
+</div>
+
+<div class="import-export">
+  <button id="exportBtn">Export Sounds</button>
+  <label for="importFile" class="btn-import-label">Import Sounds</label>
+  <input type="file" id="importFile" accept=".json" />
+  <button id="resetBtn" class="btn-reset">Reset to Default</button>
+</div>
+
+<a href="/soundplayer" target="_blank" id="playerLink">Open Sound Player</a>
+
+<!-- Edit Sound Modal -->
+<div id="editModal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="closeModal">&times;</span>
+    <h3>Edit Sound</h3>
+    <div class="sound-form">
+      <input type="text" id="editSoundName" placeholder="Sound name" />
+      <input type="text" id="editSoundUrl" placeholder="Sound URL" />
+      <button id="saveEditSound">Save Changes</button>
+      <button id="deleteSound">Delete</button>
     </div>
-
-    <div class="sound-manage">
-      <h3>Add New Sound</h3>
-      <div class="sound-form">
-        <input type="text" id="soundName" placeholder="Sound name" />
-        <input type="text" id="soundUrl" placeholder="Sound URL" />
-        <button id="addSound">Add Sound</button>
-      </div>
-    </div>
-
-    <div class="import-export">
-      <button id="exportBtn">Export Sounds</button>
-      <label for="importFile" class="btn-import-label">Import Sounds</label>
-      <input type="file" id="importFile" accept=".json" />
-      <button id="resetBtn" class="btn-reset">Reset to Default</button>
-    </div>
-
-    <a href="/soundplayer" target="_blank" id="playerLink">Open Sound Player</a>
-
-    <!-- Edit Sound Modal -->
-    <div id="editModal" class="modal">
-      <div class="modal-content">
-        <span class="close" id="closeModal">&times;</span>
-        <h3>Edit Sound</h3>
-        <div class="sound-form">
-          <input type="text" id="editSoundName" placeholder="Sound name" />
-          <input type="text" id="editSoundUrl" placeholder="Sound URL" />
-          <button id="saveEditSound">Save Changes</button>
-          <button id="deleteSound">Delete</button>
-        </div>
-      </div>
-    </div>
-    <script src="/js/common.js"></script>
-    <script src="/js/soundboard-controller.js"></script>
-  </body>
-</html>
+  </div>
+</div>

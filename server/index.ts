@@ -30,7 +30,7 @@ app.get("/js/socket.io/socket.io.js", () => {
 const io = setupSocketIO(app);
 
 // renderPage function
-export async function renderPage(opt: { path: string, pageName: string, stylesheet?: string, script?: string }) {
+export async function renderPage(opt: { path: string, pageName: string, stylesheet?: string, script?: string, excludeTailwind?: boolean, excludeTemplate?: boolean }) {
   const navbar = await Bun.file(`${APP_DIR}/partials/navbar.html`).text();
   const footer = await Bun.file(`${APP_DIR}/partials/footer.html`).text();
   const content = await Bun.file(opt.path).text();
@@ -43,15 +43,14 @@ export async function renderPage(opt: { path: string, pageName: string, styleshe
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       ${opt.stylesheet ? `<link rel="stylesheet" href="${opt.stylesheet}" />` : ""}
       <title>${opt.pageName}</title>
-      <link rel="stylesheet" href="/css/dist/tailwind.css" />
+      ${opt.excludeTailwind ? "" : `<link rel="stylesheet" href="/css/dist/tailwind.css" />`}
       <script src="/js/socket.io/socket.io.js"></script>
       <script src="/js/common.js"></script>
     </head>
     <body>
-      ${navbar}
+      ${opt.excludeTemplate ? "" : navbar}
       ${content}
-      ${footer}
-      <script src="/js/common.js"></script>
+      ${opt.excludeTemplate ? "" : footer}
       ${opt.script ? `<script src="${opt.script}"></script>` : ""}
     </body>
     </html>

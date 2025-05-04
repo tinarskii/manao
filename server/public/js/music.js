@@ -121,18 +121,5 @@ fetch("/api/default-songs")
   .catch((error) => {
     console.error("Error loading default songs:", error);
     // Fallback to a few default songs
-    defaultSong = [
-      {
-        id: "NAEppFUWLfc",
-        title: "The Sound of Silence",
-        author: "Simon & Garfunkel",
-        thumbnail: "https://i.ytimg.com/vi/NAEppFUWLfc/hqdefault.jpg",
-      },
-      {
-        id: "tW7mDSOwJ6Y",
-        title: "We Will Not Grow Old",
-        author: "Lenka",
-        thumbnail: "https://i.ytimg.com/vi/tW7mDSOwJ6Y/hqdefault.jpg",
-      },
-    ];
+    defaultSong = [];
   });

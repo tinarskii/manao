@@ -105,9 +105,9 @@ async function startConfig(): Promise<void> {
       enterClientID: "Enter your Twitch Application Client ID:",
       enterClientSecret: "Enter your Twitch Application Client Secret:",
       promptLogin:
-        "To continue, please login to your BROADCASTER Twitch account (the account that BOT will be running on).",
+        "To continue, please login to your BROADCASTER Twitch account (the primary account for streaming).",
       promptLoginBot:
-        "To continue, please login to your BOT Twitch account (can be the same as BROADCASTER account).",
+        "To continue, please login to your BOT Twitch account (the secondary account for the bot).",
       overlayToken: "Overlay token (leave blank to randomize):",
       configComplete: "✅ Configuration complete! .env file created.",
     },
@@ -127,9 +127,9 @@ async function startConfig(): Promise<void> {
       enterClientID: "ใส่ Client ID ของ Twitch Application ของคุณ:",
       enterClientSecret: "ใส่ Client Secret ของ Twitch Application ของคุณ:",
       promptLogin:
-        "เพื่อดำเนินการต่อ โปรดเข้าสู่ระบบบัญชี Twitch ของคุณที่ใช้ในการสตรีม (บัญชีที่ BOT จะทำงานอยู่)",
+        "เพื่อดำเนินการต่อ โปรดเข้าสู่ระบบบัญชี Twitch ของคุณที่ใช้ในการสตรีม (บัญชีหลักที่ใช้สตรีม)",
       promptLoginBot:
-        "เพื่อดำเนินการต่อ โปรดเข้าสู่ระบบบัญชีบอต Twitch ของคุณ (สามารถเป็นบัญชีเดียวกับบัญชีที่ใช้สตรีม)",
+        "เพื่อดำเนินการต่อ โปรดเข้าสู่ระบบบัญชีบอต Twitch ของคุณ (บัญชีรองที่ใช้สำหรับบอต)",
       overlayToken: "Overlay token (เว้นว่างไว้เพื่อสุ่ม):",
       configComplete: "✅ การกำหนดค่าครบถ้วน! สร้างไฟล์ .env เรียบร้อยแล้ว",
     },
