@@ -36,6 +36,7 @@
     "elysia": "^0.8.17",
     "express": "^4.18.2",
     "socket.io": "^4.7.4",
+    "tailwindcss": "^4.1.5",
     "youtube-sr": "^4.3.10"
   },
   "devDependencies": {
@@ -44,6 +45,7 @@
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
     "concurrently": "^9.1.2",
+    "daisyui": "^5.0.35",
     "eslint": "^8.0.1",
     "eslint-config-standard-with-typescript": "^43.0.1",
     "eslint-plugin-import": "^2.25.2",

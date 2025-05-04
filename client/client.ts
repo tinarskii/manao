@@ -18,7 +18,7 @@ export async function main() {
     // Initialize chat client
     const { chatClient, apiClient } = await initializeChatClient(authProvider);
 
-    if (Bun.env.TW_CHANNEL === "tinarskii") {
+    if (Bun.env.TW_CHANNEL === "tinarskiiii") {
       // Setup EventSub listener
       await initializeEventSub(chatClient, apiClient);
     }

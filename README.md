@@ -111,7 +111,7 @@ CLIENT_SECRET= # Read FAQ to get your creditentials
 USER_ACCESS_TOKEN= # Read FAQ to get your creditentials
 REFRESH_TOKEN= # Read FAQ to get your creditentials
 
-BROADCASTER_USER_ACCESS_TOKEN= # Read FAQ to get your creditentials
+BROADCASTER_ACCESS_TOKEN= # Read FAQ to get your creditentials
 BROADCASTER_REFRESH_TOKEN= # Read FAQ to get your creditentials
 
 TW_CHANNEL= # Your channel name that wants the bot to connect to
@@ -131,7 +131,7 @@ bun start
 ### Quick installation for Windows
 
 1. Download the latest release from the [releases page](https://github.com/tinarskii/manao/releases).
-2Run `installer.bat` file.
+2. Run `installer.bat` file.
 
 ## 👋 Contributing
 
