@@ -128,10 +128,10 @@ OVERLAY_TOKEN= # A random string to authenticate the overlay (E.g. if token is "
 bun start
 ```
 
-### Quick installation for Windows
+### Quick installation
 
-1. Download the latest release from the [releases page](https://github.com/tinarskii/manao/releases).
-2. Run `installer.bat` file.
+1. Download the latest installer from the [releases page](https://github.com/tinarskii/manao/releases).
+2. Run `installer.bat` file (Windows) or `installer.sh` file (Linux/MacOS) to install the project.
 
 ## 👋 Contributing
 

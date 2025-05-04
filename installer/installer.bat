@@ -59,10 +59,14 @@ if %errorlevel% neq 0 (
 echo Installing project dependencies...
 bun install
 
-:: Run the setup script
-echo.
-echo Running setup script...
-bun run setup.ts
+:: Check if user wants to run setup script
+set /p runSetup=Do you want to run the setup script? (Y/n):
+if /i "%runSetup%"=="n" or "%runSetup%"=="N" (
+    echo Skipping setup script.
+) else (
+    echo Running setup script...
+    bun run setup
+)
 
 echo.
 echo ============================================

@@ -189,12 +189,10 @@ async function startConfig(): Promise<void> {
   });
   const clientSecret = await input({
     message: lang[currentlang as keyof typeof lang].enterClientSecret,
-  });
+  })
 
-  // Broadcaster account
-  await promptLogin(`\n${lang[currentlang as keyof typeof lang].promptLogin}`);
-  const bcTokens = await fetchTokens(cliPath);
-  const bcInfo = await fetchUserInfo(cliPath, bcTokens.accessToken);
+  // Configure Twitch CLI
+  Bun.spawnSync([cliPath, "configure", "-i", clientID, "-s", clientSecret]);
 
   // Bot account
   await promptLogin(
@@ -202,6 +200,11 @@ async function startConfig(): Promise<void> {
   );
   const botTokens = await fetchTokens(cliPath);
   const botInfo = await fetchUserInfo(cliPath, botTokens.accessToken);
+
+  // Broadcaster account
+  await promptLogin(`\n${lang[currentlang as keyof typeof lang].promptLogin}`);
+  const bcTokens = await fetchTokens(cliPath);
+  const bcInfo = await fetchUserInfo(cliPath, bcTokens.accessToken);
 
   // Overlay Token
   let overlayToken = await input({
@@ -211,16 +214,20 @@ async function startConfig(): Promise<void> {
 
   // Create .env content
   const envContent = `
-USER_ACCESS_TOKEN=${botTokens.accessToken}
-REFRESH_TOKEN=${botTokens.refreshToken}
-OVERLAY_TOKEN=${overlayToken}
-BROADCASTER_ACCESS_TOKEN=${bcTokens.accessToken}
-BROADCASTER_REFRESH_TOKEN=${bcTokens.refreshToken}
-TW_ID=${botInfo.userID}
-BROADCASTER_ID=${bcInfo.userID}
-TW_CHANNEL=${bcInfo.login ?? ""}
 CLIENT_ID=${clientID}
 CLIENT_SECRET=${clientSecret}
+
+USER_ACCESS_TOKEN=${botTokens.accessToken}
+REFRESH_TOKEN=${botTokens.refreshToken}
+
+BROADCASTER_ACCESS_TOKEN=${bcTokens.accessToken}
+BROADCASTER_REFRESH_TOKEN=${bcTokens.refreshToken}
+
+TW_ID=${botInfo.userID}
+TW_CHANNEL=${bcInfo.login ?? ""}
+BROADCASTER_ID=${bcInfo.userID}
+
+OVERLAY_TOKEN=${overlayToken}
 `.trim();
 
   await writeFile(path.join(process.cwd(), ".env"), envContent, "utf8");
@@ -240,4 +247,4 @@ async function run() {
   }
 }
 
-run();
+await run();

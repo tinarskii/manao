@@ -8,6 +8,8 @@ export interface Command {
   args?: CommandArg[];
   modsOnly?: boolean;
   broadcasterOnly?: boolean;
+  disabled?: boolean;
+  originalExecute?: any
   execute: (
     client: ClientServices,
     meta: CommandMeta,
@@ -64,7 +66,7 @@ export interface MessageData {
 }
 
 export interface FeedEvent {
-  type: string;
+  type: "normal" | "error" | "success" | "neutral";
   icon: string;
   message: string;
   action: string;

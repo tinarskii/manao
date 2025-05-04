@@ -19,7 +19,7 @@ else
 fi
 
 # Clone the Manao repository
-read -p "Enter a folder name for installation (default: manao): " folderName
+read -r -p "Enter a folder name for installation (default: manao): " folderName
 folderName=${folderName:-manao}
 
 if [ -d "$folderName" ]; then
@@ -58,10 +58,14 @@ fi
 echo "Installing project dependencies..."
 bun install
 
-# Run the setup script
-echo
-echo "Running setup script..."
-bun run setup.ts
+# Check if user wants to run setup script
+read -r -p "Do you want to run the setup script? (Y/n): " runSetup
+if [[ "$runSetup" =~ ^[Nn]$ ]]; then
+    echo "Skipping setup script."
+else
+    echo "Running setup script..."
+    bun run setup
+fi
 
 echo
 echo "============================================"

@@ -3,12 +3,14 @@ import { APP_DIR, token } from "../config";
 import { renderPage } from "../index";
 
 export function registerSecuredPageRoutes(app: Elysia) {
-  const securedPages = ["feed", "chat", "music", "soundboard"];
+  const securedPages = ["feed", "chat", "music", "soundboard", "commands", "command-edit"];
   const securedPageNames = [
     "Feed - Manaobot Web",
     "Chat - Manaobot Web",
     "Music - Manaobot Web",
     "Soundboard - Manaobot Web",
+    "Commands - Manaobot Web",
+    "Edit Command - Manaobot Web",
   ];
 
   const securedHandler =
@@ -38,8 +40,8 @@ export function registerSecuredPageRoutes(app: Elysia) {
         return new Response("Unauthorized", { status: 401 });
       }
       set.headers["Content-Type"] = "text/html";
-      let excludeTailwind = page !== "music";
-      let excludeTemplate = true
+      let excludeTailwind = page !== "music" && !page.startsWith("command");
+      let excludeTemplate = !page.startsWith("command")
       return renderPage({
         path: `${APP_DIR}/${page}.html`,
         pageName: securedPageNames[securedPages.indexOf(page)],

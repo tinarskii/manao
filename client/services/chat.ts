@@ -6,6 +6,7 @@ import { readdirSync } from "fs";
 import { join } from "node:path";
 import { handleMessage } from "../handlers/messageHandler";
 import { CommandList } from "../types";
+import { io } from "../../server";
 
 // Global command storage
 export const commands: CommandList = new Map();
@@ -25,7 +26,7 @@ export async function initializeChatClient(
   });
 
   // Connect to chat
-  await chatClient.connect();
+  chatClient.connect();
 
   // On connect event
   chatClient.onConnect(async () => {

@@ -1,26 +1,33 @@
-// Queue functionality
+async function loadQueue() {
+  try {
+    const res = await fetch("/api/queue");
+    if (!res.ok) throw new Error("Network response was not ok");
+    const data = await res.json();
 
-// Fetch the queue data from the API
-fetch("/api/queue")
-  .then((response) => response.json())
-  .then((data) => {
-    const queue = document.getElementById("queue");
-    data.forEach((song) => {
-      const li = document.createElement("li");
-      li.textContent =
-        song.song.title +
-        " - " +
-        song.song.author +
-        " | " +
-        `Requested by: ${song.user}`;
-      queue.appendChild(li);
+    const tbody = document.getElementById("queue");
+    const emptyState = document.getElementById("empty-state");
+    tbody.innerHTML = "";
+
+    if (data.length === 0) {
+      emptyState.classList.remove("hidden");
+      return;
+    }
+    emptyState.classList.add("hidden");
+
+    data.forEach((item, idx) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+            <th>${idx + 1}</th>
+            <td>${item.song.title}</td>
+            <td>${item.song.author}</td>
+            <td>${item.user}</td>
+          `;
+      tbody.appendChild(tr);
     });
-  })
-  .catch((error) => {
-    console.error("Error fetching queue:", error);
-    const queue = document.getElementById("queue");
-    const li = document.createElement("li");
-    li.textContent = "Error loading queue data";
-    li.style.color = "red";
-    queue.appendChild(li);
-  });
+  } catch (err) {
+    console.error("Error fetching queue:", err);
+    document.getElementById("error-state").classList.remove("hidden");
+  }
+}
+
+loadQueue()

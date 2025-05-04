@@ -1,3 +1,46 @@
-<h1>Music Queue</h1>
-<ol id="queue"></ol>
+<main class="min-h-screen flex justify-center items-start p-4">
+  <!-- Main container -->
+  <div class="w-full bg-base-200 max-w-screen-xl bg-base-100 p-6 rounded-lg shadow-md">
+    <center>
+      <h2 class="text-3xl font-bold mb-4">🎵 Music Queue 📀</h2>
+    </center>
 
+    <!-- Table wrapper -->
+    <div class="overflow-x-auto">
+      <table class="table w-full">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>Artist</th>
+          <th>Requested By</th>
+        </tr>
+        </thead>
+        <tbody id="queue">
+        <!-- Rows injected here -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Empty state -->
+    <div id="empty-state" class="mt-4 text-center">
+      <span class="badge badge-info">No songs in queue</span>
+    </div>
+
+    <!-- Error state -->
+    <div id="error-state" class="mt-4 hidden">
+      <div class="alert alert-error shadow-lg">
+        <div class="flex-1">
+          <svg xmlns="http://www.w3.org/2000/svg"
+               class="stroke-current flex-shrink-0 h-6 w-6" fill="none"
+               viewBox="0 0 24 24"><path stroke-linecap="round"
+                                         stroke-linejoin="round" stroke-width="2"
+                                         d="M18.364 5.636l-1.414 1.414M6.343 17.657l-1.414
+               1.414M6.343 6.343l1.414 1.414M18.364 18.364l1.414-1.414"/>
+          </svg>
+          <span>Error loading queue data</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

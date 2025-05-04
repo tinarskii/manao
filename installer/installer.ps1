@@ -59,10 +59,19 @@ if ($null -eq $twitchInstalled) {
 Write-Host "Installing project dependencies..."
 bun install
 
-# Run the setup script
-Write-Host ""
-Write-Host "Running setup script..."
-bun run setup.ts
+# Check if user wants to run setup script
+$runSetup = Read-Host "Do you want to run the setup script? (Y/n)"
+if ($runSetup -eq "N" -or $runSetup -eq "n") {
+    Write-Host "Skipping setup script."
+} else {
+    Write-Host "Running setup script..."
+    bun run setup.ts
+}
+
+## Run the setup script
+#Write-Host ""
+#Write-Host "Running setup script..."
+#bun run setup.ts
 
 Write-Host ""
 Write-Host "============================================"

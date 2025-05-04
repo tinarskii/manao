@@ -54,6 +54,7 @@ export const REWARD_AMOUNTS = {
 
 // Sub reward amount
 export const SUB_REWARD_AMOUNT = 6900;
+export const BITS_REWARD_AMOUNT = 54;
 
 /**
  * Validates required environment variables

@@ -18,10 +18,8 @@ export async function main() {
     // Initialize chat client
     const { chatClient, apiClient } = await initializeChatClient(authProvider);
 
-    if (Bun.env.TW_CHANNEL === "tinarskiiii") {
-      // Setup EventSub listener
-      await initializeEventSub(chatClient, apiClient);
-    }
+    // Setup EventSub listener
+    await initializeEventSub(chatClient, apiClient);
 
     logger.info("[Manao] Bot successfully initialized");
   } catch (error) {

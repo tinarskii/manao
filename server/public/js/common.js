@@ -1,5 +1,11 @@
 // Common JavaScript functionality for all pages
 
+// Utility to read query param
+function getParam(name) {
+  const url = new URL(window.location);
+  return url.searchParams.get(name);
+}
+
 /**
  * Creates a socket.io connection with the correct port
  * @returns {Socket} The socket.io connection
