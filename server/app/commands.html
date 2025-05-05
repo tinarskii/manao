@@ -1,20 +1,20 @@
-<main class="bg-base-200 min-h-screen p-6">
-  <h1 class="text-3xl font-bold mb-6 text-center">🚀 Command Manager</h1>
+<main class="min-h-screen p-6">
+  <h1 class="mb-6 text-center text-3xl font-bold">🚀 Command Manager</h1>
 
   <div class="overflow-x-auto">
-    <table class="table w-full table-zebra bg-base-100 shadow rounded-lg">
+    <table class="bg-base-200 table w-full rounded-lg shadow">
       <thead>
-      <tr>
-        <th>Enabled</th>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Aliases</th>
-        <th>Args</th>
-        <th>Actions</th>
-      </tr>
+        <tr>
+          <th>Enabled</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Aliases</th>
+          <th>Args</th>
+          <th>Actions</th>
+        </tr>
       </thead>
       <tbody id="commands-table">
-      <!-- Populated by JS -->
+        <!-- Populated by JS -->
       </tbody>
     </table>
   </div>

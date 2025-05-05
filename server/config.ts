@@ -29,4 +29,4 @@ export const tlsOptions = {
 logger.info(
   `[Config] Environment: ${isProduction ? "Production" : "Development"}`,
 );
-logger.info(`[Config] Token: ${token}`);
+logger.info(`[Config] ============> Overlay Token: ${token} <============`);

@@ -28,7 +28,7 @@ export default {
     message: string,
     args: Array<string>,
   ) => {
-    let user = await client.api.users.getUserByName(args[0] ?? meta.user);
+    const user = await client.api.users.getUserByName(args[0] ?? meta.user);
 
     // If user is not found
     if (!user) {
@@ -43,8 +43,8 @@ export default {
     initAccount(user.id);
 
     // Get balance
-    let stmt = db.prepare("SELECT money FROM users WHERE user = ?");
-    let balance = stmt.get(user.id);
+    const stmt = db.prepare("SELECT money FROM users WHERE user = ?");
+    const balance = stmt.get(user.id);
 
     // If user is not found
     if (!balance) {

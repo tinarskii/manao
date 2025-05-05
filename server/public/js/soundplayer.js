@@ -1,7 +1,5 @@
-// Create socket connection
 const socket = createSocketConnection();
 
-// Elements
 const status = document.getElementById("status");
 const soundLog = document.getElementById("soundLog");
 const audioPlayer = document.getElementById("audioPlayer");
@@ -12,105 +10,79 @@ const hideBtn = document.getElementById("hideBtn");
 const nowPlaying = document.getElementById("nowPlaying");
 const currentSound = document.getElementById("currentSound");
 
-// Volume state
 let isMuted = true;
-let volumeBeforeMute = 0.5;
+audioPlayer.volume = 0;
 
-// Initialize volume
-audioPlayer.volume = 0.5;
-
-// Update volume when slider changes
+// Slider input
 volumeSlider.addEventListener("input", () => {
-  const volume = volumeSlider.value / 100;
-  audioPlayer.volume = volume;
+  const vol = volumeSlider.value / 100;
+  audioPlayer.volume = vol;
   volumeDisplay.textContent = volumeSlider.value + "%";
-
-  // If volume is moved above 0, we're no longer muted
-  if (volume > 0 && isMuted) {
+  if (vol > 0 && isMuted) {
     isMuted = false;
     muteBtn.textContent = "Mute";
-    muteBtn.className = "mute-btn";
+    muteBtn.className = "btn btn-error";
   }
 });
 
-// Mute/unmute button
+// Mute/unmute
 muteBtn.addEventListener("click", () => {
-  if (isMuted) {
-    // Unmute
-    audioPlayer.volume = volumeBeforeMute;
-    volumeSlider.value = volumeBeforeMute * 100;
-    volumeDisplay.textContent = volumeSlider.value + "%";
-    muteBtn.textContent = "Mute";
-    muteBtn.className = "mute-btn";
-    isMuted = false;
-  } else {
-    // Mute
-    volumeBeforeMute = audioPlayer.volume;
+  if (!isMuted) {
+    isMuted = true;
     audioPlayer.volume = 0;
     volumeSlider.value = 0;
     volumeDisplay.textContent = "0%";
     muteBtn.textContent = "Unmute";
-    muteBtn.className = "unmute-btn";
-    isMuted = true;
+    muteBtn.className = "btn btn-success";
+  } else {
+    isMuted = false;
+    audioPlayer.volume = volumeSlider.value / 100;
+    muteBtn.textContent = "Mute";
+    muteBtn.className = "btn btn-error";
   }
 });
 
-// Hide button
+// Hide player UI
 hideBtn.addEventListener("click", () => {
   document.body.classList.toggle("hidden");
+  document.documentElement.style.background = "transparent";
 });
 
-// Update connection status
+// Connection status updates
 socket.on("connect", () => {
   status.textContent = "Connected";
-  status.className = "status connected";
+  status.className = "alert alert-success w-full max-w-md text-center"; // daisyUI success alert
   addLogEntry("Connected to server");
 });
-
 socket.on("disconnect", () => {
   status.textContent = "Disconnected";
-  status.className = "status disconnected";
+  status.className = "alert alert-error w-full max-w-md text-center";
   addLogEntry("Disconnected from server");
 });
 
-// Play sound when command received
-socket.on("play-sound", (data) => {
-  playSound(data.url, data.name);
-});
-
-// Function to play sound
-function playSound(url, name) {
+// Play sound
+socket.on("play-sound", ({ url, name }) => {
   audioPlayer.src = url;
   audioPlayer
     .play()
     .then(() => {
       addLogEntry(`Playing sound: ${name}`);
       currentSound.textContent = name;
-      nowPlaying.style.display = "block";
-
-      // Hide "Now Playing" when sound ends
-      audioPlayer.onended = () => {
-        nowPlaying.style.display = "none";
-      };
+      nowPlaying.classList.remove("hidden");
+      audioPlayer.onended = () => nowPlaying.classList.add("hidden");
     })
-    .catch((error) => {
-      addLogEntry(`Error playing sound: ${name} - ${error.message}`);
-    });
-}
+    .catch((err) => addLogEntry(`Error: ${err.message}`));
+});
 
-// Add entry to log
-function addLogEntry(message) {
+// Log helper
+function addLogEntry(msg) {
   const entry = document.createElement("div");
-  entry.className = "log-entry";
-
+  entry.className = "text-sm";
   const time = new Date().toLocaleTimeString();
-  entry.textContent = `[${time}] ${message}`;
-
-  soundLog.appendChild(entry);
+  entry.textContent = `[${time}] ${msg}`;
+  soundLog.querySelector("div").appendChild(entry);
   soundLog.scrollTop = soundLog.scrollHeight;
-
-  // Limit log entries
-  if (soundLog.children.length > 50) {
-    soundLog.removeChild(soundLog.firstChild);
+  if (soundLog.children[0].childElementCount > 50) {
+    soundLog.children[0].removeChild(soundLog.children[0].firstChild);
   }
 }

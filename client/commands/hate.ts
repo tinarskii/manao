@@ -25,7 +25,7 @@ export default {
     message: string,
     args: Array<string>,
   ) => {
-    let hatePercent = Math.floor(Math.random() * 101);
+    const hatePercent = Math.floor(Math.random() * 101);
     await client.chat.say(
       meta.channel,
       `${meta.user} 👿 ${args[0] || meta.user} ${hatePercent}%`,

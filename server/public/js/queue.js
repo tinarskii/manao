@@ -30,4 +30,4 @@ async function loadQueue() {
   }
 }
 
-loadQueue()
+loadQueue();

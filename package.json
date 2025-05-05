@@ -12,8 +12,8 @@
     "dev": "conc --kill-others \"bun run build:css\" \"bun run start:watch\"",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "prettier": "prettier --write ./**/*.{js,ts}",
-    "prettier:check": "prettier --check ./**/*.{js,ts}"
+    "prettier": "prettier --write ./**/*.{js,ts,html,css}",
+    "prettier:check": "prettier --check ./**/*.{js,ts,html,css}"
   },
   "keywords": [
     "twitch-bot"
@@ -49,12 +49,15 @@
     "daisyui": "^5.0.35",
     "eslint": "^8.0.1",
     "eslint-config-standard-with-typescript": "^43.0.1",
-    "eslint-plugin-import": "^2.25.2",
+    "eslint-import-resolver-typescript-bun": "^0.0.104",
+    "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
     "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-readable-tailwind": "^2.1.1",
     "pino": "^8.19.0",
     "pino-pretty": "^10.3.1",
-    "prettier": "^3.2.5",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.11",
     "typescript": "^5.3.3"
   }
 }

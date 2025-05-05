@@ -25,14 +25,14 @@ export default {
 
     // Find last weekly (Int)
     let stmt = db.prepare("SELECT lastWeekly FROM users WHERE user = ?");
-    let lastWeekly = stmt.get(meta.userID);
+    const lastWeekly = stmt.get(meta.userID);
 
     // Check if user has claimed weekly
     if (lastWeekly) {
-      let lastWeeklyDate = new Date(lastWeekly.lastWeekly);
-      let currentDate = new Date();
-      let diff = Math.abs(currentDate.getTime() - lastWeeklyDate.getTime());
-      let diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+      const lastWeeklyDate = new Date(lastWeekly.lastWeekly);
+      const currentDate = new Date();
+      const diff = Math.abs(currentDate.getTime() - lastWeeklyDate.getTime());
+      const diffDays = Math.ceil(diff / (1000 * 3600 * 24));
       if (diffDays < 7) {
         await client.chat.say(
           meta.channel,
@@ -52,7 +52,7 @@ export default {
       type: "normal",
       icon: "☀️",
       message: `System ➡ ${meta.user}`,
-      action: `+750 KEEB`,
+      action: "+750 KEEB",
     });
     await client.chat.say(meta.channel, `@${meta.user} รับ 750 กีบ`);
   },

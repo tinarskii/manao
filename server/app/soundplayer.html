@@ -1,33 +1,45 @@
-<h1>Sound Player</h1>
+<main class="min-h-screen flex flex-col items-center p-6 space-y-6">
+  <!-- Header -->
+  <h1 class="text-4xl font-bold">🔊 Sound Player</h1>
 
-<div id="status" class="status disconnected">Disconnected</div>
-
-<div class="volume-control">
-  <h3>Volume Control</h3>
-  <div class="controls">
-    <label for="volumeSlider">Volume: </label>
-    <div class="volume-display" id="volumeDisplay">0%</div>
+  <!-- Connection Status -->
+  <div id="status" class="alert alert-error w-full max-w-md text-center">
+    Disconnected
   </div>
-  <input
-    type="range"
-    id="volumeSlider"
-    class="volume-slider"
-    min="0"
-    max="100"
-    value="0"
-  />
-  <div style="text-align: center; margin-top: 10px">
-    <button id="muteBtn" class="unmute-btn">Unmute</button>
-    <button id="hideBtn" class="hide-btn">Hide</button>
+
+  <!-- Volume Control -->
+  <div class="card w-full max-w-md bg-base-200 shadow">
+    <div class="card-body">
+      <h3 class="card-title">Volume Control</h3>
+      <div class="flex items-center justify-between">
+        <label for="volumeSlider" class="font-medium">Volume:</label>
+        <span id="volumeDisplay" class="font-semibold">0%</span>
+      </div>
+      <input
+        type="range"
+        id="volumeSlider"
+        min="0" max="100" value="0"
+        class="range range-primary w-full"
+      />
+      <div class="flex justify-center space-x-4 mt-4">
+        <button id="muteBtn" class="btn btn-success">Unmute</button>
+        <button id="hideBtn" class="btn btn-info">Hide</button>
+      </div>
+    </div>
   </div>
-</div>
 
-<div id="nowPlaying" class="now-playing" style="display: none">
-  Now Playing: <span id="currentSound">None</span>
-</div>
+  <!-- Now Playing -->
+  <div id="nowPlaying" class="alert alert-info w-full max-w-md text-center hidden">
+    Now Playing: <span id="currentSound" class="font-bold">None</span>
+  </div>
 
-<div class="sound-log" id="soundLog">
-  <div class="log-entry">Waiting for sounds to play...</div>
-</div>
+  <!-- Sound Log -->
+  <div id="soundLog" class="w-full max-w-md bg-base-200 shadow rounded overflow-y-auto h-64">
+    <div class="p-2 space-y-1">
+      <div class="text-sm">Waiting for sounds to play...</div>
+    </div>
+  </div>
 
-<audio id="audioPlayer" style="display: none"></audio>
+  <!-- Audio Element -->
+  <audio id="audioPlayer" class="hidden"></audio>
+</main>

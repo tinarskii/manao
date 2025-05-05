@@ -9,7 +9,7 @@ export interface Command {
   modsOnly?: boolean;
   broadcasterOnly?: boolean;
   disabled?: boolean;
-  originalExecute?: any
+  originalExecute?: any;
   execute: (
     client: ClientServices,
     meta: CommandMeta,

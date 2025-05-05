@@ -18,13 +18,13 @@ export default {
       commands: CommandList;
     },
   ) => {
-    let stmt = db.prepare("SELECT * FROM users ORDER BY money DESC LIMIT 5");
-    let leaderboard = stmt.all();
+    const stmt = db.prepare("SELECT * FROM users ORDER BY money DESC LIMIT 5");
+    const leaderboard = stmt.all();
     let message = "🏆 สมาคมซิกม่าที่รวยที่สุด 🏆 | ";
     for (const user of leaderboard) {
       const index: number = leaderboard.indexOf(user);
       // Get user display name
-      let username = (await client.api.users.getUserById(user.user))!
+      const username = (await client.api.users.getUserById(user.user))!
         .displayName;
       message += `${index + 1}. ${username} - ${user.money}KEEB | `;
     }

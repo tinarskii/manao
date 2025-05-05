@@ -5,5 +5,6 @@
   "tabWidth": 2,
   "arrowParens": "always",
   "endOfLine": "crlf",
-  "trailingComma": "all"
+  "trailingComma": "all",
+  "plugins": ["prettier-plugin-tailwindcss"]
 }

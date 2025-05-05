@@ -18,13 +18,13 @@ export function setupAuthProvider(): RefreshingAuthProvider {
       Bun.env.USER_ACCESS_TOKEN = newTokenData.accessToken!;
       Bun.env.EXPIRES_IN = String(newTokenData.expiresIn || 0);
       Bun.env.OBTAINMENT_TIMESTAMP = String(newTokenData.obtainmentTimestamp);
-      logger.info(`[Auth] Refreshed bot user token`);
+      logger.info("[Auth] Refreshed bot user token");
     } else if (userID === Bun.env.BROADCASTER_ID) {
       Bun.env.BROADCASTER_REFRESH_TOKEN = newTokenData.refreshToken!;
       Bun.env.BROADCASTER_ACCESS_TOKEN = newTokenData.accessToken!;
       Bun.env.EXPIRES_IN = String(newTokenData.expiresIn || 0);
       Bun.env.OBTAINMENT_TIMESTAMP = String(newTokenData.obtainmentTimestamp);
-      logger.info(`[Auth] Refreshed broadcaster token`);
+      logger.info("[Auth] Refreshed broadcaster token");
     }
   });
 
@@ -42,10 +42,7 @@ export function setupAuthProvider(): RefreshingAuthProvider {
   );
 
   // Add broadcaster to auth provider
-  if (
-    Bun.env.BROADCASTER_ACCESS_TOKEN &&
-    Bun.env.BROADCASTER_REFRESH_TOKEN
-  ) {
+  if (Bun.env.BROADCASTER_ACCESS_TOKEN && Bun.env.BROADCASTER_REFRESH_TOKEN) {
     authProvider.addUser(Bun.env.BROADCASTER_ID!, {
       accessToken: Bun.env.BROADCASTER_ACCESS_TOKEN!,
       refreshToken: Bun.env.BROADCASTER_REFRESH_TOKEN!,

@@ -20,12 +20,9 @@ export function registerPageRoutes(app: Elysia) {
     return renderPage({
       path: `${APP_DIR}/soundplayer.html`,
       pageName: "Sound Player - Manaobot Web",
-      excludeTemplate: true,
-      excludeTailwind: true,
-      stylesheet: "/css/soundplayer.css",
       script: "/js/soundplayer.js",
-    })
-  })
+    });
+  });
   app.get("/queue", ({ set }) => {
     set.headers["Content-Type"] = "text/html";
     return renderPage({
@@ -33,7 +30,7 @@ export function registerPageRoutes(app: Elysia) {
       pageName: "Music Queue - Manaobot Web",
       script: "/js/queue.js",
     });
-  })
+  });
 
   return app;
 }

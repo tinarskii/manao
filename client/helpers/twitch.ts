@@ -9,6 +9,6 @@ export function initAccount(userID: string | number) {
 }
 
 export function checkNickname(userID: string | number) {
-  let stmt = db.prepare("SELECT nickname FROM users WHERE user = ?");
+  const stmt = db.prepare("SELECT nickname FROM users WHERE user = ?");
   return stmt.get(userID)?.nickname || null;
 }

@@ -72,7 +72,7 @@ export default {
       }
     }
 
-    let songData = {
+    const songData = {
       user: meta.user,
       song: {
         title: songInfo.videoDetails.title,

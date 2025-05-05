@@ -25,7 +25,7 @@ export default {
     message: string,
     args: Array<string>,
   ) => {
-    let stompTimes = Math.floor(Math.random() * 1000);
+    const stompTimes = Math.floor(Math.random() * 1000);
     client.io.emit("feed", {
       type: "neutral",
       icon: "👣",

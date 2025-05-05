@@ -14,31 +14,30 @@
 <div class="flex flex-row gap-2 p-1" id="np">
   <img
     alt="Album art"
-    class="w-20 h-20 rounded-full object-cover animate-[spin_10s_linear_infinite] shadow-lg"
+    class="h-20 w-20 animate-[spin_10s_linear_infinite] rounded-full object-cover shadow-lg"
     id="cover"
     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB4i7JLl4BtWz4gYzUnsx6WcYDAK74ScNGzQ&s"
   />
-  <div class="rounded-lg w-[275px]" id="info-container">
+  <div class="w-[275px] rounded-lg" id="info-container">
     <div
-      class="flex flex-col bg-black/50 backdrop-blur-lg text-white py-2 px-4 shadow-lg w-full h-full rounded-lg justify-center"
+      class="flex h-full w-full flex-col justify-center rounded-lg bg-black/50 px-4 py-2 text-white shadow-lg backdrop-blur-lg"
     >
-      <h1 class="text-xl font-extrabold truncate" id="songTitle">Sad Flower</h1>
-      <h1
-        class="leading-none text-sm font-medium truncate"
-        id="author"
-      >Reinizra</h1>
+      <h1 class="truncate text-xl font-extrabold" id="songTitle">Sad Flower</h1>
+      <h1 class="truncate text-sm leading-none font-medium" id="author">
+        Reinizra
+      </h1>
     </div>
   </div>
-  <div class="rounded-lg w-[275px]" id="time-container">
+  <div class="w-[275px] rounded-lg" id="time-container">
     <div
-      class="flex flex-col bg-[#3b3b3b] backdrop-blur-lg text-white py-2 px-4 shadow-lg w-full h-full rounded-lg justify-center"
+      class="flex h-full w-full flex-col justify-center rounded-lg bg-[#3b3b3b] px-4 py-2 text-white shadow-lg backdrop-blur-lg"
     >
       <div class="flex w-full justify-between">
-        <h1 class="text-sm font-medium truncate" id="currentTime">0:00</h1>
-        <h1 class="text-sm font-medium truncate" id="duration">0:00</h1>
+        <h1 class="truncate text-sm font-medium" id="currentTime">0:00</h1>
+        <h1 class="truncate text-sm font-medium" id="duration">0:00</h1>
       </div>
       <progress
-        class="w-full h-2 bg-[#75797c] rounded-full"
+        class="h-2 w-full rounded-full bg-[#75797c]"
         id="progress"
         max="100"
         value="0"
@@ -48,4 +47,3 @@
 </div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
-

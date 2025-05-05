@@ -33,7 +33,7 @@ export async function handleCommand(
 
     // Verify broadcaster permission
     if (command.broadcasterOnly && userID !== channelID) {
-      await chatClient.say(channel, `เฉพาะผู้ถือสิทธิเท่านั้น!!!!!!!!!!!!`);
+      await chatClient.say(channel, "เฉพาะผู้ถือสิทธิเท่านั้น!!!!!!!!!!!!");
       return;
     }
 
@@ -41,7 +41,7 @@ export async function handleCommand(
     if (command.modsOnly) {
       const isMod = await apiClient.moderation.checkUserMod(channelID, userID);
       if (!isMod && userID !== channelID) {
-        await chatClient.say(channel, `เฉพาะดาบเท่านั้น!!!!!!!!!!!!`);
+        await chatClient.say(channel, "เฉพาะดาบเท่านั้น!!!!!!!!!!!!");
         return;
       }
     }

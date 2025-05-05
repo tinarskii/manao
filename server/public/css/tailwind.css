@@ -1,4 +1,4 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-    themes: abyss --default;
+  themes: abyss --default;
 }

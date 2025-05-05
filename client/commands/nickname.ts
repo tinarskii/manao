@@ -27,14 +27,14 @@ export default {
     message: string,
     args: Array<string>,
   ) => {
-    let name = args.join(" ");
+    const name = args.join(" ");
 
     initAccount(meta.userID);
 
     // Check current nickname
     if (!args[0]) {
-      let stmt = db.prepare("SELECT nickname FROM users WHERE user = ?");
-      let { nickname } = stmt.get(meta.userID);
+      const stmt = db.prepare("SELECT nickname FROM users WHERE user = ?");
+      const { nickname } = stmt.get(meta.userID);
       await client.chat.say(
         meta.channel,
         `ชื่อของเจ้าคือ ${nickname ?? meta.user}`,
@@ -44,7 +44,7 @@ export default {
 
     // Reset nickname
     if (name === "--reset") {
-      let stmt = db.prepare("UPDATE users SET nickname = ? WHERE user = ?");
+      const stmt = db.prepare("UPDATE users SET nickname = ? WHERE user = ?");
       stmt.run(null, meta.userID);
       await client.chat.say(meta.channel, `@${meta.user} ชื่อเล่นถูกลบแล้ว`);
       return;
@@ -60,13 +60,13 @@ export default {
     if (!name.match(/^[a-zA-Z0-9ก-๙ ]+$/)) {
       await client.chat.say(
         meta.channel,
-        `ชื่อต้องเป็นภาษาอังกฤษหรือไทยเท่านั้น`,
+        "ชื่อต้องเป็นภาษาอังกฤษหรือไทยเท่านั้น",
       );
       return;
     }
 
     // Update name
-    let stmt = db.prepare("UPDATE users SET nickname = ? WHERE user = ?");
+    const stmt = db.prepare("UPDATE users SET nickname = ? WHERE user = ?");
     stmt.run(name, meta.userID);
     await client.chat.say(
       meta.channel,
@@ -76,7 +76,7 @@ export default {
       type: "normal",
       icon: "✍️",
       message: `${meta.user} (${name})`,
-      action: `Rename`,
+      action: "Rename",
     });
   },
 };

@@ -10,7 +10,7 @@ import { io } from "../../server";
 
 // Global command storage
 export const commands: CommandList = new Map();
-export let songQueue: any[] = [];
+export const songQueue: any[] = [];
 
 /**
  * Initializes the Twitch chat client and API client

@@ -26,7 +26,7 @@ export default {
     message: string,
     args: Array<string>,
   ) => {
-    let index = parseInt(args[0]);
+    const index = parseInt(args[0]);
     if (isNaN(index) || index <= 0 || index >= songQueue.length) {
       await client.chat.say(
         meta.channel,
@@ -37,7 +37,7 @@ export default {
 
     // Check if user has permission to remove song (Requester or Mod)
     if (songQueue[index].user !== meta.user) {
-      let isMod = await client.api.moderation.checkUserMod(
+      const isMod = await client.api.moderation.checkUserMod(
         meta.channelID,
         meta.userID,
       );

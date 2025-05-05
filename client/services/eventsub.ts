@@ -72,23 +72,19 @@ function setupFollowListener(
   listener: EventSubWsListener,
   chatClient: ChatClient,
 ) {
-  listener.onChannelFollow(
-    Bun.env.BROADCASTER_ID!,
-    Bun.env.TW_ID!,
-    (data) => {
-      chatClient.say(
-        Bun.env.TW_CHANNEL!,
-        `🎉 ${data.userName} Selamat Pagi! ยินดีต้อนรับสู่ช่องของคนรั่ว ๆ เน้ออ`,
-      );
-      logger.info(`[EventSub] New follower: ${data.userName}`);
-      io.emit("feed", {
-        type: "success",
-        icon: "💟",
-        message: `${data.userDisplayName}`,
-        action: `Followed`,
-      } as FeedEvent);
-    },
-  );
+  listener.onChannelFollow(Bun.env.BROADCASTER_ID!, Bun.env.TW_ID!, (data) => {
+    chatClient.say(
+      Bun.env.TW_CHANNEL!,
+      `🎉 ${data.userName} Selamat Pagi! ยินดีต้อนรับสู่ช่องของคนรั่ว ๆ เน้ออ`,
+    );
+    logger.info(`[EventSub] New follower: ${data.userName}`);
+    io.emit("feed", {
+      type: "success",
+      icon: "💟",
+      message: `${data.userDisplayName}`,
+      action: "Followed",
+    } as FeedEvent);
+  });
   logger.info("[EventSub] Registered follower listener");
 }
 
@@ -117,7 +113,7 @@ function setupSubscriptionListeners(
       type: "success",
       icon: "⭐",
       message: `${data.userDisplayName}`,
-      action: `Subscribed`,
+      action: "Subscribed",
     } as FeedEvent);
   });
 

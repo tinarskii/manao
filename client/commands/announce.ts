@@ -27,7 +27,7 @@ export default {
     _: string,
     args: Array<string>,
   ) => {
-    let message = args.join(" ");
+    const message = args.join(" ");
 
     try {
       await client.api.chat.sendAnnouncement(meta.channelID, {

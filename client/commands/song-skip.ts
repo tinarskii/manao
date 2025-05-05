@@ -27,7 +27,7 @@ export default {
 
     // Check if user has permission to skip song (Requester or Mod)
     if (songQueue[0].user !== meta.user) {
-      let isMod = await client.api.moderation.checkUserMod(
+      const isMod = await client.api.moderation.checkUserMod(
         meta.channelID,
         meta.userID,
       );

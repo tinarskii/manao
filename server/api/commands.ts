@@ -32,7 +32,7 @@ export function registerCommandRoutes(app: Elysia) {
       modsOnly: command.modsOnly ?? false,
       broadcasterOnly: command.broadcasterOnly ?? false,
       execute: command.execute.toString(),
-    }
+    };
   });
 
   app.put("/api/commands/:commandName", ({ params: { commandName }, body }) => {
@@ -42,7 +42,7 @@ export function registerCommandRoutes(app: Elysia) {
       return { error: "Command not found" };
     }
 
-    let newCmd = body as Command;
+    const newCmd = body as Command;
     command.disabled = newCmd.disabled;
     command.description = newCmd.description;
     command.alias = newCmd.alias;
@@ -63,21 +63,24 @@ export function registerCommandRoutes(app: Elysia) {
     return { success: true, command };
   });
 
-  app.post("/api/commands/:commandName/toggle", ({ params: { commandName } }) => {
-    // @ts-ignore
-    const command = commands.get(commandName);
-    if (!command) {
-      return { error: "Command not found" };
-    }
-    command.disabled = !command.disabled;
-    if (command.disabled) {
-      command.originalExecute = command.execute;
-      command.execute = () => undefined;
-    } else {
-      command.execute = command.originalExecute;
-      delete command.originalExecute;
-    }
-    return { success: true, enabled: command.disabled };
-  });
+  app.post(
+    "/api/commands/:commandName/toggle",
+    ({ params: { commandName } }) => {
+      // @ts-ignore
+      const command = commands.get(commandName);
+      if (!command) {
+        return { error: "Command not found" };
+      }
+      command.disabled = !command.disabled;
+      if (command.disabled) {
+        command.originalExecute = command.execute;
+        command.execute = () => undefined;
+      } else {
+        command.execute = command.originalExecute;
+        delete command.originalExecute;
+      }
+      return { success: true, enabled: command.disabled };
+    },
+  );
   return app;
 }

@@ -39,7 +39,7 @@ export default {
 
     // Check if user has enough money
     let stmt = db.prepare("SELECT money FROM users WHERE user = ?");
-    let balance = stmt.get(meta.userID);
+    const balance = stmt.get(meta.userID);
     if (amount > balance.money && args[0] !== "all") {
       await client.chat.say(meta.channel, `@${meta.user} เองมีตังไม่พอ`);
       return;
@@ -50,7 +50,7 @@ export default {
     }
 
     // Win Condition
-    let win = Math.random() > 0.5;
+    const win = Math.random() > 0.5;
     if (win) {
       // Gain amount * 1.75
       stmt = db.prepare("UPDATE users SET money = money + ? WHERE user = ?");

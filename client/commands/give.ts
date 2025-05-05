@@ -32,8 +32,8 @@ export default {
     message: string,
     args: Array<string>,
   ) => {
-    let amount = Math.trunc(parseInt(args[1]));
-    let target = args[0];
+    const amount = Math.trunc(parseInt(args[1]));
+    const target = args[0];
 
     // Check if amount is valid
     if (isNaN(amount) || amount < 0) {
@@ -54,7 +54,7 @@ export default {
     }
 
     // Check if target is valid
-    let targetUser = await client.api.users.getUserByName(target);
+    const targetUser = await client.api.users.getUserByName(target);
     if (!targetUser) {
       await client.chat.say(
         meta.channel,
@@ -62,7 +62,7 @@ export default {
       );
       return;
     }
-    let targetID = targetUser.id;
+    const targetID = targetUser.id;
     initAccount(targetID);
 
     // Transfer money

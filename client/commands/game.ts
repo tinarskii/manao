@@ -27,7 +27,7 @@ export default {
     args: Array<string>,
   ) => {
     if (!args[0]) {
-      let currentGame = (await client.api.channels.getChannelInfoById(
+      const currentGame = (await client.api.channels.getChannelInfoById(
         meta.channelID,
       ))!;
       await client.chat.say(
@@ -37,7 +37,7 @@ export default {
       return;
     }
     // Get game id
-    let game = await client.api.games.getGameByName(args.join(" "));
+    const game = await client.api.games.getGameByName(args.join(" "));
     if (!game) {
       await client.chat.say(meta.channel, `@${meta.user} ไม่พบเกม ${args[0]}`);
       return;

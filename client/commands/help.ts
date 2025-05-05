@@ -49,7 +49,7 @@ export default {
           .join("");
       }
       if (cmd.alias) {
-        argsAlias = " (" + cmd.alias.join(", ") + ")";
+        argsAlias = ` (${cmd.alias.join(", ")})`;
       }
       await client.chat.say(
         meta.channel,

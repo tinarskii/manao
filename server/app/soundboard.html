@@ -1,37 +1,59 @@
-<h1>Soundboard Controller</h1>
+<main class="min-h-screen p-6 flex flex-col space-y-8">
+  <!-- Header -->
+  <h1 class="text-4xl font-bold text-center">🔊 Soundboard Controller</h1>
 
-<div class="soundboard" id="soundboard">
-  <!-- Sound buttons will be added here -->
-</div>
-
-<div class="sound-manage">
-  <h3>Add New Sound</h3>
-  <div class="sound-form">
-    <input type="text" id="soundName" placeholder="Sound name" />
-    <input type="text" id="soundUrl" placeholder="Sound URL" />
-    <button id="addSound">Add Sound</button>
+  <!-- Sound Buttons Grid -->
+  <div
+    id="soundboard"
+    class="grid gap-4 p-4 mx-auto w-full lg:grid-cols-5 grid-cols-3"
+  >
   </div>
-</div>
 
-<div class="import-export">
-  <button id="exportBtn">Export Sounds</button>
-  <label for="importFile" class="btn-import-label">Import Sounds</label>
-  <input type="file" id="importFile" accept=".json" />
-  <button id="resetBtn" class="btn-reset">Reset to Default</button>
-</div>
+  <!-- Add New Sound -->
+  <section class="bg-white/10 p-6 rounded-lg shadow-md">
+    <h2 class="text-2xl font-semibold mb-3">Add New Sound</h2>
+    <div class="flex flex-col md:flex-row md:space-x-4 space-y-3 md:space-y-0">
+      <input id="soundName" type="text" placeholder="Sound name"
+             class="input input-bordered flex-1" />
+      <input id="soundUrl" type="text" placeholder="Sound URL"
+             class="input input-bordered flex-1" />
+      <button id="addSound" class="btn btn-accent">Add Sound</button>
+    </div>
+  </section>
 
-<a href="/soundplayer" target="_blank" id="playerLink">Open Sound Player</a>
+  <!-- Import / Export / Reset -->
+  <section class="bg-base-100 p-4 rounded-lg shadow-md flex flex-wrap gap-4 justify-center">
+    <button id="exportBtn" class="btn btn-success">Export Sounds</button>
+    <label for="importFile" class="btn btn-warning cursor-pointer">
+      Import Sounds
+    </label>
+    <input type="file" id="importFile" accept=".json" class="hidden" />
+    <button id="resetBtn" class="btn btn-error">Reset to Default</button>
+  </section>
 
-<!-- Edit Sound Modal -->
-<div id="editModal" class="modal">
-  <div class="modal-content">
-    <span class="close" id="closeModal">&times;</span>
-    <h3>Edit Sound</h3>
-    <div class="sound-form">
-      <input type="text" id="editSoundName" placeholder="Sound name" />
-      <input type="text" id="editSoundUrl" placeholder="Sound URL" />
-      <button id="saveEditSound">Save Changes</button>
-      <button id="deleteSound">Delete</button>
+  <!-- Player Link -->
+  <div class="text-center">
+    <a href="/soundplayer" target="_blank" class="btn btn-link">
+      Open Sound Player
+    </a>
+  </div>
+
+  <!-- Edit Sound Modal -->
+  <input type="checkbox" id="editModal" class="modal-toggle" />
+  <div class="modal">
+    <div class="modal-box relative">
+      <label for="editModal" id="closeModal" class="btn btn-sm btn-circle absolute right-3 top-3">✕</label>
+      <h3 class="text-xl font-bold mb-4">Edit Sound</h3>
+      <div class="flex flex-col space-y-3">
+        <input id="editSoundName" type="text" placeholder="Sound name"
+               class="input input-bordered w-full" />
+        <input id="editSoundUrl" type="text" placeholder="Sound URL"
+               class="input input-bordered w-full" />
+        <div class="flex space-x-3">
+          <button id="saveEditSound" class="btn btn-success flex-1">Save Changes</button>
+          <button id="deleteSound" class="btn btn-error flex-1">Delete</button>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+</main>

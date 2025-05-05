@@ -21,7 +21,7 @@ export function setupSocketIO(app: Elysia) {
     const url = new URL(request.url);
 
     return fetch(
-      url.toString().replace(url.origin, "http://localhost:" + SOCKET_PORT),
+      url.toString().replace(url.origin, `http://localhost:${SOCKET_PORT}`),
       {
         method: request.method,
         headers: request.headers,

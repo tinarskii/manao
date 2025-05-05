@@ -87,7 +87,7 @@ async function startConfig(): Promise<void> {
     chalk.bold.underline.magenta(`⟦◄ ManaoBot v${version} - Configuration ►⟧`),
   );
 
-  let lang = {
+  const lang = {
     en: {
       beforeStart:
         "🛠 Before we start, you need to create a Twitch Application.",
@@ -173,7 +173,7 @@ async function startConfig(): Promise<void> {
     chalk.gray(`→ ${lang[currentlang as keyof typeof lang].createAppInfo5}`),
   );
 
-  let result = await confirm({
+  const result = await confirm({
     message: `${lang[currentlang as keyof typeof lang].openBrowser}`,
   });
 
@@ -189,7 +189,7 @@ async function startConfig(): Promise<void> {
   });
   const clientSecret = await input({
     message: lang[currentlang as keyof typeof lang].enterClientSecret,
-  })
+  });
 
   // Configure Twitch CLI
   Bun.spawnSync([cliPath, "configure", "-i", clientID, "-s", clientSecret]);
@@ -233,7 +233,7 @@ OVERLAY_TOKEN=${overlayToken}
   await writeFile(path.join(process.cwd(), ".env"), envContent, "utf8");
 
   console.log(
-    chalk.green("\n" + lang[currentlang as keyof typeof lang].configComplete),
+    chalk.green(`\n${lang[currentlang as keyof typeof lang].configComplete}`),
   );
 }
 

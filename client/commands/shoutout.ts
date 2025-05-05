@@ -25,7 +25,7 @@ export default {
     message: string,
     args: Array<string>,
   ) => {
-    let userID = (await client.api.users.getUserByName(args[0]))?.id;
+    const userID = (await client.api.users.getUserByName(args[0]))?.id;
 
     if (!userID) {
       await client.chat.say(

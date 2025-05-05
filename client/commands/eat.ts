@@ -19,7 +19,7 @@ export default {
     message: string,
     args: Array<string>,
   ) => {
-    let foods = [
+    const foods = [
       "ข้าว",
       "ก๋วยเตี๋ยว",
       "ส้มตำ",
@@ -36,7 +36,7 @@ export default {
       "หมูสามชั้น",
       "หมูสับ",
     ];
-    let food = foods[Math.floor(Math.random() * foods.length)];
+    const food = foods[Math.floor(Math.random() * foods.length)];
     await client.chat.say(meta.channel, `@${meta.user} 🍲 กิน ${food}`);
   },
 };

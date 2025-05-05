@@ -25,12 +25,12 @@ export default {
 
     // Find last daily (Int)
     let stmt = db.prepare("SELECT lastDaily FROM users WHERE user = ?");
-    let lastDaily = stmt.get(meta.userID);
+    const lastDaily = stmt.get(meta.userID);
 
     // Check if user has claimed daily
     if (lastDaily) {
-      let lastDailyDate = new Date(lastDaily.lastDaily);
-      let currentDate = new Date();
+      const lastDailyDate = new Date(lastDaily.lastDaily);
+      const currentDate = new Date();
       if (
         lastDailyDate.getDate() === currentDate.getDate() &&
         lastDailyDate.getMonth() === currentDate.getMonth() &&
@@ -55,7 +55,7 @@ export default {
       type: "normal",
       icon: "☀️",
       message: `System ➡ ${meta.user}`,
-      action: `+ 100 KEEB`,
+      action: "+ 100 KEEB",
     });
   },
 };
