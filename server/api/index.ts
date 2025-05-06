@@ -2,6 +2,7 @@ import { Elysia } from "elysia";
 import { registerNicknameRoutes } from "./nicknames";
 import { registerCommandRoutes } from "./commands";
 import { registerMusicRoutes } from "./music";
+import { version } from "../../package.json";
 
 export function registerApiRoutes(app: Elysia) {
   // Base route

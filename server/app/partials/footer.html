@@ -1,1 +1,69 @@
-<footer></footer>
+<footer class="footer p-4 sm:p-6 md:p-10 bg-gradient-to-br from-base-300 to-base-200 text-base-content rounded-t-xl sm:rounded-t-3xl mt-12 shadow-lg">
+  <!-- Mobile-first layout -->
+  <div class="w-full flex flex-col items-center justify-center gap-6">
+    <!-- Logo Section -->
+    <div class="mb-2">
+      <div class="flex items-center justify-center gap-2">
+        <img src="https://raw.githubusercontent.com/tinarskii/manao/refs/heads/main/docs/manao.svg" alt="manao" width="32">
+        <span class="font-bold text-xl">Manao</span>
+      </div>
+    </div>
+
+    <!-- Links Section - Stack on mobile, horizontal on larger screens -->
+    <div class="w-full flex flex-col sm:flex-row items-center justify-center gap-4 py-4 border-t border-b border-base-300">
+      <a href="https://github.com/tinarskii/manao/wiki" class="w-full sm:w-auto link link-hover flex items-center justify-center gap-2 transition-all hover:text-primary py-2">
+        <i class="fa-solid fa-book"></i>
+        <span>Documentation</span>
+      </a>
+      <div class="hidden sm:block h-4 w-px bg-base-300"></div> <!-- Divider visible only on sm+ -->
+      <a href="https://github.com/tinarskii/manao/issues" class="w-full sm:w-auto link link-hover flex items-center justify-center gap-2 transition-all hover:text-primary py-2">
+        <i class="fa-solid fa-bug"></i>
+        <span>Report Bug</span>
+      </a>
+      <div class="hidden sm:block h-4 w-px bg-base-300"></div> <!-- Divider visible only on sm+ -->
+      <a href="https://github.com/tinarskii/manao" class="w-full sm:w-auto link link-hover flex items-center justify-center gap-2 transition-all hover:text-primary py-2">
+        <i class="fa-brands fa-github"></i>
+        <span>GitHub</span>
+      </a>
+    </div>
+
+    <!-- Social Media Section -->
+    <div class="py-4">
+      <div class="flex justify-center gap-4">
+        <a href="https://github.com/tinarskii/manao" class="btn btn-circle btn-sm sm:btn-md btn-outline hover:bg-base-content hover:text-base-300 transition-all duration-300 border-base-content">
+          <i class="fab fa-github text-lg sm:text-xl"></i>
+        </a>
+        <a href="https://discord.gg/" class="btn btn-circle btn-sm sm:btn-md btn-outline hover:bg-[#5865F2] hover:border-[#5865F2] hover:text-white transition-all duration-300 border-base-content">
+          <i class="fab fa-discord text-lg sm:text-xl"></i>
+        </a>
+        <a href="https://twitch.tv/" class="btn btn-circle btn-sm sm:btn-md btn-outline hover:bg-[#9146FF] hover:border-[#9146FF] hover:text-white transition-all duration-300 border-base-content">
+          <i class="fab fa-twitch text-lg sm:text-xl"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Credits Section -->
+    <div class="mt-2 text-center">
+      <p class="flex items-center justify-center gap-2">
+        Made with <i class="fas fa-heart text-error animate-pulse"></i> by
+        <a href="https://github.com/tinarskii" class="font-bold hover:text-primary transition-all">tinarskii</a>
+      </p>
+      <!-- Stack vertically on all screens -->
+      <div class="flex flex-col items-center text-xs opacity-70 mt-2">
+        <span class="flex items-center">
+          <i class="fa-solid fa-server mr-1"></i> Running on localhost:3000
+        </span>
+        <span class="flex items-center">
+          <i class="fa-solid fa-code-branch mr-1"></i> Version 1.0.5
+        </span>
+      </div>
+    </div>
+
+    <!-- Back to top button -->
+    <div class="mt-4 mb-2">
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="btn btn-circle btn-sm btn-primary shadow-lg">
+        <i class="fa-solid fa-chevron-up"></i>
+      </button>
+    </div>
+  </div>
+</footer>

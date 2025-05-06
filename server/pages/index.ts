@@ -13,6 +13,7 @@ export function registerPageRoutes(app: Elysia) {
     return renderPage({
       path: `${APP_DIR}/index.html`,
       pageName: "Homepage - Manaobot Web",
+      script: "/js/index.js",
     });
   });
   app.get("/soundplayer", ({ set }) => {

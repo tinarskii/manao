@@ -1,6 +1,9 @@
-<!-- queue.html -->
-<main class="min-h-screen p-6">
-  <h1 class="mb-6 text-center text-3xl font-bold">🎵 Music Queue 💿</h1>
+<main class="min-h-screen p-6 bg-base-100">
+  <h1 class="mb-6 text-center text-3xl font-bold">
+    <i class="fa-solid fa-music text-primary"></i>
+    Music Queue
+    <i class="fa-solid fa-compact-disc text-secondary animate-spin-slow"></i>
+  </h1>
 
   <!-- Now Playing Section -->
   <div id="now-playing-section" class="hidden mb-8">
@@ -8,9 +11,11 @@
       <div class="card-body">
         <div class="flex justify-between items-center">
           <h2 class="card-title text-2xl">
-            <span class="animate-pulse inline-block mr-2">🔊</span> Now Playing
+            <i class="fa-solid fa-volume-high animate-pulse mr-2"></i> Now Playing
           </h2>
-            <div class="badge badge-accent animate-pulse">ACTIVE</div>
+          <div class="badge badge-accent">
+            <i class="fa-solid fa-circle-play mr-1"></i> ACTIVE
+          </div>
         </div>
         <div id="now-playing-content" class="py-2"></div>
         <div class="w-full bg-base-100 bg-opacity-30 rounded-full h-2 mt-2">
@@ -27,10 +32,10 @@
       <table class="table w-full">
         <thead>
         <tr class="bg-secondary text-secondary-content">
-          <th class="rounded-tl-lg">#</th>
-          <th>Title</th>
-          <th class="hidden md:table-cell">Artist</th>
-          <th class="hidden sm:table-cell">Requested By</th>
+          <th class="rounded-tl-lg"><i class="fa-solid fa-hashtag"></i></th>
+          <th><i class="fa-solid fa-music mr-1"></i> Title</th>
+          <th class="hidden md:table-cell"><i class="fa-solid fa-user-astronaut mr-1"></i> Artist</th>
+          <th class="hidden sm:table-cell"><i class="fa-solid fa-user mr-1"></i> Requested By</th>
           <th class="rounded-tr-lg"></th>
         </tr>
         </thead>
@@ -45,9 +50,7 @@
   <div id="empty-state" class="mt-4 text-center">
     <div class="alert alert-info shadow-lg">
       <div>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current flex-shrink-0 w-6 h-6">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-        </svg>
+        <i class="fa-solid fa-circle-info text-lg"></i>
         <span>No songs in queue. Request a song to get started!</span>
       </div>
     </div>
@@ -57,19 +60,7 @@
   <div id="error-state" class="mt-4 hidden">
     <div class="alert alert-error shadow-lg">
       <div class="flex-1">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 flex-shrink-0 stroke-current"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M18.364 5.636l-1.414 1.414M6.343 17.657l-1.414 1.414M6.343 6.343l1.414 1.414M18.364 18.364l1.414-1.414"
-          />
-        </svg>
+        <i class="fa-solid fa-triangle-exclamation text-lg"></i>
         <span>Error loading queue data</span>
       </div>
     </div>
