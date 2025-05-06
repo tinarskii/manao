@@ -20,6 +20,24 @@ function updateNowPlaying(song) {
   document.getElementById("info-container").style.backgroundPosition = "center";
 }
 
+// Fetch current queue, then play the first song
+fetch("/api/queue")
+  .then((response) => response.json())
+  .then((data) => {
+    queue = data;
+    console.log(queue);
+    if (queue.length > 0) {
+      currentSong = queue[0];
+      updateNowPlaying(queue[0].song);
+      playSong(currentSong.song.id);
+    } else {
+      let randomSong =
+        defaultSong[Math.floor(Math.random() * defaultSong.length)];
+      updateNowPlaying(randomSong);
+      playSong(randomSong.id);
+    }
+  });
+
 socket.on("songRequest", (data) => {
   queue = data.queue;
   let index = data.index;
@@ -35,10 +53,11 @@ socket.on("songQueue", (data) => {
   queue = data;
 
   if (queue.length > 0) {
-    currentSong = queue[0];
-    console.log(currentSong.song);
-    updateNowPlaying(queue[0].song);
-    playSong(currentSong.song.id);
+    if (queue[0].song.id !== currentSong.song.id) {
+      currentSong = queue[0];
+      updateNowPlaying(queue[0].song);
+      playSong(currentSong.song.id);
+    }
   } else {
     let randomSong =
       defaultSong[Math.floor(Math.random() * defaultSong.length)];
@@ -95,6 +114,10 @@ setInterval(() => {
       .substr(14, 5);
     document.getElementById("progress").value =
       (playSeconds / ytPlayer.getDuration()) * 100;
+
+    socket.emit('currentSongProgress', {
+      currentPercent: (playSeconds / ytPlayer.getDuration()) * 100,
+    })
   }
 }, 1000);
 

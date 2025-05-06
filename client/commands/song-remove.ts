@@ -50,12 +50,14 @@ export default {
       }
     }
 
-    songQueue.splice(index + 1, 1);
+    let songTitle = songQueue[index].song.title;
+
+    songQueue.splice(index, 1);
     client.io.emit("songQueue", songQueue);
 
     await client.chat.say(
       meta.channel,
-      `@${meta.user} ลบเพลง #${index} "${songQueue[index].song.title}" แล้ว (คิว ${songQueue.length} เพลง)`,
+      `@${meta.user} ลบเพลง #${index} "${songTitle}" แล้ว (คิว ${songQueue.length - 1} เพลง)`,
     );
   },
 };

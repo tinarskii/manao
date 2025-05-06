@@ -91,7 +91,7 @@ export default {
 
     await client.chat.say(
       meta.channel,
-      `@${meta.user} เพิ่มเพลง "${songInfo.videoDetails.title}" โดย ${songInfo.videoDetails.author.name} เป็นคิวที่ ${songQueue.length}`,
+      `@${meta.user} เพิ่มเพลง "${songInfo.videoDetails.title}" โดย ${songInfo.videoDetails.author.name} (${songQueue.length - 1 === 0 ? 'กำลังเล่นอยู่' : 'เป็นคิวที่ ' + (songQueue.length - 1)})`,
     );
   },
 };

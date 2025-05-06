@@ -1,46 +1,76 @@
+<!-- queue.html -->
 <main class="min-h-screen p-6">
   <h1 class="mb-6 text-center text-3xl font-bold">🎵 Music Queue 💿</h1>
-  <!-- Table wrapper -->
-  <div class="overflow-x-auto">
-    <table class="bg-base-200 table w-full rounded-lg shadow">
-      <thead>
-      <tr>
-        <th>#</th>
-        <th>Title</th>
-        <th>Artist</th>
-        <th>Requested By</th>
-      </tr>
-      </thead>
-      <tbody id="queue">
-      <!-- Rows injected here -->
-      </tbody>
-    </table>
 
-    <!-- Empty state -->
-    <div id="empty-state" class="mt-4 text-center">
-      <span class="badge badge-info">No songs in queue</span>
-    </div>
-
-    <!-- Error state -->
-    <div id="error-state" class="mt-4 hidden">
-      <div class="alert alert-error shadow-lg">
-        <div class="flex-1">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6 flex-shrink-0 stroke-current"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M18.364 5.636l-1.414 1.414M6.343 17.657l-1.414
-               1.414M6.343 6.343l1.414 1.414M18.364 18.364l1.414-1.414"
-            />
-          </svg>
-          <span>Error loading queue data</span>
+  <!-- Now Playing Section -->
+  <div id="now-playing-section" class="hidden mb-8">
+    <div class="card bg-gradient-to-r from-primary to-secondary text-primary-content shadow-xl">
+      <div class="card-body">
+        <div class="flex justify-between items-center">
+          <h2 class="card-title text-2xl">
+            <span class="animate-pulse inline-block mr-2">🔊</span> Now Playing
+          </h2>
+            <div class="badge badge-accent animate-pulse">ACTIVE</div>
         </div>
+        <div id="now-playing-content" class="py-2"></div>
+        <div class="w-full bg-base-100 bg-opacity-30 rounded-full h-2 mt-2">
+          <div id="song-progress" class="bg-error h-2 rounded-full" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upcoming Queue Section -->
+  <div id="upcoming-queue-section" class="mb-6">
+    <!-- Table wrapper -->
+    <div class="overflow-x-auto rounded-lg shadow-lg">
+      <table class="table w-full">
+        <thead>
+        <tr class="bg-secondary text-secondary-content">
+          <th class="rounded-tl-lg">#</th>
+          <th>Title</th>
+          <th class="hidden md:table-cell">Artist</th>
+          <th class="hidden sm:table-cell">Requested By</th>
+          <th class="rounded-tr-lg"></th>
+        </tr>
+        </thead>
+        <tbody id="queue" class="bg-base-200">
+        <!-- Rows injected here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div id="empty-state" class="mt-4 text-center">
+    <div class="alert alert-info shadow-lg">
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current flex-shrink-0 w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <span>No songs in queue. Request a song to get started!</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error state -->
+  <div id="error-state" class="mt-4 hidden">
+    <div class="alert alert-error shadow-lg">
+      <div class="flex-1">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 flex-shrink-0 stroke-current"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M18.364 5.636l-1.414 1.414M6.343 17.657l-1.414 1.414M6.343 6.343l1.414 1.414M18.364 18.364l1.414-1.414"
+          />
+        </svg>
+        <span>Error loading queue data</span>
       </div>
     </div>
   </div>

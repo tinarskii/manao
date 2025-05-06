@@ -12,7 +12,7 @@ export const SOCKET_PORT = 3001;
 export const generateRandomToken = () => {
   return Math.random().toString(36).substring(2, 15);
 };
-export const token = process.env.OVERLAY_TOKEN || generateRandomToken();
+export const token = Bun.env.OVERLAY_TOKEN || generateRandomToken();
 
 // Paths
 export const ROOT_DIR = join(import.meta.dir, "..");

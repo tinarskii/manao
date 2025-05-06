@@ -5,6 +5,7 @@ import { registerApiRoutes } from "./api";
 import { registerPageRoutes } from "./pages";
 import { APP_DIR, PORT, PUBLIC_DIR, tlsOptions } from "./config";
 import staticPlugin from "@elysiajs/static";
+import { registerValidateTokenRoutes } from "./api/validateToken";
 
 // Initialize Elysia app
 const app = new Elysia();
@@ -20,6 +21,7 @@ app.use(
 // Register routes
 registerApiRoutes(app);
 registerPageRoutes(app);
+registerValidateTokenRoutes(app);
 
 // External libraries route
 app.get("/js/socket.io/socket.io.js", () => {

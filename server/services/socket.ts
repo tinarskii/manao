@@ -53,4 +53,8 @@ function handleSocketConnection(socket: Socket) {
     logger.info(`[Socket.IO] ${socket.id} playing`);
     socket.broadcast.emit("play-sound", data);
   });
+
+  socket.on("currentSongProgress", (data) => {
+    socket.broadcast.emit("currentSongProgress", data);
+  })
 }
