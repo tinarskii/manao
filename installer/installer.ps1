@@ -25,6 +25,7 @@ $folderPath = Join-Path -Path $env:USERPROFILE -ChildPath $folderName
 if (Test-Path -Path $folderPath) {
     Write-Host "Folder $folderName already exists. Pulling latest changes..."
     Set-Location -Path $folderPath
+    git reset --hard HEAD
     git pull
 } else {
     Write-Host "Cloning repository into $folderName..."

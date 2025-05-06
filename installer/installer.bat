@@ -24,8 +24,8 @@ if "%folderName%"=="" set folderName=manao
 if exist "%folderName%" (
     echo Folder %folderName% already exists. Pulling latest changes...
     cd %folderName%
-    git pull
-    echo.
+    git reset --hard HEAD
+    git pull    echo.
 ) else (
     echo Cloning repository into %folderName%...
     git clone https://github.com/tinarskii/manao.git "%folderName%"

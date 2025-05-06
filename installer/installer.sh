@@ -25,6 +25,7 @@ folderName=${folderName:-manao}
 if [ -d "$folderName" ]; then
     echo "Directory $folderName already exists. Pulling latest changes..."
     cd "$folderName" || exit
+    git reset --hard HEAD
     git pull origin main
 else
     echo "Cloning repository into $folderName..."
