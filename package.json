@@ -1,6 +1,6 @@
 {
   "name": "manaobot",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Collection of utilities for Twitch chat and API",
   "main": "index.ts",
   "scripts": {
