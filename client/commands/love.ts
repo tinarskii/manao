@@ -33,10 +33,10 @@ export default {
         "พ่อ",
         "ร.๙",
         "รัชกาลที่ ๙",
-        "king rama IX",
-        "rama IX",
+        "king rama ix",
+        "rama ix",
         "king",
-      ].includes(meta.user.toLowerCase())
+      ].includes(args[0]?.toLowerCase() || meta.user.toLowerCase())
     )
       lovePercent = "๙๙";
     client.io.emit("feed", {
