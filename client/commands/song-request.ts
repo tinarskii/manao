@@ -35,6 +35,15 @@ export default {
       ? song
       : (await YouTube.search(song, { limit: 1, type: "video" }))[0].url;
 
+    // Check if  songURL is playlist
+    if (songURL.match(/playlist/)) {
+      await client.chat.say(
+        meta.channel,
+        `@${meta.user} ไม่สามารถเพิ่มเพลงจาก Playlist ได้`,
+      );
+      return;
+    }
+
     const songInfo = await ytdl.getInfo(songURL);
 
     // If song was not found
