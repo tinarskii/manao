@@ -115,3 +115,18 @@ body {
     transform: translateX(0);
   }
 }
+
+@keyframes fadeOutLeft {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+.chat-exit {
+  animation: fadeOutLeft .75s ease forwards !important;
+}

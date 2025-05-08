@@ -63,6 +63,7 @@ export async function renderPage(opt: {
       ${content}
       ${opt.excludeTemplate ? "" : footer}
       ${opt.script ? `<script src="${opt.script}"></script>` : ""}
+      ${opt.excludeTemplate ? "" : '<script src="/js/background.js"></script>'}
     </body>
     </html>
 `;
