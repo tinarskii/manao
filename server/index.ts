@@ -39,12 +39,13 @@ export async function renderPage(opt: {
   script?: string;
   excludeTailwind?: boolean;
   excludeTemplate?: boolean;
+  replace?: Record<string, string>;
 }) {
   const navbar = await Bun.file(`${APP_DIR}/partials/navbar.html`).text();
   const footer = await Bun.file(`${APP_DIR}/partials/footer.html`).text();
   const content = await Bun.file(opt.path).text();
 
-  return `
+  let pageContent = `
     <!doctype html>
     <html lang="en">
     <head>
@@ -65,6 +66,15 @@ export async function renderPage(opt: {
     </body>
     </html>
 `;
+
+  // Replace placeholders in the content
+  if (opt.replace) {
+    for (const [key, value] of Object.entries(opt.replace)) {
+      pageContent = pageContent.replace(new RegExp(key, "g"), value);
+    }
+  }
+
+  return pageContent;
 }
 
 function startApp() {

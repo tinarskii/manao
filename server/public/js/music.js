@@ -134,15 +134,3 @@ document.getElementById("np").addEventListener("click", () => {
 function playSong(songID) {
   player.src = `https://www.youtube.com/embed/${songID}?autoplay=1&enablejsapi=1`;
 }
-
-// Load default songs from server
-fetch("/api/default-songs")
-  .then((response) => response.json())
-  .then((data) => {
-    defaultSong = data;
-  })
-  .catch((error) => {
-    console.error("Error loading default songs:", error);
-    // Fallback to a few default songs
-    defaultSong = [];
-  });

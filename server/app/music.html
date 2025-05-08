@@ -5,7 +5,7 @@
     frameborder="0"
     height="315"
     id="playframe"
-    src="https://www.youtube.com/embed/agPF9Eptt1s?autoplay=1&enablejsapi=1"
+    src="https://www.youtube.com/embed/{{ songID }}?autoplay=1&enablejsapi=1"
     width="560"
   >
   </iframe>
@@ -16,15 +16,15 @@
     alt="Album art"
     class="h-20 w-20 animate-[spin_10s_linear_infinite] rounded-full object-cover shadow-lg"
     id="cover"
-    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB4i7JLl4BtWz4gYzUnsx6WcYDAK74ScNGzQ&s"
+    src="{{ songThumbnail }}"
   />
   <div class="w-[275px] rounded-lg" id="info-container">
     <div
       class="flex h-full w-full flex-col justify-center rounded-lg bg-black/50 px-4 py-2 text-white shadow-lg backdrop-blur-lg"
     >
-      <h1 class="truncate text-xl font-extrabold" id="songTitle">Sad Flower</h1>
+      <h1 class="truncate text-xl font-extrabold" id="songTitle">{{ songTitle }}</h1>
       <h1 class="truncate text-sm leading-none font-medium" id="author">
-        Reinizra
+        {{ songAuthor }}
       </h1>
     </div>
   </div>

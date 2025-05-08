@@ -1,26 +1,81 @@
 import { Elysia } from "elysia";
 import { APP_DIR, token } from "../config";
 import { renderPage } from "../index";
+import { db } from "../../client/helpers/database";
 
 /**
  * Configuration for secured pages with consistent structure
  */
 interface SecuredPage {
-  path: string;        // URL path
-  title: string;       // Page title
-  excludeTailwind?: boolean;  // Whether to exclude Tailwind CSS
-  excludeTemplate?: boolean;  // Whether to exclude template
+  path: string; // URL path
+  title: string; // Page title
+  excludeTailwind?: boolean; // Whether to exclude Tailwind CSS
+  excludeTemplate?: boolean; // Whether to exclude template
 }
 
+/**
+ * Fetch default song from the database
+ */
+function fetchDefaultSong() {
+  const stmt = db.prepare(
+    "SELECT defaultSong FROM preferences WHERE userID = ?",
+  );
+
+  const { defaultSong } = stmt.get(Number(process.env.BROADCASTER_ID)) || {
+    defaultSong: JSON.stringify({
+      songTitle: "Sad Flower",
+      songAuthor: "Reinizra",
+      songThumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB4i7JLl4BtWz4gYzUnsx6WcYDAK74ScNGzQ&s",
+      songID: "agPF9Eptt1s",
+    }),
+  };
+  return JSON.parse(defaultSong);
+}
+
+/**
+ * Register secured page routes with token validation
+ * @param app Elysia instance
+ * @returns Elysia instance
+ */
 export function registerSecuredPageRoutes(app: Elysia) {
   // Define secured pages configuration in one place
   const securedPages: SecuredPage[] = [
-    { path: "feed", title: "Feed - Manaobot Web", excludeTailwind: true, excludeTemplate: true },
-    { path: "chat", title: "Chat - Manaobot Web", excludeTailwind: true, excludeTemplate: true },
-    { path: "music", title: "Music - Manaobot Web", excludeTailwind: false, excludeTemplate: true },
-    { path: "soundboard", title: "Soundboard - Manaobot Web", excludeTailwind: false, excludeTemplate: false },
-    { path: "commands", title: "Commands - Manaobot Web", excludeTailwind: false, excludeTemplate: false },
-    { path: "command-edit", title: "Edit Command - Manaobot Web", excludeTailwind: false, excludeTemplate: false },
+    {
+      path: "feed",
+      title: "Feed - Manaobot Web",
+      excludeTailwind: true,
+      excludeTemplate: true,
+    },
+    {
+      path: "chat",
+      title: "Chat - Manaobot Web",
+      excludeTailwind: true,
+      excludeTemplate: true,
+    },
+    {
+      path: "music",
+      title: "Music - Manaobot Web",
+      excludeTailwind: false,
+      excludeTemplate: true,
+    },
+    {
+      path: "soundboard",
+      title: "Soundboard - Manaobot Web",
+      excludeTailwind: false,
+      excludeTemplate: false,
+    },
+    {
+      path: "commands",
+      title: "Commands - Manaobot Web",
+      excludeTailwind: false,
+      excludeTemplate: false,
+    },
+    {
+      path: "command-edit",
+      title: "Edit Command - Manaobot Web",
+      excludeTailwind: false,
+      excludeTemplate: false,
+    },
   ];
 
   // Generate HTML for unauthorized access
@@ -101,7 +156,15 @@ export function registerSecuredPageRoutes(app: Elysia) {
    * Create handler for secured pages with token validation
    */
   const createSecuredHandler = (page: SecuredPage) => {
-    return ({ query, set, request }: { query: any; set: any; request: Request }) => {
+    return ({
+      query,
+      set,
+      request,
+    }: {
+      query: any;
+      set: any;
+      request: Request;
+    }) => {
       // Handle token validation
       if (!query.token) {
         set.headers["Content-Type"] = "text/html";
@@ -112,13 +175,16 @@ export function registerSecuredPageRoutes(app: Elysia) {
       if (query.token !== token) {
         return new Response("Unauthorized", {
           status: 401,
-          headers: { "Content-Type": "text/plain" }
+          headers: { "Content-Type": "text/plain" },
         });
       }
 
       // Token is valid, serve the requested page
       set.headers["Content-Type"] = "text/html";
       set.headers["Cache-Control"] = "no-store, no-cache, must-revalidate";
+
+      // Fetch default song for the music page
+      const defaultSong = fetchDefaultSong();
 
       return renderPage({
         path: `${APP_DIR}/${page.path}.html`,
@@ -127,12 +193,18 @@ export function registerSecuredPageRoutes(app: Elysia) {
         script: `/js/${page.path}.js`,
         excludeTailwind: page.excludeTailwind,
         excludeTemplate: page.excludeTemplate,
+        replace: {
+          "{{ songTitle }}": defaultSong.songTitle,
+          "{{ songAuthor }}": defaultSong.songAuthor,
+          "{{ songThumbnail }}": defaultSong.songThumbnail,
+          "{{ songID }}": defaultSong.songID,
+        },
       });
     };
   };
 
   // Register API route for token validation
-  app.post('/api/validate-token', ({ body, set }) => {
+  app.post("/api/validate-token", ({ body, set }) => {
     // @ts-ignore
     const isValid = body.token === token;
 
