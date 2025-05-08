@@ -13,6 +13,7 @@ export default {
       required: true,
     },
   ],
+  modsOnly: true,
   execute: async (
     client: { api: ApiClient; chat: ChatClient; io: any },
     meta: {
