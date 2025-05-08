@@ -72,6 +72,7 @@ expected if you are not using Bun.
     2. `Song-Remove  (rm)` - Remove a song from the queue
     3. `Song-Skip    (sk)` - Skip the current song
     4. `Song-Request (sr)` - Add a song to the queue
+    4. `Song-Playing (np)` - Show the current song
 
 ### Overlay
 

@@ -45,7 +45,7 @@ export default {
 
     await client.chat.say(
       meta.channel,
-      `@${meta.user} ข้ามเพลงแล้ว (คิว ${songQueue.length} เพลง)`,
+      `@${meta.user} ข้ามเพลงแล้ว (${songQueue.length === 0 ? 'ไม่มีเพลงในคิว' : `มี ${songQueue.length} เพลงในคิว`})`,
     );
   },
 };
