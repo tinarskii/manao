@@ -5,9 +5,22 @@ const socket = createSocketConnection();
 
 let currentSong;
 let queue;
-let defaultSong = []; // Simplified for brevity - would contain the song list
+let defaultSong = {}
 
 let playSeconds = 0;
+
+fetch("/api/defaultSongs")
+  .then((response) => response.json())
+  .then((data) => {
+    defaultSong = {
+      song: {
+        title: data.songTitle,
+        author: data.songAuthor,
+        thumbnail: data.songThumbnail,
+        id: data.songID,
+      }
+    }
+  });
 
 function updateNowPlaying(song) {
   document.getElementById("songTitle").innerText = song.title;
@@ -31,10 +44,8 @@ fetch("/api/queue")
       updateNowPlaying(queue[0].song);
       playSong(currentSong.song.id);
     } else {
-      let randomSong =
-        defaultSong[Math.floor(Math.random() * defaultSong.length)];
-      updateNowPlaying(randomSong);
-      playSong(randomSong.id);
+      updateNowPlaying(defaultSong.song);
+      playSong(defaultSong.song.id);
     }
   });
 
@@ -51,19 +62,6 @@ socket.on("songRequest", (data) => {
 
 socket.on("songQueue", (data) => {
   queue = data;
-
-  if (queue.length > 0) {
-    if (queue[0].song.id !== currentSong.song.id) {
-      currentSong = queue[0];
-      updateNowPlaying(queue[0].song);
-      playSong(currentSong.song.id);
-    }
-  } else {
-    let randomSong =
-      defaultSong[Math.floor(Math.random() * defaultSong.length)];
-    updateNowPlaying(randomSong);
-    playSong(randomSong.id);
-  }
 });
 
 socket.on("songSkip", (data) => {
@@ -73,10 +71,8 @@ socket.on("songSkip", (data) => {
     updateNowPlaying(queue[0].song);
     playSong(currentSong.song.id);
   } else {
-    let randomSong =
-      defaultSong[Math.floor(Math.random() * defaultSong.length)];
-    updateNowPlaying(randomSong);
-    playSong(randomSong.id);
+    updateNowPlaying(defaultSong.song);
+    playSong(defaultSong.song.id);
   }
 });
 

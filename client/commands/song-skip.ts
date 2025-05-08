@@ -31,7 +31,7 @@ export default {
         meta.channelID,
         meta.userID,
       );
-      if (!isMod) {
+      if (!isMod && (songQueue[0].user !== Bun.env.TW_CHANNEL)) {
         await client.chat.say(
           meta.channel,
           `@${meta.user} ไม่สามารถลบเพลงของคนอื่นได้`,
