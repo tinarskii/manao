@@ -5,11 +5,11 @@ const socket = createSocketConnection();
 
 let currentSong;
 let queue;
-let defaultSong = {}
+let defaultSong = {};
 
 let playSeconds = 0;
 
-fetch("/api/defaultSongs")
+fetch("/api/defaultSong")
   .then((response) => response.json())
   .then((data) => {
     defaultSong = {
@@ -18,11 +18,12 @@ fetch("/api/defaultSongs")
         author: data.songAuthor,
         thumbnail: data.songThumbnail,
         id: data.songID,
-      }
-    }
+      },
+    };
   });
 
 function updateNowPlaying(song) {
+  console.log(song);
   document.getElementById("songTitle").innerText = song.title;
   document.getElementById("author").innerText = song.author;
   document.getElementById("cover").src = song.thumbnail;
@@ -33,42 +34,57 @@ function updateNowPlaying(song) {
   document.getElementById("info-container").style.backgroundPosition = "center";
 }
 
-// Fetch current queue, then play the first song
-fetch("/api/queue")
-  .then((response) => response.json())
-  .then((data) => {
-    queue = data;
-    console.log(queue);
-    if (queue.length > 0) {
-      currentSong = queue[0];
-      updateNowPlaying(queue[0].song);
-      playSong(currentSong.song.id);
-    } else {
-      updateNowPlaying(defaultSong.song);
-      playSong(defaultSong.song.id);
-    }
-  });
+// Fetch the current queue, then play the first song
+socket.emit("songQueueFetch");
+socket.on("songQueue", (data) => {
+  queue = data;
+  if (queue.length > 0) {
+    currentSong = queue[0];
+    updateNowPlaying(currentSong.song);
+    playSong(currentSong.song.id);
+  } else {
+    updateNowPlaying(defaultSong.song);
+    playSong(defaultSong.song.id);
+  }
+})
 
+// On user request song using `!song-request`
 socket.on("songRequest", (data) => {
   queue = data.queue;
   let index = data.index;
 
   if (index === 0) {
     currentSong = queue[0];
-    updateNowPlaying(queue[0].song);
+    updateNowPlaying(currentSong.song);
     playSong(currentSong.song.id);
   }
 });
 
-socket.on("songQueue", (data) => {
+// On user remove the song using `!song-remove`
+socket.on("songRemove", (data) => {
   queue = data;
 });
 
+// After the song ended, play the next song
+socket.on("songPlayNext", (data) => {
+  queue = data;
+
+  if (queue.length === 0) {
+    updateNowPlaying(defaultSong.song);
+    playSong(defaultSong.song.id);
+  } else {
+    currentSong = queue[0];
+    updateNowPlaying(currentSong.song);
+    playSong(currentSong.song.id);
+  }
+});
+
+// On user skip the song using `!song-skip`
 socket.on("songSkip", (data) => {
   queue = data;
   if (queue.length > 0) {
     currentSong = queue[0];
-    updateNowPlaying(queue[0].song);
+    updateNowPlaying(currentSong.song);
     playSong(currentSong.song.id);
   } else {
     updateNowPlaying(defaultSong.song);
@@ -111,9 +127,9 @@ setInterval(() => {
     document.getElementById("progress").value =
       (playSeconds / ytPlayer.getDuration()) * 100;
 
-    socket.emit('currentSongProgress', {
+    socket.emit("currentSongProgress", {
       currentPercent: (playSeconds / ytPlayer.getDuration()) * 100,
-    })
+    });
   }
 }, 1000);
 

@@ -42,10 +42,10 @@ function handleSocketConnection(socket: Socket) {
 
   socket.on("songEnded", () => {
     songQueue.shift();
-    socket.emit("songQueue", songQueue);
+    socket.emit("songPlayNext", songQueue);
   });
 
-  socket.on("getQueue", () => {
+  socket.on("songQueueFetch", () => {
     socket.emit("songQueue", songQueue);
   });
 
