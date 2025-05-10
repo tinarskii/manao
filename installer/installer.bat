@@ -25,7 +25,8 @@ if exist "%folderName%" (
     echo Folder %folderName% already exists. Pulling latest changes...
     cd %folderName%
     git reset --hard HEAD
-    git pull    echo.
+    git pull
+    echo.
 ) else (
     echo Cloning repository into %folderName%...
     git clone https://github.com/tinarskii/manao.git "%folderName%"
