@@ -32,7 +32,7 @@ export default {
 
     await client.chat.say(
       meta.channel,
-      `@${meta.user} ตอนนี้กำลังเล่น "${songTitle}" โดย ${songUser} — ${songAuthor} รีเควส ((${songQueue.length === 0 ? 'ไม่มีเพลงในคิว' : `มี ${songQueue.length} เพลงในคิว`}))`,
+      `@${meta.user} ตอนนี้กำลังเล่น "${songTitle}" โดย ${songUser} — ${songAuthor} รีเควส (${songQueue.length - 1 === 0 ? 'ไม่มีเพลงในคิว' : `มี ${songQueue.length - 1} เพลงในคิว`})`,
     );
   },
 };
