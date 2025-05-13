@@ -47,7 +47,7 @@ export default {
     updateCurrency(currency);
     await client.chat.say(
       meta.channel,
-      t("configuration.currentCurrencyChanged", meta.lang, meta.currency),
+      t("configuration.currentCurrencyChanged", meta.lang, currency),
     );
   },
 };
