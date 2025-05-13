@@ -1,23 +1,21 @@
-import { CommandList } from "../types";
+import { CommandMeta } from "../types";
 import { db } from "../helpers/database";
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
 import { initAccount } from "../helpers/twitch";
+import { t } from "../helpers/i18n";
 
 export default {
-  name: "weekly",
-  description: "Give weekly money (750 Keeb)",
+  name: { en: "weekly", th: "รายสัปดาห์" },
+  description: {
+    en: "Give weekly money",
+    th: "รับเงินรายสัปดาห์",
+  },
   alias: [],
   args: [],
   execute: async (
     client: { api: ApiClient; chat: ChatClient; io: any },
-    meta: {
-      user: string;
-      channel: string;
-      channelID: string;
-      userID: string;
-      commands: CommandList;
-    },
+    meta: CommandMeta,
     message: string,
     args: Array<string>,
   ) => {
@@ -36,7 +34,7 @@ export default {
       if (diffDays < 7) {
         await client.chat.say(
           meta.channel,
-          `เองรับเงินไปแล้ว รออีก ${7 - diffDays} วัน`,
+          `@${meta.user} ${t("economy.errorAlreadyWeekly", meta.lang, 7 - diffDays)}`,
         );
         return;
       }
@@ -52,8 +50,8 @@ export default {
       type: "normal",
       icon: "☀️",
       message: `System ➡ ${meta.user}`,
-      action: "+750 KEEB",
+      action: `+750 ${meta.currency}`,
     });
-    await client.chat.say(meta.channel, `@${meta.user} รับ 750 กีบ`);
+    await client.chat.say(meta.channel, `@${meta.user} ${t("economy.getWeekly", meta.lang, 750, meta.currency)}`);
   },
 };

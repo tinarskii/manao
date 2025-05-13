@@ -3,6 +3,8 @@ async function loadCommand() {
   const res = await fetch(`/api/commands/${encodeURIComponent(name)}`);
   const cmd = await res.json();
 
+  console.log(cmd);
+
   // Populate all fields...
   document.getElementById("name").value = cmd.name;
   document.getElementById("description").value = cmd.description;

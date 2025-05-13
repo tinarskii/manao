@@ -1,28 +1,26 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { CommandList } from "../types";
+import { CommandMeta } from "../types";
+import { t } from "../helpers/i18n";
 
 export default {
-  name: "stream",
-  description: "Change the stream's name",
-  alias: ["s"],
+  name: { en: "stream", th: "ชื่อสตรีม" },
+  description: { en: "Change the stream's name", th: "เปลี่ยนชื่อของสตรีม" },
+  aliases: { en: ["s"], th: ["สตรีม"] },
   args: [
     {
-      name: "name",
-      description: "The name you want to change to",
+      name: { en: "name", th: "ชื่อใหม่" },
+      description: {
+        en: "The name you want to change to",
+        th: "ชื่อที่คุณต้องการเปลี่ยน",
+      },
       required: true,
     },
   ],
   modsOnly: true,
   execute: async (
     client: { api: ApiClient; chat: ChatClient; io: any },
-    meta: {
-      user: string;
-      channel: string;
-      channelID: string;
-      userID: string;
-      commands: CommandList;
-    },
+    meta: CommandMeta,
     message: string,
     args: Array<string>,
   ) => {
@@ -33,7 +31,7 @@ export default {
 
     await client.chat.say(
       meta.channel,
-      `เปลี่ยนชื่อเป็น ${args.join(" ")} แล้ว!`,
+      t("moderation.streamTitleChanged", meta.lang, args.join(" ")),
     );
   },
 };

@@ -128,5 +128,5 @@ body {
 }
 
 .chat-exit {
-  animation: fadeOutLeft .75s ease forwards !important;
+  animation: fadeOutLeft 0.75s ease forwards !important;
 }

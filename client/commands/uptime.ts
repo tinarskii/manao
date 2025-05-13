@@ -1,20 +1,19 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { CommandList } from "../types";
+import { CommandMeta } from "../types";
 import { logger } from "../helpers/logger";
+import { t } from "../helpers/i18n";
 
 export default {
-  name: "uptime",
-  description: "Get the current uptime of the stream",
+  name: { en: "uptime", th: "เวลาสตรีม" },
+  description: {
+    en: "Get the current uptime of the stream",
+    th: "ตรวจสอบระยะเวลาที่สตรีมเปิดอยู่",
+  },
   execute: async (
     client: { api: ApiClient; chat: ChatClient; io: any },
-    meta: {
-      user: string;
-      channel: string;
-      channelID: string;
-      userID: string;
-      commands: CommandList;
-    },
+    meta: CommandMeta,
+
     _: string,
     args: Array<string>,
   ) => {
@@ -25,13 +24,13 @@ export default {
     if (!stream) {
       await client.chat.say(
         meta.channel,
-        `@${meta.user} สตรีมนี้ไม่ได้ออนไลน์อยู่`,
+        `@${meta.user} ${t("info.offline", meta.lang)}`,
       );
       return;
     }
 
     // Get the uptime
-    const uptime = stream.startDate
+    const uptime = stream.startDate;
     const now = new Date();
     const diff = now.getTime() - uptime.getTime();
     const seconds = Math.floor(diff / 1000);
@@ -40,16 +39,16 @@ export default {
     const days = Math.floor(hours / 24);
     const formattedUptime = [
       days > 0 ? `${days} วัน` : "",
-      hours > 0 ? `${hours % 24} ชั่วโมง` : "",
-      minutes > 0 ? `${minutes % 60} นาที` : "",
-      seconds > 0 ? `${seconds % 60} วินาที` : "",
+      hours > 0 ? `${hours % 24} ${t( "info.hours", meta.lang)}` : "",
+      minutes > 0 ? `${minutes % 60} ${t("info.minutes", meta.lang)}` : "",
+      seconds > 0 ? `${seconds % 60} ${t("info.seconds", meta.lang)}` : "",
     ]
       .filter(Boolean)
       .join(" ");
 
     await client.chat.say(
       meta.channel,
-      `@${meta.user} สตรีมนี้ออนไลน์มาแล้ว ${formattedUptime}`,
+      `@${meta.user} ${t("info.uptime", meta.lang, formattedUptime)}`,
     );
   },
 };

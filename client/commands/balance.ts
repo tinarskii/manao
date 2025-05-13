@@ -1,30 +1,27 @@
-import { CommandList } from "../types";
+import { CommandMeta } from "../types";
 import { db } from "../helpers/database";
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
 import { initAccount } from "../helpers/twitch";
+import { t } from "../helpers/i18n";
 
 export default {
-  name: "balance",
-  description: "Check your balance",
-  alias: ["bal", "money"],
+  name: { en: "balance", th: "ยอดเงิน" },
+  description: { en: "Check your balance", th: "ตรวจสอบยอดเงินของคุณ" },
+  aliases: { en: ["bal", "money"], th: [] },
   args: [
     {
-      name: "user",
-      description: "User to check balance",
-      type: "string",
+      name: { en: "user", th: "ผู้ใช้" },
+      description: {
+        en: "User to check balance",
+        th: "ผู้ใช้ที่ต้องการตรวจสอบยอดเงิน",
+      },
       required: false,
     },
   ],
   execute: async (
     client: { api: ApiClient; chat: ChatClient; io: any },
-    meta: {
-      user: string;
-      channel: string;
-      channelID: string;
-      userID: string;
-      commands: CommandList;
-    },
+    meta: CommandMeta,
     message: string,
     args: Array<string>,
   ) => {
@@ -34,7 +31,7 @@ export default {
     if (!user) {
       await client.chat.say(
         meta.channel,
-        `@${meta.user} ไม่พบผู้ใช้ ${args[0]}`,
+        `@${meta.user} ${t("economy.errorUserNotFound", meta.lang, args[0] ?? meta.user)}`,
       );
       return;
     }
@@ -50,7 +47,7 @@ export default {
     if (!balance) {
       await client.chat.say(
         meta.channel,
-        `ไม่มีบัญชีของ ${user.displayName} ในระบบ`,
+        `@${meta.user} ${t("economy.errorAccountNotFound", meta.lang, user.displayName)}`,
       );
       return;
     }
@@ -59,11 +56,11 @@ export default {
       type: "normal",
       icon: "👛",
       message: `${meta.user}`,
-      action: `${balance.money} KEEB`,
+      action: `${balance.money} ${meta.currency}`,
     });
     await client.chat.say(
       meta.channel,
-      `${user.displayName} มีตัง ${balance.money} กีบ`,
+      `${user.displayName} ${t("economy.currentBalance", meta.lang, balance.money, meta.currency)}`,
     );
   },
 };

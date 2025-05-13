@@ -1,28 +1,26 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { CommandList } from "../types";
+import { CommandMeta } from "../types";
+import { t } from "../helpers/i18n";
 
 export default {
-  name: "game",
-  description: "Change the stream's game",
-  alias: ["g"],
+  name: { en: "game", th: "เกม" },
+  description: { en: "Change the stream's game", th: "เปลี่ยนเกมของสตรีม" },
+  aliases: { en: ["g"], th: [] },
   args: [
     {
-      name: "game",
-      description: "The game you want to change to",
+      name: { en: "game", th: "เกม" },
+      description: {
+        en: "The game you want to change to",
+        th: "เกมที่คุณต้องการเปลี่ยนไป",
+      },
       required: false,
     },
   ],
   modsOnly: true,
   execute: async (
     client: { api: ApiClient; chat: ChatClient; io: any },
-    meta: {
-      user: string;
-      channel: string;
-      channelID: string;
-      userID: string;
-      commands: CommandList;
-    },
+    meta: CommandMeta,
     message: string,
     args: Array<string>,
   ) => {
@@ -39,7 +37,7 @@ export default {
     // Get game id
     const game = await client.api.games.getGameByName(args.join(" "));
     if (!game) {
-      await client.chat.say(meta.channel, `@${meta.user} ไม่พบเกม ${args[0]}`);
+      await client.chat.say(meta.channel, `@${meta.user} ${t("configuration.errorGameNotFound", meta.lang, args.join(" "))}`);
       return;
     }
 
@@ -50,7 +48,7 @@ export default {
 
     await client.chat.say(
       meta.channel,
-      `@${meta.user} เปลี่ยนเกมเป็น ${game.name} แล้ว!`,
+      `@${meta.user} ${t("configuration.currentGameChanged", meta.lang, game.name)}`,
     );
   },
 };

@@ -46,7 +46,7 @@ socket.on("songQueue", (data) => {
     updateNowPlaying(defaultSong.song);
     playSong(defaultSong.song.id);
   }
-})
+});
 
 // On user request song using `!song-request`
 socket.on("songRequest", (data) => {

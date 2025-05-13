@@ -5,13 +5,15 @@ import { logger } from "../helpers/logger";
 import { readdirSync } from "fs";
 import { join } from "node:path";
 import { handleMessage } from "../handlers/messageHandler";
-import { CommandList, SongInfo } from "../types";
-import { io } from "../../server";
+import { Command, CommandList } from "../types";
+import { getLang } from "../helpers/preference";
 
 // Global command storage
 export const commands: CommandList = new Map();
 export const songQueue: any[] = [];
-export const defaultSong: any = {
+export const defaultSong: any = {};
+export function currentLang(): string {
+  return getLang();
 }
 
 /**
@@ -30,13 +32,11 @@ export async function initializeChatClient(
   // Connect to chat
   chatClient.connect();
 
-  // On connect event
   chatClient.onConnect(async () => {
     await loadCommands();
     logger.info("[Chat] Connected to Twitch chat");
   });
 
-  // Handle incoming chat messages
   chatClient.onMessage(async (channel, user, message, msgObj) => {
     const userID = msgObj.userInfo.userId!;
     const channelID = msgObj.channelId!;
@@ -58,24 +58,35 @@ export async function initializeChatClient(
 
 /**
  * Loads command modules from the commands directory
+ * and maps each command name and its aliases in both languages.
  */
 async function loadCommands() {
   try {
-    let commandsDir = join(__dirname, "./client/commands");
-    if (!(await Bun.file(commandsDir).exists()))
-      commandsDir = join(__dirname, "../commands");
+    const commandsDir = join(__dirname, "../commands");
     const commandFiles = readdirSync(commandsDir).filter(
       (file) => file.endsWith(".ts") || file.endsWith(".js"),
     );
 
     for (const file of commandFiles) {
-      const command = (await import(join(commandsDir, file))).default;
-      commands.set(command.name, command);
-      logger.info(`[Commands] Loaded command: ${command.name}`);
+      const command: Command = (await import(join(commandsDir, file))).default;
+
+      // Register command using all possible names/aliases in both languages
+      const allNames = [
+        command.name.en,
+      ].filter(Boolean);
+
+      for (const name of allNames) {
+        commands.set(name.toLowerCase(), command);
+      }
+
+      logger.info(
+        `[Commands] Loaded command: ${command.name.en}`,
+      );
     }
 
-    logger.info(`[Commands] Loaded ${commandFiles.length} commands`);
+    logger.info(`[Commands] Loaded ${commands.size} command mappings`);
   } catch (error) {
+    logger.error(`[Commands] Failed to load commands: ${error}`);
     throw error;
   }
 }

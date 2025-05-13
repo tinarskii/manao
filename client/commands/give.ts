@@ -1,34 +1,35 @@
-import { CommandList } from "../types";
+import { CommandMeta } from "../types";
 import { db } from "../helpers/database";
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
 import { initAccount } from "../helpers/twitch";
+import { t } from "../helpers/i18n";
 
 export default {
-  name: "give",
-  description: "Give money to someone else",
-  alias: ["transfer"],
+  name: { en: "give", th: "ให้เงิน" },
+  description: { en: "Give money to someone else", th: "ให้เงินผู้อื่น" },
+  aliases: { en: ["transfer"], th: [] },
   args: [
     {
-      name: "user",
-      description: "The user you want to give money",
+      name: { en: "user", th: "ผู้ใช้" },
+      description: {
+        en: "The user you want to give money",
+        th: "ผู้ใช้ที่คุณต้องการให้เงิน",
+      },
       required: true,
     },
     {
-      name: "amount",
-      description: "The amount of money you want to give",
+      name: { en: "amount", th: "จำนวนเงิน" },
+      description: {
+        en: "The amount of money you want to give",
+        th: "จำนวนเงินที่คุณต้องการให้",
+      },
       required: true,
     },
   ],
   execute: async (
     client: { api: ApiClient; chat: ChatClient; io: any },
-    meta: {
-      user: string;
-      channel: string;
-      channelID: string;
-      userID: string;
-      commands: CommandList;
-    },
+    meta: CommandMeta,
     message: string,
     args: Array<string>,
   ) => {
@@ -37,7 +38,7 @@ export default {
 
     // Check if amount is valid
     if (isNaN(amount) || amount < 0) {
-      await client.chat.say(meta.channel, `@${meta.user} ใส่ตังเข้ามาด้วย`);
+      await client.chat.say(meta.channel, `@${meta.user} ${t("economy.errorInvalidAmount", meta.lang)}`);
       return;
     }
 
@@ -49,7 +50,7 @@ export default {
       balance = { money: 0 };
     }
     if (amount > balance.money) {
-      await client.chat.say(meta.channel, `@${meta.user} เองมีตังไม่พอ`);
+      await client.chat.say(meta.channel, `@${meta.user} ${t("economy.errorInsufficientFunds", meta.lang)}`);
       return;
     }
 
@@ -58,7 +59,7 @@ export default {
     if (!targetUser) {
       await client.chat.say(
         meta.channel,
-        `@${meta.user} ไม่พบผู้ใช้ ${args[0]}`,
+        `@${meta.user} ${t("economy.errorUserNotFound", meta.lang, target)}`,
       );
       return;
     }
@@ -72,13 +73,13 @@ export default {
     stmt.run(amount, targetID);
     await client.chat.say(
       meta.channel,
-      `@${meta.user} โอน ${amount} กีบ ให้ ${target}`,
+      `@${meta.user} ${t("economy.transactionSuccess", meta.lang, amount, meta.currency, target)}`,
     );
     client.io.emit("feed", {
       type: "normal",
       icon: "📩",
       message: `${meta.user} ➡ ${target}`,
-      action: `${amount} KEEB`,
+      action: `${amount} ${meta.currency}`,
     });
   },
 };

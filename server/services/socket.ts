@@ -56,5 +56,5 @@ function handleSocketConnection(socket: Socket) {
 
   socket.on("currentSongProgress", (data) => {
     socket.broadcast.emit("currentSongProgress", data);
-  })
+  });
 }

@@ -3,10 +3,9 @@ let currentSongId = null;
 let socket = createSocketConnection();
 
 // Listen for song progress updates
-socket.on('currentSongProgress', (data) => {
+socket.on("currentSongProgress", (data) => {
   updateProgressBar(data.currentPercent);
 });
-
 
 async function loadQueue() {
   try {
@@ -76,7 +75,9 @@ async function loadQueue() {
     if (queueItems.length === 0) {
       document.getElementById("upcoming-queue-section").classList.add("hidden");
     } else {
-      document.getElementById("upcoming-queue-section").classList.remove("hidden");
+      document
+        .getElementById("upcoming-queue-section")
+        .classList.remove("hidden");
 
       queueItems.forEach((item, idx) => {
         const tr = document.createElement("tr");
@@ -86,9 +87,10 @@ async function loadQueue() {
         const itemYoutubeUrl = `https://www.youtube.com/watch?v=${item.song.id}`;
 
         // Truncate long titles
-        const truncatedTitle = item.song.title.length > 40
-          ? item.song.title.substring(0, 40) + "..."
-          : item.song.title;
+        const truncatedTitle =
+          item.song.title.length > 40
+            ? item.song.title.substring(0, 40) + "..."
+            : item.song.title;
 
         tr.innerHTML = `
           <th>

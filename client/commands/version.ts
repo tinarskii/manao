@@ -1,22 +1,20 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { CommandList } from "../types";
+import { CommandMeta } from "../types";
 import { version } from "../../package.json";
 import { version as twurpleVersion } from "@twurple/api/package.json";
+import { t } from "../helpers/i18n";
 
 export default {
-  name: "version",
-  description: "Check bot's current version",
-  alias: ["v", "ver"],
+  name: { en: "version", th: "เวอร์ชัน" },
+  description: {
+    en: "Check bot's current version",
+    th: "ตรวจสอบเวอร์ชันของบอท",
+  },
+  aliases: { en: ["v", "ver"], th: [] },
   execute: async (
     client: { api: ApiClient; chat: ChatClient; io: any },
-    meta: {
-      user: string;
-      channel: string;
-      channelID: string;
-      userID: string;
-      commands: CommandList;
-    },
+    meta: CommandMeta,
   ) => {
     const MANAO_VERSION = version;
     const BUN_VERSION = Bun.version;
@@ -24,7 +22,7 @@ export default {
 
     await client.chat.say(
       meta.channel,
-      `@${meta.user} Manaobot v${MANAO_VERSION} using Twurple v${TWURPLE_VERSION} running on Bun v${BUN_VERSION}`,
+      `@${meta.user} ${t("info.version", meta.lang, MANAO_VERSION, BUN_VERSION, TWURPLE_VERSION)}`,
     );
   },
 };

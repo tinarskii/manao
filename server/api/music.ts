@@ -7,19 +7,23 @@ export function registerMusicRoutes(app: Elysia) {
   app.get("/api/queue", () => songQueue);
 
   app.get("/api/defaultSong", () => {
-    const stmt = db.prepare(
-      "SELECT defaultSong FROM preferences WHERE userID = ?",
-    );
+    let stmt = db.prepare("SELECT defaultSong FROM preferences WHERE userID = ?");
+    let defaultSong = stmt.get(Bun.env.BROADCASTER_ID!);
 
-    const { defaultSong } = stmt.get(Number(Bun.env.BROADCASTER_ID)) || {
-      defaultSong: JSON.stringify({
-        songTitle: "Sad Flower",
-        songAuthor: "Reinizra",
-        songThumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB4i7JLl4BtWz4gYzUnsx6WcYDAK74ScNGzQ&s",
-        songID: "agPF9Eptt1s",
-      }),
-    };
-    return JSON.parse(defaultSong);
-  })
+    if (!defaultSong) {
+      defaultSong = {
+        defaultSong: JSON.stringify({
+          songTitle: "Sad Flower",
+          songAuthor: "Reinizra",
+          songThumbnail:
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB4i7JLl4BtWz4gYzUnsx6WcYDAK74ScNGzQ&s",
+          songID: "agPF9Eptt1s",
+        })
+      }
+    }
+
+    // @ts-ignore
+    return JSON.parse(defaultSong.defaultSong);
+  });
   return app;
 }

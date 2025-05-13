@@ -1,28 +1,26 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { CommandList } from "../types";
+import { CommandMeta } from "../types";
+import { t } from "../helpers/i18n";
 
 export default {
-  name: "shoutout",
-  description: "Shoutout to someone!",
-  alias: ["so"],
+  name: { en: "shoutout", th: "แนะนำ" },
+  description: { en: "Shoutout to someone!", th: "แนะนำใครสักคน!" },
+  aliases: { en: ["so"], th: [] },
   args: [
     {
-      name: "user",
-      description: "The user you want to shoutout",
+      name: { en: "user", th: "ผู้ใช้" },
+      description: {
+        en: "The user you want to shoutout",
+        th: "ผู้ใช้ที่คุณต้องการแนะนำ",
+      },
       required: true,
     },
   ],
   modsOnly: true,
   execute: async (
     client: { api: ApiClient; chat: ChatClient; io: any },
-    meta: {
-      user: string;
-      channel: string;
-      channelID: string;
-      userID: string;
-      commands: CommandList;
-    },
+    meta: CommandMeta,
     message: string,
     args: Array<string>,
   ) => {
@@ -31,7 +29,7 @@ export default {
     if (!userID) {
       await client.chat.say(
         meta.channel,
-        `@${meta.user} ไม่พบผู้ใช้ ${args[0]}`,
+        `@${meta.user} ${t("moderation.errorUserNotFound", meta.lang, args[0])}`,
       );
       return;
     }
@@ -41,13 +39,13 @@ export default {
     } catch (e) {
       await client.chat.say(
         meta.channel,
-        `@${meta.user} ไม่สามารถ shoutout ได้`,
+        `@${meta.user} ${t("moderation.errorCannotShoutout", meta.lang)}`,
       );
       return;
     }
     await client.chat.say(
       meta.channel,
-      `@${meta.user} ทุกคนมากดฟอลให้ @${args[0]} กันนะ!`,
+      `@${meta.user} ${t("moderation.shoutoutSuccess", meta.lang, args[0])}`,
     );
   },
 };

@@ -1,10 +1,26 @@
 import { ChatClient } from "@twurple/chat";
 import { ApiClient } from "@twurple/api";
 
+export interface LocalizedString {
+  en: string;
+  th: string;
+}
+
+export interface LocalizedStringArray {
+  en: string[];
+  th: string[];
+}
+
+export interface CommandArg {
+  name: LocalizedString;
+  description: LocalizedString;
+  required?: boolean;
+}
+
 export interface Command {
-  name: string;
-  description: string;
-  alias?: string[];
+  name: LocalizedString;
+  description: LocalizedString;
+  aliases?: LocalizedStringArray;
   args?: CommandArg[];
   modsOnly?: boolean;
   broadcasterOnly?: boolean;
@@ -18,12 +34,6 @@ export interface Command {
   ) => void;
 }
 
-export interface CommandArg {
-  name: string;
-  description: string;
-  required: boolean;
-}
-
 export interface ClientServices {
   chat: ChatClient;
   io: any; // Socket.io server
@@ -31,24 +41,16 @@ export interface ClientServices {
 }
 
 export interface CommandMeta {
-  channel: string;
   user: string;
-  userID: string;
+  channel: string;
   channelID: string;
+  userID: string;
   commands: CommandList;
+  lang: "en" | "th";
+  currency: string;
 }
 
 export interface CommandList extends Map<string, Command> {}
-
-export interface SongInfo {
-  user: string;
-  song: {
-    title: string;
-    author: string;
-    thumbnail: string;
-    id: string;
-  };
-}
 
 export interface UserBadge {
   title?: string;

@@ -17,19 +17,23 @@ interface SecuredPage {
  * Fetch default song from the database
  */
 function fetchDefaultSong() {
-  const stmt = db.prepare(
-    "SELECT defaultSong FROM preferences WHERE userID = ?",
-  );
+  let stmt = db.prepare("SELECT defaultSong FROM preferences WHERE userID = ?");
+  let defaultSong = stmt.get(Bun.env.BROADCASTER_ID!);
 
-  const { defaultSong } = stmt.get(Number(process.env.BROADCASTER_ID)) || {
-    defaultSong: JSON.stringify({
-      songTitle: "Sad Flower",
-      songAuthor: "Reinizra",
-      songThumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB4i7JLl4BtWz4gYzUnsx6WcYDAK74ScNGzQ&s",
-      songID: "agPF9Eptt1s",
-    }),
-  };
-  return JSON.parse(defaultSong);
+  if (!defaultSong?.defaultSong) {
+    defaultSong = {
+      defaultSong: JSON.stringify({
+        songTitle: "Sad Flower",
+        songAuthor: "Reinizra",
+        songThumbnail:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB4i7JLl4BtWz4gYzUnsx6WcYDAK74ScNGzQ&s",
+        songID: "agPF9Eptt1s",
+      })
+    }
+  }
+
+  // @ts-ignore
+  return JSON.parse(defaultSong.defaultSong);
 }
 
 /**
@@ -78,7 +82,7 @@ export function registerSecuredPageRoutes(app: Elysia) {
     },
   ];
 
-// Generate HTML for the authentication page with enhanced design and improved code
+  // Generate HTML for the authentication page with enhanced design and improved code
   const generateTokenPromptHtml = (path: string): string => {
     const isChatPage = path === "chat";
 
@@ -144,7 +148,9 @@ export function registerSecuredPageRoutes(app: Elysia) {
                   </label>
                 </div>
                 
-                ${isChatPage ? `
+                ${
+                  isChatPage
+                    ? `
                 <!-- Chat Direction Options -->
                 <div class="form-control">
                   <label class="label">
@@ -187,7 +193,9 @@ export function registerSecuredPageRoutes(app: Elysia) {
                     <span>seconds</span>
                   </label>
                 </div>
-                ` : ''}
+                `
+                    : ""
+                }
                 
                 <!-- Submit Button -->
                 <div class="form-control mt-6">
@@ -338,7 +346,10 @@ export function registerSecuredPageRoutes(app: Elysia) {
       request: Request;
     }) => {
       // Handle token validation
-      if (!query.token || ((!query.fade || !query.direction) && page.path === "chat")) {
+      if (
+        !query.token ||
+        ((!query.fade || !query.direction) && page.path === "chat")
+      ) {
         set.headers["Content-Type"] = "text/html";
         return generateTokenPromptHtml(page.path);
       }
@@ -371,7 +382,8 @@ export function registerSecuredPageRoutes(app: Elysia) {
           "{{ songThumbnail }}": defaultSong.songThumbnail,
           "{{ songID }}": defaultSong.songID,
           "{{ fade }}": query.fade || "30",
-          "{{ direction }}": query.direction === "ttb" ? "column-reverse" : "column",
+          "{{ direction }}":
+            query.direction === "ttb" ? "column-reverse" : "column",
         },
       });
     };

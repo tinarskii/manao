@@ -6,20 +6,27 @@
   </h1>
 
   <!-- Now Playing Section -->
-  <div id="now-playing-section" class="hidden mb-8">
-    <div class="card bg-gradient-to-r from-primary to-secondary text-primary-content shadow-xl">
+  <div id="now-playing-section" class="mb-8 hidden">
+    <div
+      class="card from-primary to-secondary text-primary-content bg-gradient-to-r shadow-xl"
+    >
       <div class="card-body">
-        <div class="flex justify-between items-center">
+        <div class="flex items-center justify-between">
           <h2 class="card-title text-2xl">
-            <i class="fa-solid fa-volume-high animate-pulse mr-2"></i> Now Playing
+            <i class="fa-solid fa-volume-high mr-2 animate-pulse"></i> Now
+            Playing
           </h2>
           <div class="badge badge-accent">
             <i class="fa-solid fa-circle-play mr-1"></i> ACTIVE
           </div>
         </div>
         <div id="now-playing-content" class="py-2"></div>
-        <div class="w-full bg-base-100 bg-opacity-30 rounded-full h-2 mt-2">
-          <div id="song-progress" class="bg-error h-2 rounded-full" style="width: 0%"></div>
+        <div class="bg-base-100 bg-opacity-30 mt-2 h-2 w-full rounded-full">
+          <div
+            id="song-progress"
+            class="bg-error h-2 rounded-full"
+            style="width: 0%"
+          ></div>
         </div>
       </div>
     </div>
@@ -31,16 +38,20 @@
     <div class="overflow-x-auto rounded-lg shadow-lg">
       <table class="table w-full">
         <thead>
-        <tr class="bg-secondary text-secondary-content">
-          <th class="rounded-tl-lg"><i class="fa-solid fa-hashtag"></i></th>
-          <th><i class="fa-solid fa-music mr-1"></i> Title</th>
-          <th class="hidden md:table-cell"><i class="fa-solid fa-user-astronaut mr-1"></i> Artist</th>
-          <th class="hidden sm:table-cell"><i class="fa-solid fa-user mr-1"></i> Requested By</th>
-          <th class="rounded-tr-lg"></th>
-        </tr>
+          <tr class="bg-secondary text-secondary-content">
+            <th class="rounded-tl-lg"><i class="fa-solid fa-hashtag"></i></th>
+            <th><i class="fa-solid fa-music mr-1"></i> Title</th>
+            <th class="hidden md:table-cell">
+              <i class="fa-solid fa-user-astronaut mr-1"></i> Artist
+            </th>
+            <th class="hidden sm:table-cell">
+              <i class="fa-solid fa-user mr-1"></i> Requested By
+            </th>
+            <th class="rounded-tr-lg"></th>
+          </tr>
         </thead>
         <tbody id="queue" class="bg-base-200">
-        <!-- Rows injected here -->
+          <!-- Rows injected here -->
         </tbody>
       </table>
     </div>

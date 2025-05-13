@@ -4,6 +4,8 @@ import { db } from "../helpers/database";
 import { logger } from "../helpers/logger";
 import { io } from "../../server";
 import { FeedEvent } from "../types";
+import { getCurrency } from "../helpers/preference";
+import currency from "../commands/currency";
 
 /**
  * Handles channel point rewards and other currency rewards
@@ -18,6 +20,8 @@ export function handleReward(
   try {
     // Initialize user account if not exists
     initAccount(data.userId);
+    // Get current currency
+    let currency = getCurrency();
 
     // Update user's currency in database
     db.prepare("UPDATE users SET money = money + ? WHERE user = ?").run(
@@ -26,14 +30,14 @@ export function handleReward(
     );
 
     // Log the transaction
-    logger.info(`[Reward] ${type} ${amount} KEEB for ${data.userName}`);
+    logger.info(`[Reward] ${type} ${amount} ${currency} for ${data.userName}`);
 
     // Create feed event data
     const feedData: FeedEvent = {
       type: "normal",
       icon: icon,
       message: `System ➡ ${data.userDisplayName}`,
-      action: `+ ${amount} KEEB`,
+      action: `+ ${amount} ${currency}`,
     };
 
     // Emit the event to websocket clients
@@ -42,13 +46,13 @@ export function handleReward(
     // Send confirmation message in chat
     chatClient.say(
       process.env.TW_CHANNEL!,
-      `@${data.userName} 💵 ${type === "Redeem" ? "แลกรับ" : "ได้รับ"} ${amount} กีบสำเร็จแล้ว!${
+      `@${data.userName} 💵 ${type === "Redeem" ? "แลกรับ" : "ได้รับ"} ${amount} ${currency} สำเร็จแล้ว!${
         type !== "Redeem" ? " ขอบคุณที่สนับสนุนช่องนี้ด้วยนะ!" : ""
       }`,
     );
   } catch (error) {
     logger.error(
-      `[Reward] Error processing ${amount} KEEB for ${data.userName}:`,
+      `[Reward] Error processing ${amount} ${currency} for ${data.userName}:`,
       error,
     );
 

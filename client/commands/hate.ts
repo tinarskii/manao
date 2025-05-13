@@ -1,27 +1,22 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { CommandList } from "../types";
+import { CommandMeta } from "../types";
+import { t } from "../helpers/i18n";
 
 export default {
-  name: "hate",
-  description: "For whom do you hate?",
-  alias: ["เกลียด"],
+  name: { en: "hate", th: "เกลียด" },
+  description: { en: "For whom do you hate?", th: "คุณเกลียดใคร?" },
+  aliases: { en: [], th: ["เกลียด"] },
   args: [
     {
-      name: "user",
-      description: "The user you hate",
+      name: { en: "user", th: "ผู้ใช้" },
+      description: { en: "The user you hate", th: "ผู้ใช้ที่คุณเกลียด" },
       required: false,
     },
   ],
   execute: async (
     client: { api: ApiClient; chat: ChatClient; io: any },
-    meta: {
-      user: string;
-      channel: string;
-      channelID: string;
-      userID: string;
-      commands: CommandList;
-    },
+    meta: CommandMeta,
     message: string,
     args: Array<string>,
   ) => {

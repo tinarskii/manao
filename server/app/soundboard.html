@@ -1,28 +1,37 @@
-<main class="min-h-screen p-6 flex flex-col space-y-8">
+<main class="flex min-h-screen flex-col space-y-8 p-6">
   <!-- Header -->
-  <h1 class="text-4xl font-bold text-center">🔊 Soundboard Controller</h1>
+  <h1 class="text-center text-4xl font-bold">🔊 Soundboard Controller</h1>
 
   <!-- Sound Buttons Grid -->
   <div
     id="soundboard"
-    class="grid gap-4 p-4 mx-auto w-full lg:grid-cols-5 grid-cols-3"
-  >
-  </div>
+    class="mx-auto grid w-full grid-cols-3 gap-4 p-4 lg:grid-cols-5"
+  ></div>
 
   <!-- Add New Sound -->
-  <section class="bg-white/10 p-6 rounded-lg shadow-md">
-    <h2 class="text-2xl font-semibold mb-3">Add New Sound</h2>
-    <div class="flex flex-col md:flex-row md:space-x-4 space-y-3 md:space-y-0">
-      <input id="soundName" type="text" placeholder="Sound name"
-             class="input input-bordered flex-1" />
-      <input id="soundUrl" type="text" placeholder="Sound URL"
-             class="input input-bordered flex-1" />
+  <section class="rounded-lg bg-white/10 p-6 shadow-md">
+    <h2 class="mb-3 text-2xl font-semibold">Add New Sound</h2>
+    <div class="flex flex-col space-y-3 md:flex-row md:space-y-0 md:space-x-4">
+      <input
+        id="soundName"
+        type="text"
+        placeholder="Sound name"
+        class="input input-bordered flex-1"
+      />
+      <input
+        id="soundUrl"
+        type="text"
+        placeholder="Sound URL"
+        class="input input-bordered flex-1"
+      />
       <button id="addSound" class="btn btn-accent">Add Sound</button>
     </div>
   </section>
 
   <!-- Import / Export / Reset -->
-  <section class="bg-base-100 p-4 rounded-lg shadow-md flex flex-wrap gap-4 justify-center">
+  <section
+    class="bg-base-100 flex flex-wrap justify-center gap-4 rounded-lg p-4 shadow-md"
+  >
     <button id="exportBtn" class="btn btn-success">Export Sounds</button>
     <label for="importFile" class="btn btn-warning cursor-pointer">
       Import Sounds
@@ -42,15 +51,30 @@
   <input type="checkbox" id="editModal" class="modal-toggle" />
   <div class="modal">
     <div class="modal-box relative">
-      <label for="editModal" id="closeModal" class="btn btn-sm btn-circle absolute right-3 top-3">✕</label>
-      <h3 class="text-xl font-bold mb-4">Edit Sound</h3>
+      <label
+        for="editModal"
+        id="closeModal"
+        class="btn btn-sm btn-circle absolute top-3 right-3"
+        >✕</label
+      >
+      <h3 class="mb-4 text-xl font-bold">Edit Sound</h3>
       <div class="flex flex-col space-y-3">
-        <input id="editSoundName" type="text" placeholder="Sound name"
-               class="input input-bordered w-full" />
-        <input id="editSoundUrl" type="text" placeholder="Sound URL"
-               class="input input-bordered w-full" />
+        <input
+          id="editSoundName"
+          type="text"
+          placeholder="Sound name"
+          class="input input-bordered w-full"
+        />
+        <input
+          id="editSoundUrl"
+          type="text"
+          placeholder="Sound URL"
+          class="input input-bordered w-full"
+        />
         <div class="flex space-x-3">
-          <button id="saveEditSound" class="btn btn-success flex-1">Save Changes</button>
+          <button id="saveEditSound" class="btn btn-success flex-1">
+            Save Changes
+          </button>
           <button id="deleteSound" class="btn btn-error flex-1">Delete</button>
         </div>
       </div>

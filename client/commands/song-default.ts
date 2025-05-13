@@ -1,31 +1,29 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { CommandList } from "../types";
+import { CommandMeta } from "../types";
 import YouTube from "youtube-sr";
 import ytdl from "@distube/ytdl-core";
 import { db } from "../helpers/database";
+import { t } from "../helpers/i18n";
 
 export default {
-  name: "song-default",
-  description: "Set a default song",
-  alias: ["sd"],
+  name: { en: "song-default", th: "เพลงเริ่มต้น" },
+  description: { en: "Set a default song", th: "ตั้งเพลงเริ่มต้น" },
+  aliases: { en: ["sd"], th: ["เพลงเริ่ม"] },
   args: [
     {
-      name: "song",
-      description: "The song you want to set as default",
+      name: { en: "song", th: "เพลง" },
+      description: {
+        en: "The song you want to set as default",
+        th: "เพลงที่คุณต้องการตั้งเป็นเพลงเริ่มต้น",
+      },
       required: true,
     },
   ],
   broadcasterOnly: true,
   execute: async (
     client: { api: ApiClient; chat: ChatClient; io: any },
-    meta: {
-      user: string;
-      channel: string;
-      channelID: string;
-      userID: string;
-      commands: CommandList;
-    },
+    meta: CommandMeta,
     message: string,
     args: Array<string>,
   ) => {
@@ -36,11 +34,11 @@ export default {
       ? song
       : (await YouTube.search(song, { limit: 1, type: "video" }))[0].url;
 
-    // Check if  songURL is playlist
+    // Check if songURL is playlist
     if (songURL.match(/playlist/)) {
       await client.chat.say(
         meta.channel,
-        `@${meta.user} ไม่สามารถเพิ่มเพลงจาก Playlist ได้`,
+        `@${meta.user} ${t("song.errorSongRequestPlaylist", meta.lang)}`,
       );
       return;
     }
@@ -49,7 +47,10 @@ export default {
 
     // If song was not found
     if (!songInfo) {
-      await client.chat.say(meta.channel, `@${meta.user} ไม่เจอเพลง: ${song}`);
+      await client.chat.say(
+        meta.channel,
+        `@${meta.user} ${t("song.errorSongNotFound", meta.lang)}`,
+      );
       return;
     }
 
@@ -57,7 +58,7 @@ export default {
     if (Number(songInfo.videoDetails.lengthSeconds) > 600) {
       await client.chat.say(
         meta.channel,
-        `@${meta.user} เพลงยาวเกิน 10 นาที ผมรับไม่ได้`,
+        `@${meta.user} ${t("song.errorSongTooLong", meta.lang)}`,
       );
       return;
     }
@@ -66,7 +67,7 @@ export default {
     if (songInfo.videoDetails.isLiveContent) {
       await client.chat.say(
         meta.channel,
-        `@${meta.user} ต้องเป็นวิดิโอที่ไม่ได้ถูกถ่ายทอดสด`,
+        `@${meta.user} ${t("song.errorSongIsLive", meta.lang)}`,
       );
       return;
     }
@@ -85,7 +86,7 @@ export default {
 
     await client.chat.say(
       meta.channel,
-      `@${meta.user} ตั้งเพลง "${songData.songTitle}" โดย "${songData.songAuthor} เป็นเพลงเริ่มต้นแล้ว`,
+      `@${meta.user} ${t("song.songDefault", meta.lang, songData.songTitle, songData.songAuthor)}`,
     );
   },
 };

@@ -1,27 +1,25 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { CommandList } from "../types";
+import { CommandMeta } from "../types";
+import { t } from "../helpers/i18n";
 
 export default {
-  name: "stomp",
-  description: "Stomp on someone!",
-  alias: ["กระทืบ"],
+  name: { en: "stomp", th: "กระทืบ" },
+  description: { en: "Stomp on someone!", th: "กระทืบใครสักคน!" },
+  aliases: { en: [], th: ["ถีบ"] },
   args: [
     {
-      name: "user",
-      description: "The user you want to stomp",
+      name: { en: "user", th: "ผู้ใช้" },
+      description: {
+        en: "The user you want to stomp",
+        th: "ผู้ใช้ที่คุณต้องการกระทืบ",
+      },
       required: false,
     },
   ],
   execute: async (
     client: { api: ApiClient; chat: ChatClient; io: any },
-    meta: {
-      user: string;
-      channel: string;
-      channelID: string;
-      userID: string;
-      commands: CommandList;
-    },
+    meta: CommandMeta,
     message: string,
     args: Array<string>,
   ) => {
@@ -34,7 +32,7 @@ export default {
     });
     await client.chat.say(
       meta.channel,
-      `${meta.user} 👣 ${args[0] || meta.user} ${stompTimes} ครั้ง`,
+      `${meta.user} 👣 ${args[0] || meta.user} ${stompTimes} ${t("misc.times", meta.lang)}`,
     );
   },
 };

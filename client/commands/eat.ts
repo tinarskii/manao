@@ -1,42 +1,56 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { CommandList } from "../types";
+import { CommandMeta } from "../types";
+import { t } from "../helpers/i18n";
 
 export default {
-  name: "eat",
-  description: "What do you want to eat?",
-  alias: ["กินไร"],
+  name: { en: "eat", th: "กินอะไรดี" },
+  description: { en: "What do you want to eat?", th: "อยากกินอะไรดี?" },
+  aliases: { en: [], th: ["กินอะไร", "กินไร"] },
   args: [],
   execute: async (
     client: { api: ApiClient; chat: ChatClient; io: any },
-    meta: {
-      user: string;
-      channel: string;
-      channelID: string;
-      userID: string;
-      commands: CommandList;
-    },
+    meta: CommandMeta,
     message: string,
     args: Array<string>,
   ) => {
-    const foods = [
-      "ข้าว",
-      "ก๋วยเตี๋ยว",
-      "ส้มตำ",
-      "ไก่ทอด",
-      "ขนมจีน",
-      "สเต็ก",
-      "ไก่ย่าง",
-      "หมูกระทะ",
-      "หมูทอด",
-      "หมูสะเต๊ะ",
-      "หมูกรอบ",
-      "หมูย่าง",
-      "หมูทอดกรอบ",
-      "หมูสามชั้น",
-      "หมูสับ",
-    ];
-    const food = foods[Math.floor(Math.random() * foods.length)];
-    await client.chat.say(meta.channel, `@${meta.user} 🍲 กิน ${food}`);
+    const foods = {
+      th: [
+        "ข้าว",
+        "ก๋วยเตี๋ยว",
+        "ส้มตำ",
+        "ไก่ทอด",
+        "ขนมจีน",
+        "สเต็ก",
+        "ไก่ย่าง",
+        "หมูกระทะ",
+        "หมูทอด",
+        "หมูสะเต๊ะ",
+        "หมูกรอบ",
+        "หมูย่าง",
+        "หมูทอดกรอบ",
+        "หมูสามชั้น",
+        "หมูสับ",
+      ],
+      en: [
+        "rice",
+        "noodles",
+        "som tam",
+        "fried chicken",
+        "kanom jeen",
+        "steak",
+        "grilled chicken",
+        "mookata",
+        "fried pork",
+        "moo satay",
+        "crispy pork",
+        "grilled pork",
+        "crispy fried pork",
+        "pork belly",
+        "minced pork",
+      ],
+    }
+    const food = foods[meta.lang][Math.floor(Math.random() * foods[meta.lang].length)];
+    await client.chat.say(meta.channel, `@${meta.user} ${t("misc.eat", meta.lang, food)}`);
   },
 };

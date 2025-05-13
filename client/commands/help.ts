@@ -1,37 +1,52 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { CommandList } from "../types";
+import { t } from "../helpers/i18n";
+import { CommandMeta } from "../types";
 
 export default {
-  name: "help",
-  description: "ดูคำสั่งทั้งหมดที่ใช้ได้",
-  alias: ["h", "commands", "command"],
+  name: { en: "help", th: "ช่วยเหลือ" },
+  description: {
+    en: "View all available commands",
+    th: "ดูคำสั่งทั้งหมดที่ใช้ได้",
+  },
+  aliases: { en: ["h", "commands", "command"], th: ["คำสั่ง"] },
   args: [
     {
-      name: "command",
-      description: "Command name",
+      name: { en: "command", th: "คำสั่ง" },
+      description: { en: "Command name", th: "ชื่อคำสั่ง" },
       required: false,
     },
   ],
   execute: async (
     client: { api: ApiClient; chat: ChatClient; io: any },
-    meta: {
-      user: string;
-      channel: string;
-      channelID: string;
-      userID: string;
-      commands: CommandList;
-    },
+    meta: CommandMeta,
     message: string,
     args: Array<string>,
   ) => {
     if (args.length > 0) {
       // get cmd description, its args, and args description
-      const cmd = meta.commands.get(args[0]);
+      let cmdName = args[0];
+
+      for (const command of meta.commands.values()) {
+        if (
+          command.name.en === cmdName ||
+          command.name.th === cmdName ||
+          (command.aliases?.en || []).includes(cmdName) ||
+          (command.aliases?.th || []).includes(cmdName)
+        ) {
+          // @ts-ignore
+          cmdName = command.name.en;
+          break;
+        }
+      }
+
+      let cmd = meta.commands.get(cmdName);
+
+
       if (!cmd) {
         await client.chat.say(
           meta.channel,
-          `@${meta.user} ไม่พบคำสั่ง ${args[0]}`,
+          `@${meta.user} ${t("info.errorCommandNotFound", meta.lang, args[0])}`,
         );
         return;
       }
@@ -41,24 +56,26 @@ export default {
         argsDescription = cmd.args
           .map((arg) => {
             if (arg.required) {
-              return ` | <${arg.name}> - ${arg.description}`;
+              return ` | <${arg.name[meta.lang]}> - ${arg.description[meta.lang]}`;
             } else {
-              return ` | [${arg.name}] - ${arg.description}`;
+              return ` | [${arg.name[meta.lang]}] - ${arg.description[meta.lang]}`;
             }
           })
           .join("");
       }
-      if (cmd.alias) {
-        argsAlias = ` (${cmd.alias.join(", ")})`;
+      if (cmd.aliases) {
+        if (cmd.aliases[meta.lang]) {
+          argsAlias = ` (${cmd.aliases[meta.lang].join(", ")})`;
+        }
       }
       await client.chat.say(
         meta.channel,
-        `📚 ${cmd.name}${argsAlias}: ${cmd.description}${argsDescription}`,
+        `📚 ${cmd.name[meta.lang]}${argsAlias}: ${cmd.description[meta.lang]}${argsDescription}`,
       );
     } else {
       await client.chat.say(
         meta.channel,
-        `@${meta.user} 📚 ดูคำสั่งทั้งหมดได้ที่ https://bit.ly/manaobot หรือตรงแถบล่างช่อง (panels) ได้เลยนะครับ หรือ พิมพ์ !help ตามด้วยคำสั่ง เพื่อดูรายละเอียดของคำสั่งนั้น ๆ ครับ`,
+        `@${meta.user} ${t("info.help", meta.lang)}`,
       );
     }
   },

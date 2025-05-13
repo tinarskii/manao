@@ -1,16 +1,17 @@
 import { Elysia } from "elysia";
 import { commands } from "../../client/services/chat";
-import { Command } from "../../client/types";
+import { getLang, localizeCommandArgs } from "../../client/helpers/preference";
 
 export function registerCommandRoutes(app: Elysia) {
   app.get("/api/commands", () => {
     const commandList = [];
+    let lang = getLang()
     for (const command of commands.values()) {
       commandList.push({
-        name: command.name,
-        description: command.description,
-        alias: command.alias,
-        args: command.args,
+        name: command.name[lang],
+        description: command.description[lang],
+        alias: (command.aliases ?? [])[lang],
+        args: localizeCommandArgs(command.args ?? [], lang),
         disabled: command.disabled ?? false,
       });
     }
@@ -18,38 +19,36 @@ export function registerCommandRoutes(app: Elysia) {
   });
 
   app.get("/api/commands/:commandName", ({ params: { commandName } }) => {
+    let cmdName = decodeURIComponent(commandName);
+
+    // Check if thai command name, if so, get the english name
+    for (const command of commands.values()) {
+      if (
+        command.name.th === cmdName ||
+        (command.aliases?.th || []).includes(cmdName) ||
+        (command.aliases?.en || []).includes(cmdName)
+      ) {
+        // @ts-ignore
+        cmdName = command.name.en;
+        break;
+      }
+    }
+
     // @ts-ignore
-    const command = commands.get(commandName);
+    const command = commands.get(cmdName);
     if (!command) {
       return { error: "Command not found" };
     }
+    const lang = getLang();
     return {
-      name: command.name,
-      description: command.description,
-      alias: command.alias,
-      args: command.args,
+      name: command.name[lang],
+      description: command.description[lang],
+      alias: command.aliases[lang],
+      args: localizeCommandArgs(command.args ?? [], lang),
       disabled: command.disabled ?? false,
       modsOnly: command.modsOnly ?? false,
       broadcasterOnly: command.broadcasterOnly ?? false,
-      execute: command.execute.toString(),
     };
-  });
-
-  app.put("/api/commands/:commandName", ({ params: { commandName }, body }) => {
-    // @ts-ignore
-    const command = commands.get(commandName);
-    if (!command) {
-      return { error: "Command not found" };
-    }
-
-    const newCmd = body as Command;
-    command.disabled = newCmd.disabled;
-    command.description = newCmd.description;
-    command.alias = newCmd.alias;
-    command.args = newCmd.args;
-    command.modsOnly = newCmd.modsOnly;
-    command.broadcasterOnly = newCmd.broadcasterOnly;
-    return { success: true, command };
   });
 
   app.delete("/api/commands/:commandName", ({ params: { commandName } }) => {

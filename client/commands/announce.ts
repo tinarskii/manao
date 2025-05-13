@@ -1,29 +1,39 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { CommandList } from "../types";
+import { CommandMeta } from "../types";
 import { logger } from "../helpers/logger";
+import { t } from "../helpers/i18n";
 
 export default {
-  name: "announce",
-  description: "Announce something!",
-  alias: ["a"],
+  name: {
+    en: "announce",
+    th: "ประกาศ",
+  },
+  description: {
+    en: "Announce a message to the channel",
+    th: "ประกาศข้อความไปยังช่อง",
+  },
+  aliases: {
+    en: ["a", "an"],
+    th: ["ป", "แจ้ง"],
+  },
   args: [
     {
-      name: "message",
-      description: "The message you want to announce",
+      name: {
+        en: "message",
+        th: "ข้อความ",
+      },
+      description: {
+        en: "Message to announce",
+        th: "ข้อความที่ต้องการประกาศ",
+      },
       required: true,
     },
   ],
   modsOnly: true,
   execute: async (
     client: { api: ApiClient; chat: ChatClient; io: any },
-    meta: {
-      user: string;
-      channel: string;
-      channelID: string;
-      userID: string;
-      commands: CommandList;
-    },
+    meta: CommandMeta,
     _: string,
     args: Array<string>,
   ) => {
@@ -37,7 +47,7 @@ export default {
       logger.error(e);
       await client.chat.say(
         meta.channel,
-        `@${meta.user} ไม่สามารถ announce ได้`,
+        `@${meta.user} ${t("moderation.errorCannotAnnounce", meta.lang)}`,
       );
       return;
     }
