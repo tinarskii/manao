@@ -5,21 +5,24 @@ const socket = createSocketConnection();
 
 let currentSong;
 let queue;
-let defaultSong = {};
+let defaultSongs;
+let defaultSongIndex = 0;
 
 let playSeconds = 0;
 
 fetch("/api/defaultSong")
   .then((response) => response.json())
   .then((data) => {
-    defaultSong = {
-      song: {
-        title: data.songTitle,
-        author: data.songAuthor,
-        thumbnail: data.songThumbnail,
-        id: data.songID,
-      },
-    };
+    defaultSongs = data.map((song) => {
+      return {
+        song: {
+          title: song.songTitle,
+          author: song.songAuthor,
+          thumbnail: song.songThumbnail,
+          id: song.songID,
+        },
+      };
+    })
   });
 
 function updateNowPlaying(song) {
@@ -43,8 +46,9 @@ socket.on("songQueue", (data) => {
     updateNowPlaying(currentSong.song);
     playSong(currentSong.song.id);
   } else {
-    updateNowPlaying(defaultSong.song);
-    playSong(defaultSong.song.id);
+    if (defaultSongIndex >= defaultSongs.length) defaultSongIndex = 0;
+    updateNowPlaying(defaultSongs[defaultSongIndex].song);
+    playSong(defaultSongs[defaultSongIndex].song.id);
   }
 });
 
@@ -70,8 +74,10 @@ socket.on("songPlayNext", (data) => {
   queue = data;
 
   if (queue.length === 0) {
-    updateNowPlaying(defaultSong.song);
-    playSong(defaultSong.song.id);
+    defaultSongIndex++;
+    if (defaultSongIndex >= defaultSongs.length) defaultSongIndex = 0;
+    updateNowPlaying(defaultSongs[defaultSongIndex].song);
+    playSong(defaultSongs[defaultSongIndex].song.id);
   } else {
     currentSong = queue[0];
     updateNowPlaying(currentSong.song);
@@ -87,8 +93,9 @@ socket.on("songSkip", (data) => {
     updateNowPlaying(currentSong.song);
     playSong(currentSong.song.id);
   } else {
-    updateNowPlaying(defaultSong.song);
-    playSong(defaultSong.song.id);
+    if (defaultSongIndex >= defaultSongs.length) defaultSongIndex = 0;
+    updateNowPlaying(defaultSongs[defaultSongIndex].song);
+    playSong(defaultSongs[defaultSongIndex].song.id);
   }
 });
 
@@ -114,16 +121,16 @@ window.addEventListener("message", (e) => {
 setInterval(() => {
   if (ytPlayer !== undefined) {
     playSeconds = ytPlayer.getCurrentTime();
-    document.getElementById("currentTime").innerText = new Date(
-      playSeconds * 1000,
-    )
-      .toISOString()
-      .substr(14, 5);
-    document.getElementById("duration").innerText = new Date(
-      ytPlayer.getDuration() * 1000,
-    )
-      .toISOString()
-      .substr(14, 5);
+    // document.getElementById("currentTime").innerText = new Date(
+    //   playSeconds * 1000,
+    // )
+    //   .toISOString()
+    //   .substr(14, 5);
+    // document.getElementById("duration").innerText = new Date(
+    //   ytPlayer.getDuration() * 1000,
+    // )
+    //   .toISOString()
+    //   .substr(14, 5);
     document.getElementById("progress").value =
       (playSeconds / ytPlayer.getDuration()) * 100;
 

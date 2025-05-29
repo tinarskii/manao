@@ -15,7 +15,7 @@ export const translations = {
       queuePageFooter: "(...and {} more songs)",
       queueAt: "At position {}",
 
-      songDefault: 'Set "{}" by "{}" to be the default song',
+      songDefault: 'Successfully set default songs ({} default songs)',
       songPlaying: 'Now playing "{}" by {} — {} requested',
       songRemoved: 'Removed song #{} "{}" ({})',
       songAdded: 'Added song "{}" by {} ({})',
@@ -100,7 +100,7 @@ export const translations = {
       queuePageFooter: "(...และอีก {} เพลง)",
       queueAt: "อยู่ที่ตำแหน่ง {}",
 
-      songDefault: 'ตั้งค่า "{}" โดย "{}" เป็นเพลงเริ่มต้น',
+      songDefault: 'ตั้งค่าเพลงเริ่มต้นสำเร็จ (มีเพลง {} เพลง)',
       songPlaying: 'กำลังเล่น "{}" โดย {} — {} ขอเพลงนี้',
       songRemoved: 'ลบเพลง #{} "{}" ({})',
       songAdded: 'เพิ่มเพลง "{}" โดย {} ({})',

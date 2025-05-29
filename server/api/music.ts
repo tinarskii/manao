@@ -12,13 +12,13 @@ export function registerMusicRoutes(app: Elysia) {
 
     if (!defaultSong) {
       defaultSong = {
-        defaultSong: JSON.stringify({
+        defaultSong: JSON.stringify([{
           songTitle: "Sad Flower",
           songAuthor: "Reinizra",
           songThumbnail:
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB4i7JLl4BtWz4gYzUnsx6WcYDAK74ScNGzQ&s",
           songID: "agPF9Eptt1s",
-        })
+        }])
       }
     }
 

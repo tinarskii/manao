@@ -18,28 +18,20 @@
     id="cover"
     src="{{ songThumbnail }}"
   />
-  <div class="w-[275px] rounded-lg" id="info-container">
+  <div class="w-[480px] rounded-lg" id="info-container">
     <div
-      class="flex h-full w-full flex-col justify-center rounded-lg bg-black/50 px-4 py-2 text-white shadow-lg backdrop-blur-lg"
+      class="relative flex h-full w-full flex-col justify-center rounded-lg bg-black/50 px-4 py-2 text-white shadow-lg backdrop-blur-lg overflow-hidden"
     >
-      <h1 class="truncate text-xl font-extrabold" id="songTitle">
-        {{ songTitle }}
-      </h1>
-      <h1 class="truncate text-sm leading-none font-medium" id="author">
-        {{ songAuthor }}
-      </h1>
-    </div>
-  </div>
-  <div class="w-[275px] rounded-lg" id="time-container">
-    <div
-      class="flex h-full w-full flex-col justify-center rounded-lg bg-[#3b3b3b] px-4 py-2 text-white shadow-lg backdrop-blur-lg"
-    >
-      <div class="flex w-full justify-between">
-        <h1 class="truncate text-sm font-medium" id="currentTime">0:00</h1>
-        <h1 class="truncate text-sm font-medium" id="duration">0:00</h1>
+      <div>
+        <h1 class="truncate text-xl font-extrabold" id="songTitle">
+          {{ songTitle }}
+        </h1>
+        <h1 class="truncate text-sm leading-none font-medium" id="author">
+          {{ songAuthor }}
+        </h1>
       </div>
       <progress
-        class="h-2 w-full rounded-full bg-[#75797c]"
+        class="absolute bottom-0 left-0 h-px w-full bg-[#75797c] rounded-none"
         id="progress"
         max="100"
         value="0"
