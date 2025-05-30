@@ -1,4 +1,4 @@
-import { CommandMeta } from "../types";
+import { CommandMeta, UserData } from "../types";
 import { db } from "../helpers/database";
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
@@ -32,7 +32,10 @@ export default {
 
     // Check if amount is valid
     if ((isNaN(amount) || amount < 0) && args[0] !== "all") {
-      await client.chat.say(meta.channel, `@${meta.user} ${t("economy.errorInvalidAmount", meta.lang)}`);
+      await client.chat.say(
+        meta.channel,
+        `@${meta.user} ${t("economy.errorInvalidAmount", meta.lang)}`,
+      );
       return;
     }
 
@@ -40,9 +43,12 @@ export default {
 
     // Check if user has enough money
     let stmt = db.prepare("SELECT money FROM users WHERE user = ?");
-    const balance = stmt.get(meta.userID);
+    const balance = stmt.get(meta.userID) as Pick<UserData, "money">;
     if (amount > balance.money && args[0] !== "all") {
-      await client.chat.say(meta.channel, `@${meta.user} ${t("economy.errorInsufficientFunds", meta.lang)}`);
+      await client.chat.say(
+        meta.channel,
+        `@${meta.user} ${t("economy.errorInsufficientFunds", meta.lang)}`,
+      );
       return;
     }
 
@@ -58,7 +64,7 @@ export default {
       stmt.run(amount * 1.75, meta.userID);
       await client.chat.say(
         meta.channel,
-        `@${meta.user} 🎉 ${t("economy.gambleWin", meta.lang, amount * 1.75, meta.currency, balance.money + (amount * 1.75), meta.currency)}`,
+        `@${meta.user} 🎉 ${t("economy.gambleWin", meta.lang, amount * 1.75, meta.currency, balance.money + amount * 1.75, meta.currency)}`,
       );
       client.io.emit("feed", {
         type: "success",

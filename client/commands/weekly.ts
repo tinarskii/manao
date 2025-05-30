@@ -1,4 +1,4 @@
-import { CommandMeta } from "../types";
+import { CommandMeta, UserData } from "../types";
 import { db } from "../helpers/database";
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
@@ -16,14 +16,12 @@ export default {
   execute: async (
     client: { api: ApiClient; chat: ChatClient; io: any },
     meta: CommandMeta,
-    message: string,
-    args: Array<string>,
   ) => {
     initAccount(meta.userID);
 
     // Find last weekly (Int)
     let stmt = db.prepare("SELECT lastWeekly FROM users WHERE user = ?");
-    const lastWeekly = stmt.get(meta.userID);
+    const lastWeekly = stmt.get(meta.userID) as Pick<UserData, "lastWeekly">;
 
     // Check if user has claimed weekly
     if (lastWeekly) {
@@ -52,6 +50,9 @@ export default {
       message: `System ➡ ${meta.user}`,
       action: `+750 ${meta.currency}`,
     });
-    await client.chat.say(meta.channel, `@${meta.user} ${t("economy.getWeekly", meta.lang, 750, meta.currency)}`);
+    await client.chat.say(
+      meta.channel,
+      `@${meta.user} ${t("economy.getWeekly", meta.lang, 750, meta.currency)}`,
+    );
   },
 };

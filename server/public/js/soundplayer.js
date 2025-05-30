@@ -17,7 +17,7 @@ audioPlayer.volume = 0;
 volumeSlider.addEventListener("input", () => {
   const vol = volumeSlider.value / 100;
   audioPlayer.volume = vol;
-  volumeDisplay.textContent = volumeSlider.value + "%";
+  volumeDisplay.textContent = `${volumeSlider.value  }%`;
   if (vol > 0 && isMuted) {
     isMuted = false;
     muteBtn.textContent = "Mute";

@@ -5,12 +5,12 @@ import { getLang, localizeCommandArgs } from "../../client/helpers/preference";
 export function registerCommandRoutes(app: Elysia) {
   app.get("/api/commands", () => {
     const commandList = [];
-    let lang = getLang()
+    const lang = getLang();
     for (const command of commands.values()) {
       commandList.push({
         name: command.name[lang],
         description: command.description[lang],
-        alias: (command.aliases ?? [])[lang],
+        alias: command.aliases?.[lang],
         args: localizeCommandArgs(command.args ?? [], lang),
         disabled: command.disabled ?? false,
       });
@@ -43,7 +43,7 @@ export function registerCommandRoutes(app: Elysia) {
     return {
       name: command.name[lang],
       description: command.description[lang],
-      alias: command.aliases[lang],
+      alias: command.aliases?.[lang],
       args: localizeCommandArgs(command.args ?? [], lang),
       disabled: command.disabled ?? false,
       modsOnly: command.modsOnly ?? false,

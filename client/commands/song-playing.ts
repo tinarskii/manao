@@ -1,7 +1,7 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
 import { CommandMeta } from "../types";
-import { currentLang, songQueue } from "../services/chat";
+import { songQueue } from "../services/chat";
 import { t } from "../helpers/i18n";
 
 export default {
@@ -14,8 +14,6 @@ export default {
   execute: async (
     client: { api: ApiClient; chat: ChatClient; io: any },
     meta: CommandMeta,
-    message: string,
-    args: Array<string>,
   ) => {
     // Check if there is a song currently playing
     if (songQueue.length === 0) {
@@ -26,7 +24,7 @@ export default {
       return;
     }
 
-    const currentSong = songQueue[0];
+    const [currentSong] = songQueue;
     const songTitle = currentSong.song.title;
     const songAuthor = currentSong.song.author;
     const songUser = currentSong.user;

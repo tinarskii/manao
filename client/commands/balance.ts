@@ -1,4 +1,4 @@
-import { CommandMeta } from "../types";
+import { CommandMeta, UserData } from "../types";
 import { db } from "../helpers/database";
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
@@ -41,7 +41,7 @@ export default {
 
     // Get balance
     const stmt = db.prepare("SELECT money FROM users WHERE user = ?");
-    const balance = stmt.get(user.id);
+    const balance = stmt.get(user.id) as Pick<UserData, "money">;
 
     // If user is not found
     if (!balance) {

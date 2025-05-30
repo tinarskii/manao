@@ -41,7 +41,7 @@ async function openBrowser(url: string): Promise<void> {
 }
 
 async function fetchTokens(cliPath: string): Promise<ConfigTokens> {
-  const { stdout, stderr } = Bun.spawnSync([
+  const { stderr } = Bun.spawnSync([
     cliPath,
     "token",
     "-u",

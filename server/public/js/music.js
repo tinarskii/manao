@@ -22,7 +22,7 @@ fetch("/api/defaultSong")
           id: song.songID,
         },
       };
-    })
+    });
   });
 
 function updateNowPlaying(song) {
@@ -55,7 +55,7 @@ socket.on("songQueue", (data) => {
 // On user request song using `!song-request`
 socket.on("songRequest", (data) => {
   queue = data.queue;
-  let index = data.index;
+  const {index} = data;
 
   if (index === 0) {
     currentSong = queue[0];
@@ -99,7 +99,7 @@ socket.on("songSkip", (data) => {
   }
 });
 
-let player = document.getElementById("playframe");
+const player = document.getElementById("playframe");
 let ytPlayer;
 
 window.onYouTubeIframeAPIReady = () => {
@@ -108,7 +108,7 @@ window.onYouTubeIframeAPIReady = () => {
 
 window.addEventListener("message", (e) => {
   if (e.origin === "https://www.youtube.com") {
-    let playerData = JSON.parse(e.data);
+    const playerData = JSON.parse(e.data);
     if (
       playerData.event === "infoDelivery" &&
       playerData.info.playerState === YT.PlayerState.ENDED
@@ -142,7 +142,7 @@ setInterval(() => {
 
 // On click np, hide the player or show it
 document.getElementById("np").addEventListener("click", () => {
-  let player = document.getElementById("player");
+  const player = document.getElementById("player");
   if (player.style.display === "none") {
     player.style.display = "block";
   } else {

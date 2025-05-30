@@ -160,7 +160,7 @@ document.getElementById("importFile").addEventListener("change", (event) => {
         alert("Invalid sound configuration file");
       }
     } catch (err) {
-      alert("Error parsing file: " + err.message);
+      alert(`Error parsing file: ${  err.message}`);
     }
   };
   reader.readAsText(file);

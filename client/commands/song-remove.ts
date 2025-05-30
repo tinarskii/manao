@@ -49,7 +49,7 @@ export default {
       }
     }
 
-    let songTitle = songQueue[index].song.title;
+    const songTitle = songQueue[index].song.title;
 
     songQueue.splice(index, 1);
     client.io.emit("songQueue", songQueue);

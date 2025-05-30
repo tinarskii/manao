@@ -25,7 +25,7 @@ export default {
   ) => {
     if (args.length > 0) {
       // get cmd description, its args, and args description
-      let cmdName = args[0];
+      let [cmdName] = args;
 
       for (const command of meta.commands.values()) {
         if (
@@ -40,8 +40,7 @@ export default {
         }
       }
 
-      let cmd = meta.commands.get(cmdName);
-
+      const cmd = meta.commands.get(cmdName);
 
       if (!cmd) {
         await client.chat.say(

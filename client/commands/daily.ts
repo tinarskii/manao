@@ -1,4 +1,4 @@
-import { CommandMeta } from "../types";
+import { CommandMeta, UserData } from "../types";
 import { db } from "../helpers/database";
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
@@ -15,14 +15,12 @@ export default {
   execute: async (
     client: { api: ApiClient; chat: ChatClient; io: any },
     meta: CommandMeta,
-    message: string,
-    args: Array<string>,
   ) => {
     initAccount(meta.userID);
 
     // Find last daily (Int)
     let stmt = db.prepare("SELECT lastDaily FROM users WHERE user = ?");
-    const lastDaily = stmt.get(meta.userID);
+    const lastDaily = stmt.get(meta.userID) as Pick<UserData, "lastDaily">;
 
     // Check if user has claimed daily
     if (lastDaily) {
@@ -47,7 +45,10 @@ export default {
     stmt = db.prepare("UPDATE users SET lastDaily = ? WHERE user = ?");
     stmt.run(Number(new Date()), meta.userID);
 
-    await client.chat.say(meta.channel, `@${meta.user} ${t("economy.getDaily", meta.lang, 100, meta.currency)}`);
+    await client.chat.say(
+      meta.channel,
+      `@${meta.user} ${t("economy.getDaily", meta.lang, 100, meta.currency)}`,
+    );
     client.io.emit("feed", {
       type: "normal",
       icon: "☀️",

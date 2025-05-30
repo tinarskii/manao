@@ -1,9 +1,9 @@
 import { db } from "./database";
-import { CommandArg } from "../types";
+import { CommandArg, PreferencesData } from "../types";
 
-export function getLang() {
+export function getLang(): "en" | "th" {
   let stmt = db.prepare("SELECT lang FROM preferences WHERE userID = ?");
-  const lang = stmt.get(Bun.env.BROADCASTER_ID!);
+  const lang = stmt.get(Bun.env.BROADCASTER_ID!) as Pick<PreferencesData, "lang">;
 
   if (!lang) {
     stmt = db.prepare("INSERT INTO preferences (userID, lang) VALUES (?, ?)");
@@ -21,10 +21,12 @@ export function updateLang(newLang: string): void {
 
 export function getCurrency() {
   let stmt = db.prepare("SELECT currency FROM preferences WHERE userID = ?");
-  const currency = stmt.get(Bun.env.BROADCASTER_ID!);
+  const currency = stmt.get(Bun.env.BROADCASTER_ID!) as Pick<PreferencesData, "currency">;
 
   if (!currency) {
-    stmt = db.prepare("INSERT INTO preferences (userID, currency) VALUES (?, ?)");
+    stmt = db.prepare(
+      "INSERT INTO preferences (userID, currency) VALUES (?, ?)",
+    );
     stmt.run(Bun.env.BROADCASTER_ID!, "KEEB");
     return "USD";
   }
@@ -33,16 +35,18 @@ export function getCurrency() {
 }
 
 export function updateCurrency(newCurrency: string): void {
-  const stmt = db.prepare("UPDATE preferences SET currency = ? WHERE userID = ?");
+  const stmt = db.prepare(
+    "UPDATE preferences SET currency = ? WHERE userID = ?",
+  );
   stmt.run(newCurrency, Bun.env.BROADCASTER_ID!);
 }
 
-export function localizeCommandArgs(arg: CommandArg[], lang: 'en' | 'th') {
+export function localizeCommandArgs(arg: CommandArg[], lang: "en" | "th") {
   return arg?.map((a) => {
-      return {
-        ...a,
-        name: a.name[lang],
-        description: a.description[lang],
-      };
+    return {
+      ...a,
+      name: a.name[lang],
+      description: a.description[lang],
+    };
   });
 }

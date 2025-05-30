@@ -12,7 +12,7 @@ import { getLang } from "../helpers/preference";
 export const commands: CommandList = new Map();
 export const songQueue: any[] = [];
 export const defaultSong: any = {};
-export function currentLang(): string {
+export function currentLang(): "en" | "th" {
   return getLang();
 }
 
@@ -71,17 +71,13 @@ async function loadCommands() {
       const command: Command = (await import(join(commandsDir, file))).default;
 
       // Register command using all possible names/aliases in both languages
-      const allNames = [
-        command.name.en,
-      ].filter(Boolean);
+      const allNames = [command.name.en].filter(Boolean);
 
       for (const name of allNames) {
         commands.set(name.toLowerCase(), command);
       }
 
-      logger.info(
-        `[Commands] Loaded command: ${command.name.en}`,
-      );
+      logger.info(`[Commands] Loaded command: ${command.name.en}`);
     }
 
     logger.info(`[Commands] Loaded ${commands.size} command mappings`);

@@ -1,6 +1,6 @@
 // queue.js
 let currentSongId = null;
-let socket = createSocketConnection();
+const socket = createSocketConnection();
 
 // Listen for song progress updates
 socket.on("currentSongProgress", (data) => {
@@ -89,7 +89,7 @@ async function loadQueue() {
         // Truncate long titles
         const truncatedTitle =
           item.song.title.length > 40
-            ? item.song.title.substring(0, 40) + "..."
+            ? `${item.song.title.substring(0, 40)  }...`
             : item.song.title;
 
         tr.innerHTML = `

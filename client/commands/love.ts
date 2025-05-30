@@ -1,7 +1,6 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
 import { CommandMeta } from "../types";
-import { t } from "../helpers/i18n";
 
 export default {
   name: { en: "love", th: "รัก" },

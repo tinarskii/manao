@@ -15,11 +15,11 @@ export const translations = {
       queuePageFooter: "(...and {} more songs)",
       queueAt: "At position {}",
 
-      songDefault: 'Successfully set default songs ({} default songs)',
-      songPlaying: 'Now playing "{}" by {} — {} requested',
-      songRemoved: 'Removed song #{} "{}" ({})',
-      songAdded: 'Added song "{}" by {} ({})',
-      songSkipped: 'Skipped song #{} "{}" ({})',
+      songDefault: "Successfully set default songs ({} default songs)",
+      songPlaying: "Now playing \"{}\" by {} — {} requested",
+      songRemoved: "Removed song #{} \"{}\" ({})",
+      songAdded: "Added song \"{}\" by {} ({})",
+      songSkipped: "Skipped song #{} \"{}\" ({})",
       songCurrentlyPlaying: "Currently playing",
     },
     info: {
@@ -36,7 +36,8 @@ export const translations = {
     configuration: {
       errorInvalidLanguage: "Invalid language. Available languages: {}",
       errorNicknameTooLong: "Nickname is too long",
-      errorNicknameContainsSpecialChars: "Nickname can only contain letters and numbers",
+      errorNicknameContainsSpecialChars:
+        "Nickname can only contain letters and numbers",
       errorGameNotFound: "Game not found: {}",
       errorPermission: "You don't have permission to run this command",
 
@@ -65,9 +66,11 @@ export const translations = {
       errorUserNotFound: "User not found: {}",
       errorAccountNotFound: "Account not found for user: {}",
       errorAlreadyDaily: "You have already claimed your daily income today",
-      errorAlreadyWeekly: "You have already claimed your weekly income this week, please wait for {} day(s)",
+      errorAlreadyWeekly:
+        "You have already claimed your weekly income this week, please wait for {} day(s)",
       errorInvalidAmount: "Invalid amount has been entered",
-      errorInsufficientFunds: "You have insufficient funds to perform this action",
+      errorInsufficientFunds:
+        "You have insufficient funds to perform this action",
 
       currentBalance: "Your current balance is: {} {}",
       getDaily: "You have received your daily income of {} {}",
@@ -81,8 +84,9 @@ export const translations = {
       errorModeratorOnly: "This command is for moderators only",
       errorBroadcasterOnly: "This command is for the broadcaster only",
       errorArgsRequired: "Please provide the required arguments: {}",
-      errorCommandHandler: "An error occurred while executing the command. The bot may stopped working.",
-    }
+      errorCommandHandler:
+        "An error occurred while executing the command. The bot may stopped working.",
+    },
   },
   th: {
     song: {
@@ -100,11 +104,11 @@ export const translations = {
       queuePageFooter: "(...และอีก {} เพลง)",
       queueAt: "อยู่ที่ตำแหน่ง {}",
 
-      songDefault: 'ตั้งค่าเพลงเริ่มต้นสำเร็จ (มีเพลง {} เพลง)',
-      songPlaying: 'กำลังเล่น "{}" โดย {} — {} ขอเพลงนี้',
-      songRemoved: 'ลบเพลง #{} "{}" ({})',
-      songAdded: 'เพิ่มเพลง "{}" โดย {} ({})',
-      songSkipped: 'ข้ามเพลง #{} "{}" ({})',
+      songDefault: "ตั้งค่าเพลงเริ่มต้นสำเร็จ (มีเพลง {} เพลง)",
+      songPlaying: "กำลังเล่น \"{}\" โดย {} — {} ขอเพลงนี้",
+      songRemoved: "ลบเพลง #{} \"{}\" ({})",
+      songAdded: "เพิ่มเพลง \"{}\" โดย {} ({})",
+      songSkipped: "ข้ามเพลง #{} \"{}\" ({})",
       songCurrentlyPlaying: "กำลังเล่นอยู่",
     },
     info: {
@@ -121,7 +125,8 @@ export const translations = {
     configuration: {
       errorInvalidLanguage: "ภาษาที่ไม่ถูกต้อง ภาษาในปัจจุบัน: {}",
       errorNicknameTooLong: "ชื่อเล่นยาวเกินไป",
-      errorNicknameContainsSpecialChars: "ชื่อเล่นสามารถมีได้เฉพาะตัวอักษรและตัวเลขเท่านั้น",
+      errorNicknameContainsSpecialChars:
+        "ชื่อเล่นสามารถมีได้เฉพาะตัวอักษรและตัวเลขเท่านั้น",
       errorGameNotFound: "ไม่พบเกม: {}",
       errorPermission: "คุณไม่มีสิทธิ์สั่งคำสั่งนี้",
 
@@ -152,7 +157,8 @@ export const translations = {
       errorAccountNotFound: "ไม่พบบัญชีของผู้ใช้: {}",
       errorAlreadyDaily: "คุณได้เคลมรายได้ประจำวันแล้วในวันนี้",
       errorAlreadyWeekly: "คุณได้เคลมรายได้ประจำสัปดาห์แล้วในสัปดาห์นี้",
-      errorWeeklyCooldown: "กรุณารออีก {} วัน ก่อนที่จะเคลมรายได้ประจำสัปดาห์ได้อีกครั้ง",
+      errorWeeklyCooldown:
+        "กรุณารออีก {} วัน ก่อนที่จะเคลมรายได้ประจำสัปดาห์ได้อีกครั้ง",
       errorInvalidAmount: "จำนวนเงินไม่ถูกต้อง",
       errorInsufficientFunds: "คุณมีเงินไม่เพียงพอในการทำรายการนี้",
 
@@ -169,6 +175,6 @@ export const translations = {
       errorBroadcasterOnly: "คำสั่งนี้สำหรับผู้ถือสิทธิ์เท่านั้น",
       errorArgsRequired: "กรุณาใส่พารามิเตอร์ที่จำเป็น: {}",
       errorCommandHandler: "เกิดข้อผิดพลาดขณะเรียกใช้คำสั่ง บอทอาจหยุดทำงาน",
-    }
+    },
   },
 };

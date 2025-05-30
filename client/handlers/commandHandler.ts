@@ -18,7 +18,7 @@ export async function handleCommand(
   chatClient: ChatClient,
   apiClient: ApiClient,
 ) {
-  let lang = currentLang();
+  const lang = currentLang();
   try {
     const args = message.split(" ").slice(1);
     let commandName = message.split(" ")[0].slice(1);
@@ -39,7 +39,10 @@ export async function handleCommand(
 
     // Verify broadcaster permission
     if (command.broadcasterOnly && userID !== channelID) {
-      await chatClient.say(channel, `@${user}, ${t("command.errorBroadcasterOnly", lang)}`);
+      await chatClient.say(
+        channel,
+        `@${user}, ${t("command.errorBroadcasterOnly", lang)}`,
+      );
       return;
     }
 
@@ -47,7 +50,10 @@ export async function handleCommand(
     if (command.modsOnly) {
       const isMod = await apiClient.moderation.checkUserMod(channelID, userID);
       if (!isMod && userID !== channelID) {
-        await chatClient.say(channel, `@${user}, ${t("command.errorModeratorOnly", lang)}`);
+        await chatClient.say(
+          channel,
+          `@${user}, ${t("command.errorModeratorOnly", lang)}`,
+        );
         return;
       }
     }
@@ -57,8 +63,13 @@ export async function handleCommand(
       const requiredArgs = command.args.filter((arg) => arg.required);
       const missingArgs = requiredArgs.filter((arg, index) => !args[index]);
       if (missingArgs.length > 0) {
-        const missingArgsNames = missingArgs.map((arg) => arg.name[lang]).join(", ");
-        await chatClient.say(channel, `@${user}, ${t("command.errorArgsRequired", lang, missingArgsNames)}`);
+        const missingArgsNames = missingArgs
+          .map((arg) => arg.name[lang])
+          .join(", ");
+        await chatClient.say(
+          channel,
+          `@${user}, ${t("command.errorArgsRequired", lang, missingArgsNames)}`,
+        );
         return;
       }
     }
@@ -66,14 +77,25 @@ export async function handleCommand(
     // Execute the command
     command.execute(
       { chat: chatClient, io, api: apiClient },
-      { channel, channelID, user, userID, commands, lang: currentLang() ?? "en", currency: getCurrency() ?? "KEEB" },
+      {
+        channel,
+        channelID,
+        user,
+        userID,
+        commands,
+        lang: currentLang() ?? "en",
+        currency: getCurrency() ?? "KEEB",
+      },
       message,
       args,
     );
 
     logger.info(`[Command] Executed: ${commandName} by ${user}`);
   } catch (error) {
-    await chatClient.say(channel, `@${user}, ${t("command.errorCommandHandler", lang)}`);
+    await chatClient.say(
+      channel,
+      `@${user}, ${t("command.errorCommandHandler", lang)}`,
+    );
     logger.error(`[Command] Error executing ${message}:`, error);
   }
 }

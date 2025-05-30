@@ -2,6 +2,7 @@ import { Elysia } from "elysia";
 import { APP_DIR, token } from "../config";
 import { renderPage } from "../index";
 import { db } from "../../client/helpers/database";
+import { PreferencesData } from "../../client/types";
 
 /**
  * Configuration for secured pages with consistent structure
@@ -17,8 +18,8 @@ interface SecuredPage {
  * Fetch default song from the database
  */
 function fetchDefaultSong() {
-  let stmt = db.prepare("SELECT defaultSong FROM preferences WHERE userID = ?");
-  let defaultSong = stmt.get(Bun.env.BROADCASTER_ID!);
+  const stmt = db.prepare("SELECT defaultSong FROM preferences WHERE userID = ?");
+  let defaultSong = stmt.get(Bun.env.BROADCASTER_ID!) as Pick<PreferencesData, "defaultSong">;
 
   if (!defaultSong?.defaultSong) {
     defaultSong = {
@@ -28,8 +29,8 @@ function fetchDefaultSong() {
         songThumbnail:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB4i7JLl4BtWz4gYzUnsx6WcYDAK74ScNGzQ&s",
         songID: "agPF9Eptt1s",
-      })
-    }
+      }),
+    };
   }
 
   // @ts-ignore
@@ -339,7 +340,6 @@ export function registerSecuredPageRoutes(app: Elysia) {
     return ({
       query,
       set,
-      request,
     }: {
       query: any;
       set: any;

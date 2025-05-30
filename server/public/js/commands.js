@@ -5,8 +5,6 @@ async function fetchCommands() {
   const token = getParam("token");
   tbody.innerHTML = "";
 
-  console.log(commands);
-
   commands.forEach((cmd) => {
     const tr = document.createElement("tr");
 

@@ -57,7 +57,7 @@ export default {
 
     // Check if the message exceeds the character limit
     if (msg.length > charactersPerPage) {
-      msg = msg.slice(0, charactersPerPage - 3) + "...";
+      msg = `${msg.slice(0, charactersPerPage - 3)  }...`;
     }
 
     await client.chat.say(meta.channel, msg);

@@ -1,4 +1,5 @@
 import { db } from "./database";
+import { UserData } from "../types";
 
 export function initAccount(userID: string | number) {
   let stmt = db.prepare("SELECT money FROM users WHERE user = ?");
@@ -10,5 +11,5 @@ export function initAccount(userID: string | number) {
 
 export function checkNickname(userID: string | number) {
   const stmt = db.prepare("SELECT nickname FROM users WHERE user = ?");
-  return stmt.get(userID)?.nickname || null;
+  return (stmt.get(userID) as UserData)?.nickname || null;
 }

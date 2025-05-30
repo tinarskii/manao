@@ -27,7 +27,7 @@ export default {
     message: string,
     args: Array<string>,
   ) => {
-    const currency = args[0];
+    const [currency] = args;
     // If no currency is provided, return the current currency
     if (!currency) {
       await client.chat.say(

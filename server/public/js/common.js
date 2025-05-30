@@ -11,7 +11,7 @@ function getParam(name) {
  * @returns {Socket} The socket.io connection
  */
 function createSocketConnection() {
-  const origin = window.location.origin;
+  const {origin} = window.location;
   const socketUrl = origin.endsWith(":3000")
     ? origin.replace("3000", "3001")
     : origin.concat(":3001");

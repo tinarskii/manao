@@ -1,6 +1,6 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { CommandMeta } from "../types";
+import { CommandMeta, UserData } from "../types";
 import { db } from "../helpers/database";
 import { t } from "../helpers/i18n";
 
@@ -14,7 +14,7 @@ export default {
     meta: CommandMeta,
   ) => {
     const stmt = db.prepare("SELECT * FROM users ORDER BY money DESC LIMIT 5");
-    const leaderboard = stmt.all();
+    const leaderboard = stmt.all() as Array<UserData>;
     let message = t("economy.leaderboardTitle", meta.lang);
     for (const user of leaderboard) {
       const index: number = leaderboard.indexOf(user);

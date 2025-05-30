@@ -27,7 +27,7 @@ export function t(key: string, lang: string, ...params: any[]): string {
 
   // Replace parameters in the translation
   if (typeof translation === "string" && params.length > 0) {
-    return params.reduce((str, param, index) => {
+    return params.reduce((str, param) => {
       return str.replace("{}", param.toString());
     }, translation);
   }

@@ -1,7 +1,6 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
 import { CommandMeta } from "../types";
-import { logger } from "../helpers/logger";
 import { t } from "../helpers/i18n";
 
 export default {
@@ -13,9 +12,6 @@ export default {
   execute: async (
     client: { api: ApiClient; chat: ChatClient; io: any },
     meta: CommandMeta,
-
-    _: string,
-    args: Array<string>,
   ) => {
     // Get the stream info
     const stream = await client.api.streams.getStreamByUserId(meta.channelID);
@@ -39,7 +35,7 @@ export default {
     const days = Math.floor(hours / 24);
     const formattedUptime = [
       days > 0 ? `${days} วัน` : "",
-      hours > 0 ? `${hours % 24} ${t( "info.hours", meta.lang)}` : "",
+      hours > 0 ? `${hours % 24} ${t("info.hours", meta.lang)}` : "",
       minutes > 0 ? `${minutes % 60} ${t("info.minutes", meta.lang)}` : "",
       seconds > 0 ? `${seconds % 60} ${t("info.seconds", meta.lang)}` : "",
     ]

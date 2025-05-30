@@ -15,7 +15,7 @@
     "quotes": ["error", "double"],
     "semi": ["error", "always"],
     "prefer-template": "error",
-    "no-console": "error",
+    "no-console": "off",
     "default-case": "error",
     "no-unused-vars": "error",
     "no-undef": "error",
@@ -26,6 +26,10 @@
     "no-return-await": "error",
     "no-case-declarations": "off"
   },
+  "globals": {
+    "Bun": "readonly"
+  },
+  "ignorePatterns": ["types/", "dist/"],
   "settings": {
     "readable-tailwind": {
       "entryPoint": "./server/public/css/tailwind.css"

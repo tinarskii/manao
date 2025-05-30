@@ -2,7 +2,7 @@ import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
 import { CommandMeta } from "../types";
 import { songQueue } from "../services/chat";
-import YouTube from "youtube-sr";
+import { YouTube } from "youtube-sr";
 import ytdl from "@distube/ytdl-core";
 import { t } from "../helpers/i18n";
 

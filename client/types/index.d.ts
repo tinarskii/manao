@@ -73,3 +73,19 @@ export interface FeedEvent {
   message: string;
   action: string;
 }
+
+export interface UserData {
+  user: string;
+  money: number;
+  nickname: string;
+  lastDaily: number;
+  lastWeekly: number;
+}
+
+export interface PreferencesData {
+  userID: number;
+  defaultSong: string;
+  disabledCommands: string;
+  lang: "en" | "th";
+  currency: string;
+}

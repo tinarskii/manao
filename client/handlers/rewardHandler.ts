@@ -21,7 +21,7 @@ export function handleReward(
     // Initialize user account if not exists
     initAccount(data.userId);
     // Get current currency
-    let currency = getCurrency();
+    const currency = getCurrency();
 
     // Update user's currency in database
     db.prepare("UPDATE users SET money = money + ? WHERE user = ?").run(

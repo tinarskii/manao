@@ -1,4 +1,4 @@
-import { CommandMeta } from "../types";
+import { CommandMeta, UserData } from "../types";
 import { db } from "../helpers/database";
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
@@ -32,10 +32,10 @@ export default {
     // Check current nickname
     if (!args[0]) {
       const stmt = db.prepare("SELECT nickname FROM users WHERE user = ?");
-      const { nickname } = stmt.get(meta.userID);
+      const { nickname } = stmt.get(meta.userID) as Pick<UserData, "nickname">;
       await client.chat.say(
         meta.channel,
-        `@${meta.user} ${t("configuration.currentNickname", meta.lang, nickname || meta.user)}`
+        `@${meta.user} ${t("configuration.currentNickname", meta.lang, nickname || meta.user)}`,
       );
       return;
     }
@@ -44,13 +44,19 @@ export default {
     if (["remove", "reset", "clear"].includes(name)) {
       const stmt = db.prepare("UPDATE users SET nickname = ? WHERE user = ?");
       stmt.run(null, meta.userID);
-      await client.chat.say(meta.channel, `@${meta.user} ${t("configuration.currentNicknameRemoved", meta.lang)}`);
+      await client.chat.say(
+        meta.channel,
+        `@${meta.user} ${t("configuration.currentNicknameRemoved", meta.lang)}`,
+      );
       return;
     }
 
     // Check if name is too long
     if (name.length > 32) {
-      await client.chat.say(meta.channel, `@${meta.user} ${t("configuration.errorNicknameTooLong", meta.lang)}`);
+      await client.chat.say(
+        meta.channel,
+        `@${meta.user} ${t("configuration.errorNicknameTooLong", meta.lang)}`,
+      );
       return;
     }
 

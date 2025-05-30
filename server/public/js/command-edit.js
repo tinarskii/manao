@@ -40,7 +40,7 @@ document.getElementById("cmd-form").onsubmit = async (e) => {
     }),
   });
 
-  window.location.href = "/commands?token=" + getParam("token");
+  window.location.href = `/commands?token=${  getParam("token")}`;
 };
 
 loadCommand();

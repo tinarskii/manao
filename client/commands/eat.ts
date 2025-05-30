@@ -11,8 +11,6 @@ export default {
   execute: async (
     client: { api: ApiClient; chat: ChatClient; io: any },
     meta: CommandMeta,
-    message: string,
-    args: Array<string>,
   ) => {
     const foods = {
       th: [
@@ -49,8 +47,12 @@ export default {
         "pork belly",
         "minced pork",
       ],
-    }
-    const food = foods[meta.lang][Math.floor(Math.random() * foods[meta.lang].length)];
-    await client.chat.say(meta.channel, `@${meta.user} ${t("misc.eat", meta.lang, food)}`);
+    };
+    const food =
+      foods[meta.lang][Math.floor(Math.random() * foods[meta.lang].length)];
+    await client.chat.say(
+      meta.channel,
+      `@${meta.user} ${t("misc.eat", meta.lang, food)}`,
+    );
   },
 };

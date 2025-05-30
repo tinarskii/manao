@@ -37,7 +37,10 @@ export default {
     // Get game id
     const game = await client.api.games.getGameByName(args.join(" "));
     if (!game) {
-      await client.chat.say(meta.channel, `@${meta.user} ${t("configuration.errorGameNotFound", meta.lang, args.join(" "))}`);
+      await client.chat.say(
+        meta.channel,
+        `@${meta.user} ${t("configuration.errorGameNotFound", meta.lang, args.join(" "))}`,
+      );
       return;
     }
 

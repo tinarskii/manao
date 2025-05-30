@@ -35,11 +35,14 @@ export default {
     args: Array<string>,
   ) => {
     const amount = Math.trunc(parseInt(args[1]));
-    const target = args[0];
+    const [target] = args;
 
     // Check if amount is valid
     if (isNaN(amount) || amount < 0) {
-      await client.chat.say(meta.channel, `@${meta.user} ${t("economy.errorInvalidAmount", meta.lang)}`);
+      await client.chat.say(
+        meta.channel,
+        `@${meta.user} ${t("economy.errorInvalidAmount", meta.lang)}`,
+      );
       return;
     }
 

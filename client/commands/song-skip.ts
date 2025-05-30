@@ -11,9 +11,6 @@ export default {
   execute: async (
     client: { api: ApiClient; chat: ChatClient; io: any },
     meta: CommandMeta,
-
-    message: string,
-    args: Array<string>,
   ) => {
     // Check if there is a song to skip
     if (songQueue.length === 0) {
@@ -39,7 +36,7 @@ export default {
       }
     }
 
-    const skippedSong = songQueue[0];
+    const [skippedSong] = songQueue;
     const songTitle = skippedSong.song.title;
 
     songQueue.shift();
