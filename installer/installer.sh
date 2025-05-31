@@ -65,7 +65,7 @@ if [[ "$runSetup" =~ ^[Nn]$ ]]; then
     echo "Skipping setup script."
 else
     echo "Running setup script..."
-    bun run setup
+    bun run setup-ui.tsx
 fi
 
 echo

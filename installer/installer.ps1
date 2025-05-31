@@ -3,77 +3,69 @@ Write-Host "        Installing Manao Twitch Bot..."
 Write-Host "============================================"
 Write-Host ""
 
-# Check if Git is installed
+# Validate environment variable
+if (-not $env:INSTALL_PATH) {
+    Write-Host "No install path specified. Exiting."
+    exit 1
+}
+$folderPath = $env:INSTALL_PATH
+$skipSetup = $env:SKIP_SETUP -eq "True"
+
+# Check Git
 $gitInstalled = Get-Command git -ErrorAction SilentlyContinue
-if ($null -eq $gitInstalled) {
+if (-not $gitInstalled) {
     Write-Host "Git not found. Installing Git..."
     winget install -e --id Git.Git
 } else {
     Write-Host "Git is already installed."
 }
-
-# Reload PATH after Git installation (necessary only for PowerShell)
 $env:PATH = "$env:ProgramFiles\Git\cmd;" + $env:PATH
 
-# Prompt user for folder name to install the repository
-$folderName = Read-Host "Enter a folder name for installation (default: manao)"
-if (-not $folderName) {
-    $folderName = "manao"
-}
-
-$folderPath = Join-Path -Path $env:USERPROFILE -ChildPath $folderName
+# Clone or pull repo
 if (Test-Path -Path $folderPath) {
-    Write-Host "Folder $folderName already exists. Pulling latest changes..."
+    Write-Host "Folder already exists. Pulling latest changes..."
     Set-Location -Path $folderPath
     git reset --hard HEAD
     git pull
 } else {
-    Write-Host "Cloning repository into $folderName..."
-    git clone https://github.com/tinarskii/manao.git $folderName
+    Write-Host "Cloning repository into $folderPath..."
+    git clone https://github.com/tinarskii/manao.git $folderPath
     Set-Location -Path $folderPath
-    Write-Host ""
 }
 
-# Check if Bun is installed
+# Install Bun
 $bunInstalled = Get-Command bun -ErrorAction SilentlyContinue
-if ($null -eq $bunInstalled) {
+if (-not $bunInstalled) {
     Write-Host "Bun not found. Installing Bun..."
     Invoke-WebRequest -Uri "https://bun.sh/install.ps1" -OutFile "install.ps1"
     .\install.ps1
 } else {
     Write-Host "Bun is already installed."
 }
-
-# Reload PATH (new bun installation)
 $env:PATH = "$env:USERPROFILE\.bun\bin;" + $env:PATH
 
-# Check if Twitch CLI is installed
+# Install Twitch CLI
 $twitchInstalled = Get-Command twitch -ErrorAction SilentlyContinue
-if ($null -eq $twitchInstalled) {
+if (-not $twitchInstalled) {
     Write-Host "Twitch CLI not found. Installing Twitch CLI..."
     winget install -e --id Twitch.TwitchCLI
 } else {
     Write-Host "Twitch CLI is already installed."
 }
 
-# Install project dependencies
+# Install dependencies
 Write-Host "Installing project dependencies..."
 bun install
 
-# Check if user wants to run setup script
-$runSetup = Read-Host "Do you want to run the setup script? (Y/n)"
-if ($runSetup -eq "N" -or $runSetup -eq "n") {
-    Write-Host "Skipping setup script."
+# Optional setup script
+if ($skipSetup) {
+    Write-Host "Skipping setup script as requested."
 } else {
     Write-Host "Running setup script..."
-    bun run setup.ts
+    bun run setup-ui.tsx
 }
 
-## Run the setup script
-#Write-Host ""
-#Write-Host "Running setup script..."
-#bun run setup.ts
-
+# Done
 Write-Host ""
 Write-Host "============================================"
 Write-Host "Manao Twitch Bot installed successfully!"
@@ -86,5 +78,4 @@ Write-Host "start-bot.bat"
 Write-Host "============================================"
 Write-Host ""
 
-# Pause (optional for keeping the window open in PowerShell)
 Read-Host -Prompt "Press Enter to exit"
