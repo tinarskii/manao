@@ -1,6 +1,5 @@
-import chalk from "chalk";
 import path from "node:path";
-import { input, confirm } from "@inquirer/prompts";
+import { createInterface } from 'readline';
 
 export type Lang = "en" | "th";
 
@@ -90,6 +89,39 @@ const LANG_TEXTS: Record<Lang, LanguageTexts> = {
   },
 } as const;
 
+// ANSI color codes for console output
+const colors = {
+  reset: '\x1b[0m',
+  bright: '\x1b[1m',
+  dim: '\x1b[2m',
+  red: '\x1b[31m',
+  green: '\x1b[32m',
+  yellow: '\x1b[33m',
+  blue: '\x1b[34m',
+  magenta: '\x1b[35m',
+  cyan: '\x1b[36m',
+  white: '\x1b[37m',
+  greenBright: '\x1b[92m',
+  cyanBright: '\x1b[96m',
+};
+
+// Utility functions for colored output
+const colorize = (text: string, color: string, bold = false) => {
+  const style = bold ? colors.bright : '';
+  return `${style}${color}${text}${colors.reset}`;
+};
+
+const log = {
+  info: (text: string) => console.log(text),
+  success: (text: string) => console.log(colorize(text, colors.green)),
+  error: (text: string) => console.log(colorize(text, colors.red)),
+  warning: (text: string) => console.log(colorize(text, colors.yellow)),
+  title: (text: string) => console.log(colorize(text, colors.magenta)),
+  dim: (text: string) => console.log(colorize(text, colors.white + colors.dim)),
+  blue: (text: string) => console.log(colorize(text, colors.blue)),
+  cyanBright: (text: string) => console.log(colorize(text, colors.cyanBright)),
+};
+
 class TwitchCliError extends Error {
   constructor(message: string, public readonly details?: string) {
     super(message);
@@ -105,18 +137,33 @@ class TokenParsingError extends Error {
 }
 
 /**
+ * Simple prompt function to replace inquirer
+ */
+const askQuestion = (question: string): Promise<string> => {
+  return new Promise((resolve) => {
+    const rl = createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+
+    rl.question(question, (answer) => {
+      rl.close();
+      resolve(answer);
+    });
+  });
+};
+
+/**
+ * Wait for user to press Enter
+ */
+const waitForEnter = async (message: string): Promise<void> => {
+  await askQuestion(colorize(`${message} `, colors.cyan));
+};
+
+/**
  * Locates the Twitch CLI executable
  */
 async function locateTwitchCli(): Promise<string> {
-  const bundledPath = path.join(import.meta.dir, "resources", "twitch-cli", "twitch.exe");
-
-  // Check if bundled CLI exists
-  const bundledFile = Bun.file(bundledPath);
-  if (await bundledFile.exists()) {
-    return bundledPath;
-  }
-
-  // Fallback to system PATH
   return "twitch.exe";
 }
 
@@ -314,50 +361,43 @@ export async function startConfigWithParams(
 
   try {
     // Locate Twitch CLI
-    console.log(chalk.blue(texts.locatingCli));
+    log.blue(texts.locatingCli);
     const cliPath = await locateTwitchCli();
 
     // Configure Twitch CLI
-    console.log(chalk.blue(texts.configuringCli));
+    log.blue(texts.configuringCli);
     await configureTwitchCli(cliPath, clientID, clientSecret);
 
     // Bot account setup
-    console.log(chalk.cyanBright(`\n🤖 ${texts.promptLoginBot}`));
-    await confirm({
-      message: `${texts.promptLoginBot} (${texts.pressEnterToContinue})`,
-      default: true
-    });
+    console.log();
+    log.cyanBright(`🤖 ${texts.promptLoginBot}`);
+    await waitForEnter(`${texts.promptLoginBot} (${texts.pressEnterToContinue})`);
 
-    console.log(chalk.blue(texts.fetchingBotTokens));
+    log.blue(texts.fetchingBotTokens);
     const botTokens = await fetchTokens(cliPath);
     const botInfo = await fetchUserInfo(cliPath, botTokens.accessToken);
-    console.log(chalk.green(`${texts.botAccountSuccess} ${botInfo.login || botInfo.userID}`));
+    log.success(`${texts.botAccountSuccess} ${botInfo.login || botInfo.userID}`);
 
     // Broadcaster account setup
-    console.log(chalk.cyanBright(`\n📺 ${texts.promptLogin}`));
-    await confirm({
-      message: `${texts.promptLogin} (${texts.pressEnterToContinue})`,
-      default: true
-    });
+    console.log();
+    log.cyanBright(`📺 ${texts.promptLogin}`);
+    await waitForEnter(`${texts.promptLogin} (${texts.pressEnterToContinue})`);
 
-    console.log(chalk.blue(texts.fetchingBroadcasterTokens));
+    log.blue(texts.fetchingBroadcasterTokens);
     const broadcasterTokens = await fetchTokens(cliPath);
     const broadcasterInfo = await fetchUserInfo(cliPath, broadcasterTokens.accessToken);
-    console.log(chalk.green(`${texts.broadcasterAccountSuccess} ${broadcasterInfo.login || broadcasterInfo.userID}`));
+    log.success(`${texts.broadcasterAccountSuccess} ${broadcasterInfo.login || broadcasterInfo.userID}`);
 
     // Overlay token setup
-    let overlayToken = await input({
-      message: texts.overlayToken,
-      default: ""
-    });
+    let overlayToken = await askQuestion(colorize(`${texts.overlayToken} `, colors.magenta));
 
     if (!overlayToken?.trim()) {
       overlayToken = crypto.randomUUID();
-      console.log(chalk.yellow(texts.generatedOverlayToken));
+      log.warning(texts.generatedOverlayToken);
     }
 
     // Generate and write .env file
-    console.log(chalk.blue(texts.creatingConfigFile));
+    log.blue(texts.creatingConfigFile);
     const envContent = generateEnvContent(
       clientID,
       clientSecret,
@@ -371,8 +411,9 @@ export async function startConfigWithParams(
     const envPath = path.join(import.meta.dir, ".env");
     await Bun.write(envPath, envContent);
 
-    console.log(chalk.green(`\n${texts.configComplete}`));
-    console.log(chalk.dim(`${texts.configSavedTo} ${envPath}`));
+    console.log();
+    log.success(texts.configComplete);
+    log.dim(`${texts.configSavedTo} ${envPath}`);
 
   } catch (error) {
     if (error instanceof TwitchCliError) {
