@@ -1,5 +1,5 @@
 import { RefreshingAuthProvider } from "@twurple/auth";
-import { logger } from "../helpers/logger";
+import { logger } from "../../helpers/logger";
 import { SCOPES } from "../config/constants";
 
 /**

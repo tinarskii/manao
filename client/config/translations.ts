@@ -16,10 +16,10 @@ export const translations = {
       queueAt: "At position {}",
 
       songDefault: "Successfully set default songs ({} default songs)",
-      songPlaying: "Now playing \"{}\" by {} — {} requested",
-      songRemoved: "Removed song #{} \"{}\" ({})",
-      songAdded: "Added song \"{}\" by {} ({})",
-      songSkipped: "Skipped song #{} \"{}\" ({})",
+      songPlaying: 'Now playing "{}" by {} — {} requested',
+      songRemoved: 'Removed song #{} "{}" ({})',
+      songAdded: 'Added song "{}" by {} ({})',
+      songSkipped: 'Skipped song #{} "{}" ({})',
       songCurrentlyPlaying: "Currently playing",
     },
     info: {
@@ -105,10 +105,10 @@ export const translations = {
       queueAt: "อยู่ที่ตำแหน่ง {}",
 
       songDefault: "ตั้งค่าเพลงเริ่มต้นสำเร็จ (มีเพลง {} เพลง)",
-      songPlaying: "กำลังเล่น \"{}\" โดย {} — {} ขอเพลงนี้",
-      songRemoved: "ลบเพลง #{} \"{}\" ({})",
-      songAdded: "เพิ่มเพลง \"{}\" โดย {} ({})",
-      songSkipped: "ข้ามเพลง #{} \"{}\" ({})",
+      songPlaying: 'กำลังเล่น "{}" โดย {} — {} ขอเพลงนี้',
+      songRemoved: 'ลบเพลง #{} "{}" ({})',
+      songAdded: 'เพิ่มเพลง "{}" โดย {} ({})',
+      songSkipped: 'ข้ามเพลง #{} "{}" ({})',
       songCurrentlyPlaying: "กำลังเล่นอยู่",
     },
     info: {

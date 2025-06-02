@@ -12,8 +12,8 @@
     "dev": "bun build:css && bun index.ts --watch",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "prettier": "prettier --write ./**/*.{js,ts,html,css}",
-    "prettier:check": "prettier --check ./**/*.{js,ts,html,css}"
+    "prettier": "prettier --write .",
+    "prettier:check": "prettier --check ."
   },
   "keywords": [
     "twitch-bot"

@@ -1,11 +1,9 @@
 import { ChatClient } from "@twurple/chat";
-import { initAccount } from "../helpers/twitch";
-import { db } from "../helpers/database";
-import { logger } from "../helpers/logger";
+import { db, initAccount } from "../../helpers/database";
+import { logger } from "../../helpers/logger";
 import { io } from "../../server";
 import { FeedEvent } from "../types";
-import { getCurrency } from "../helpers/preference";
-import currency from "../commands/currency";
+import { getCurrency } from "../../helpers/preferences";
 
 /**
  * Handles channel point rewards and other currency rewards
@@ -51,6 +49,9 @@ export function handleReward(
       }`,
     );
   } catch (error) {
+    // Get current currency
+    const currency = getCurrency();
+
     logger.error(
       `[Reward] Error processing ${amount} ${currency} for ${data.userName}:`,
       error,

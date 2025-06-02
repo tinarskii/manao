@@ -1,9 +1,12 @@
 import { db } from "./database";
-import { CommandArg, PreferencesData } from "../types";
+import { CommandArg, PreferencesData } from "../client/types";
 
 export function getLang(): "en" | "th" {
   let stmt = db.prepare("SELECT lang FROM preferences WHERE userID = ?");
-  const lang = stmt.get(Bun.env.BROADCASTER_ID!) as Pick<PreferencesData, "lang">;
+  const lang = stmt.get(Bun.env.BROADCASTER_ID!) as Pick<
+    PreferencesData,
+    "lang"
+  >;
 
   if (!lang) {
     stmt = db.prepare("INSERT INTO preferences (userID, lang) VALUES (?, ?)");
@@ -21,7 +24,10 @@ export function updateLang(newLang: string): void {
 
 export function getCurrency() {
   let stmt = db.prepare("SELECT currency FROM preferences WHERE userID = ?");
-  const currency = stmt.get(Bun.env.BROADCASTER_ID!) as Pick<PreferencesData, "currency">;
+  const currency = stmt.get(Bun.env.BROADCASTER_ID!) as Pick<
+    PreferencesData,
+    "currency"
+  >;
 
   if (!currency) {
     stmt = db.prepare(

@@ -1,20 +1,15 @@
 import { ChatClient } from "@twurple/chat";
 import { ApiClient } from "@twurple/api";
 import { RefreshingAuthProvider } from "@twurple/auth";
-import { logger } from "../helpers/logger";
+import { logger } from "../../helpers/logger";
 import { readdirSync } from "fs";
 import { join } from "node:path";
 import { handleMessage } from "../handlers/messageHandler";
-import { Command, CommandList } from "../types";
-import { getLang } from "../helpers/preference";
+import { Command, CommandList, SongRequestData } from "../types";
 
 // Global command storage
 export const commands: CommandList = new Map();
-export const songQueue: any[] = [];
-export const defaultSong: any = {};
-export function currentLang(): "en" | "th" {
-  return getLang();
-}
+export const songQueue: Array<SongRequestData> = [];
 
 /**
  * Initializes the Twitch chat client and API client

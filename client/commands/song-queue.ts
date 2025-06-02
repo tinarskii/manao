@@ -2,7 +2,7 @@ import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
 import { CommandMeta } from "../types";
 import { songQueue } from "../services/chat";
-import { t } from "../helpers/i18n";
+import { t } from "../../helpers/i18n";
 
 export default {
   name: { en: "song-queue", th: "คิวเพลง" },
@@ -57,7 +57,7 @@ export default {
 
     // Check if the message exceeds the character limit
     if (msg.length > charactersPerPage) {
-      msg = `${msg.slice(0, charactersPerPage - 3)  }...`;
+      msg = `${msg.slice(0, charactersPerPage - 3)}...`;
     }
 
     await client.chat.say(meta.channel, msg);

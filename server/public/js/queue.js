@@ -89,7 +89,7 @@ async function loadQueue() {
         // Truncate long titles
         const truncatedTitle =
           item.song.title.length > 40
-            ? `${item.song.title.substring(0, 40)  }...`
+            ? `${item.song.title.substring(0, 40)}...`
             : item.song.title;
 
         tr.innerHTML = `

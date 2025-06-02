@@ -1,7 +1,7 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
 import { CommandMeta } from "../types";
-import { t } from "../helpers/i18n";
+import { t } from "../../helpers/i18n";
 
 export default {
   name: { en: "stream", th: "ชื่อสตรีม" },

@@ -1,10 +1,10 @@
 import { ChatClient } from "@twurple/chat";
 import { ApiClient } from "@twurple/api";
-import { commands, currentLang } from "../services/chat";
-import { logger } from "../helpers/logger";
+import { commands } from "../services/chat";
+import { logger } from "../../helpers/logger";
 import { io } from "../../server";
-import { getCurrency } from "../helpers/preference";
-import { t } from "../helpers/i18n";
+import { getCurrency, getLang } from "../../helpers/preferences";
+import { t } from "../../helpers/i18n";
 
 /**
  * Processes a chat command
@@ -18,7 +18,7 @@ export async function handleCommand(
   chatClient: ChatClient,
   apiClient: ApiClient,
 ) {
-  const lang = currentLang();
+  const lang = getLang();
   try {
     const args = message.split(" ").slice(1);
     let commandName = message.split(" ")[0].slice(1);
@@ -83,7 +83,7 @@ export async function handleCommand(
         user,
         userID,
         commands,
-        lang: currentLang() ?? "en",
+        lang: getLang() ?? "en",
         currency: getCurrency() ?? "KEEB",
       },
       message,

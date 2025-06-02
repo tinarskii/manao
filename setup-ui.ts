@@ -1,6 +1,6 @@
-import { createInterface } from 'readline';
-import { startConfigWithParams } from './setup-core';
-import { version } from './package.json';
+import { createInterface } from "readline";
+import { startConfigWithParams } from "./setup-core";
+import { version } from "./package.json";
 
 type Lang = "en" | "th";
 
@@ -36,7 +36,8 @@ const MESSAGES: Record<Lang, Messages> = {
     titleLine2Right: "        ║",
     titleLine3: "╚════════════════════════════════╝",
     selectLanguage: "Select setup language:",
-    tutorialPrompt: "Do you want to read the setup tutorial before proceeding? (y/n)",
+    tutorialPrompt:
+      "Do you want to read the setup tutorial before proceeding? (y/n)",
     tutorialOpening: "Opening tutorial in your browser...",
     tutorialContinue: "Press Enter to continue after reading the tutorial...",
     clientIDPrompt: "Enter your Twitch Application Client ID:",
@@ -55,7 +56,8 @@ const MESSAGES: Record<Lang, Messages> = {
     titleLine2Right: "        ║",
     titleLine3: "╚════════════════════════════════╝",
     selectLanguage: "เลือกภาษาในการติดตั้ง:",
-    tutorialPrompt: "คุณต้องการอ่านคู่มือการติดตั้งก่อนดำเนินการต่อหรือไม่? (y/n)",
+    tutorialPrompt:
+      "คุณต้องการอ่านคู่มือการติดตั้งก่อนดำเนินการต่อหรือไม่? (y/n)",
     tutorialOpening: "กำลังเปิดคู่มือในเบราว์เซอร์ของคุณ...",
     tutorialContinue: "กด Enter เพื่อดำเนินการต่อหลังจากอ่านคู่มือแล้ว...",
     clientIDPrompt: "กรุณาใส่ Client ID ของ Twitch Application ของคุณ:",
@@ -72,24 +74,24 @@ const MESSAGES: Record<Lang, Messages> = {
 
 // ANSI color codes
 const colors = {
-  reset: '\x1b[0m',
-  bright: '\x1b[1m',
-  dim: '\x1b[2m',
-  red: '\x1b[31m',
-  green: '\x1b[32m',
-  yellow: '\x1b[33m',
-  blue: '\x1b[34m',
-  magenta: '\x1b[35m',
-  cyan: '\x1b[36m',
-  white: '\x1b[37m',
-  redBright: '\x1b[91m',
-  greenBright: '\x1b[92m',
-  yellowBright: '\x1b[93m',
+  reset: "\x1b[0m",
+  bright: "\x1b[1m",
+  dim: "\x1b[2m",
+  red: "\x1b[31m",
+  green: "\x1b[32m",
+  yellow: "\x1b[33m",
+  blue: "\x1b[34m",
+  magenta: "\x1b[35m",
+  cyan: "\x1b[36m",
+  white: "\x1b[37m",
+  redBright: "\x1b[91m",
+  greenBright: "\x1b[92m",
+  yellowBright: "\x1b[93m",
 };
 
 // Utility functions for colored output
 const colorize = (text: string, color: string, bold = false) => {
-  const style = bold ? colors.bright : '';
+  const style = bold ? colors.bright : "";
   return `${style}${color}${text}${colors.reset}`;
 };
 
@@ -131,7 +133,9 @@ const showTitle = (lang: Lang) => {
   console.clear();
 
   log.title(messages.titleLine1);
-  log.title(`${messages.titleLine2Left}${colorize(`ManaoBot v${version}`, colors.cyan, true)}${messages.titleLine2Right}`);
+  log.title(
+    `${messages.titleLine2Left}${colorize(`ManaoBot v${version}`, colors.cyan, true)}${messages.titleLine2Right}`,
+  );
   log.title(messages.titleLine3);
   console.log();
 };
@@ -148,34 +152,34 @@ const askQuestion = (question: string, hidden = false): Promise<string> => {
       const stdin = process.stdin;
       stdin.setRawMode(true);
       stdin.resume();
-      stdin.setEncoding('utf8');
+      stdin.setEncoding("utf8");
 
-      let input = '';
+      let input = "";
       console.log(question);
 
       const onData = (char: string) => {
-        if (char === '\r' || char === '\n') {
+        if (char === "\r" || char === "\n") {
           stdin.setRawMode(false);
-          stdin.removeListener('data', onData);
+          stdin.removeListener("data", onData);
           console.log();
           rl.close();
           resolve(input);
-        } else if (char === '\u0003') {
+        } else if (char === "\u0003") {
           // Ctrl+C
           process.exit(0);
-        } else if (char === '\u007f' || char === '\b') {
+        } else if (char === "\u007f" || char === "\b") {
           // Backspace
           if (input.length > 0) {
             input = input.slice(0, -1);
-            process.stdout.write('\b \b');
+            process.stdout.write("\b \b");
           }
-        } else if (char >= ' ' && char <= '~') {
+        } else if (char >= " " && char <= "~") {
           input += char;
-          process.stdout.write('*');
+          process.stdout.write("*");
         }
       };
 
-      stdin.on('data', onData);
+      stdin.on("data", onData);
     } else {
       rl.question(question, (answer) => {
         rl.close();
@@ -186,17 +190,37 @@ const askQuestion = (question: string, hidden = false): Promise<string> => {
 };
 
 const selectLanguage = async (): Promise<Lang> => {
-  console.log(colorize("🔺 If you have set up ManaoBot before, feel free to close this window.", colors.redBright, true));
-  console.log(colorize("🔺 หากคุณเคยตั้งค่า ManaoBot มาก่อนแล้ว สามารถปิดหน้าต่างนี้ได้เลย", colors.redBright, true));
+  console.log(
+    colorize(
+      "🔺 If you have set up ManaoBot before, feel free to close this window.",
+      colors.redBright,
+      true,
+    ),
+  );
+  console.log(
+    colorize(
+      "🔺 หากคุณเคยตั้งค่า ManaoBot มาก่อนแล้ว สามารถปิดหน้าต่างนี้ได้เลย",
+      colors.redBright,
+      true,
+    ),
+  );
   console.log();
 
   while (true) {
-    console.log(colorize("Select setup language / เลือกภาษาในการติดตั้ง:", colors.yellow, true));
+    console.log(
+      colorize(
+        "Select setup language / เลือกภาษาในการติดตั้ง:",
+        colors.yellow,
+        true,
+      ),
+    );
     console.log("  1. English");
     console.log("  2. ภาษาไทย");
     console.log();
 
-    const choice = await askQuestion("Enter your choice / พิมพ์ตัวเลือกที่ต้องการ (1-2): ");
+    const choice = await askQuestion(
+      "Enter your choice / พิมพ์ตัวเลือกที่ต้องการ (1-2): ",
+    );
 
     if (choice === "1") return "en";
     if (choice === "2") return "th";
@@ -259,7 +283,10 @@ const main = async () => {
     // Step 4: Get Client Secret
     console.log();
     log.title(messages.clientSecretPrompt);
-    const clientSecret = await askQuestion(`${messages.clientSecretPlaceholder}: `, true);
+    const clientSecret = await askQuestion(
+      `${messages.clientSecretPlaceholder}: `,
+      true,
+    );
 
     if (!clientSecret.trim()) {
       log.error("Client Secret is required!");
@@ -276,12 +303,12 @@ const main = async () => {
       log.success(messages.setupSuccess);
     } catch (error) {
       console.log();
-      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred";
       log.error(`${messages.setupFailed} ${errorMessage}`);
       log.warning(messages.pressCtrlCExit);
       process.exit(1);
     }
-
   } catch (error) {
     console.log();
     log.error("An unexpected error occurred: " + error);
@@ -290,8 +317,8 @@ const main = async () => {
 };
 
 // Handle Ctrl+C gracefully
-process.on('SIGINT', () => {
-  console.log('\n\nSetup cancelled by user.');
+process.on("SIGINT", () => {
+  console.log("\n\nSetup cancelled by user.");
   process.exit(0);
 });
 

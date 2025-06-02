@@ -1,5 +1,5 @@
 import { Elysia } from "elysia";
-import { logger } from "../client/helpers/logger";
+import { logger } from "../helpers/logger";
 import { setupSocketIO } from "./services/socket";
 import { registerApiRoutes } from "./api";
 import { registerPageRoutes } from "./pages";
@@ -54,7 +54,7 @@ export async function renderPage(opt: {
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
       ${opt.stylesheet ? `<link rel="stylesheet" href="${opt.stylesheet}" />` : ""}
       <title>${opt.pageName}</title>
-      ${opt.excludeTailwind ? "" : "<link rel=\"stylesheet\" href=\"/css/dist/tailwind.css\" />"}
+      ${opt.excludeTailwind ? "" : '<link rel="stylesheet" href="/css/dist/tailwind.css" />'}
       <script src="/js/socket.io/socket.io.js"></script>
       <script src="/js/common.js"></script>
     </head>
@@ -63,7 +63,7 @@ export async function renderPage(opt: {
       ${content}
       ${opt.excludeTemplate ? "" : footer}
       ${opt.script ? `<script src="${opt.script}"></script>` : ""}
-      ${opt.excludeTemplate ? "" : "<script src=\"/js/background.js\"></script>"}
+      ${opt.excludeTemplate ? "" : '<script src="/js/background.js"></script>'}
     </body>
     </html>
 `;

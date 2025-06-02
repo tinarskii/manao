@@ -1,9 +1,8 @@
 import { CommandMeta, UserData } from "../types";
-import { db } from "../helpers/database";
+import { db, initAccount } from "../../helpers/database";
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { initAccount } from "../helpers/twitch";
-import { t } from "../helpers/i18n";
+import { t } from "../../helpers/i18n";
 
 export default {
   name: { en: "give", th: "ให้เงิน" },

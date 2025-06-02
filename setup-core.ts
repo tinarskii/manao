@@ -1,5 +1,5 @@
 import path from "node:path";
-import { createInterface } from 'readline';
+import { createInterface } from "readline";
 
 export type Lang = "en" | "th";
 
@@ -91,23 +91,23 @@ const LANG_TEXTS: Record<Lang, LanguageTexts> = {
 
 // ANSI color codes for console output
 const colors = {
-  reset: '\x1b[0m',
-  bright: '\x1b[1m',
-  dim: '\x1b[2m',
-  red: '\x1b[31m',
-  green: '\x1b[32m',
-  yellow: '\x1b[33m',
-  blue: '\x1b[34m',
-  magenta: '\x1b[35m',
-  cyan: '\x1b[36m',
-  white: '\x1b[37m',
-  greenBright: '\x1b[92m',
-  cyanBright: '\x1b[96m',
+  reset: "\x1b[0m",
+  bright: "\x1b[1m",
+  dim: "\x1b[2m",
+  red: "\x1b[31m",
+  green: "\x1b[32m",
+  yellow: "\x1b[33m",
+  blue: "\x1b[34m",
+  magenta: "\x1b[35m",
+  cyan: "\x1b[36m",
+  white: "\x1b[37m",
+  greenBright: "\x1b[92m",
+  cyanBright: "\x1b[96m",
 };
 
 // Utility functions for colored output
 const colorize = (text: string, color: string, bold = false) => {
-  const style = bold ? colors.bright : '';
+  const style = bold ? colors.bright : "";
   return `${style}${color}${text}${colors.reset}`;
 };
 
@@ -123,14 +123,20 @@ const log = {
 };
 
 class TwitchCliError extends Error {
-  constructor(message: string, public readonly details?: string) {
+  constructor(
+    message: string,
+    public readonly details?: string,
+  ) {
     super(message);
     this.name = "TwitchCliError";
   }
 }
 
 class TokenParsingError extends Error {
-  constructor(message: string, public readonly output?: string) {
+  constructor(
+    message: string,
+    public readonly output?: string,
+  ) {
     super(message);
     this.name = "TokenParsingError";
   }
@@ -172,16 +178,13 @@ async function locateTwitchCli(): Promise<string> {
  */
 async function fetchTokens(cliPath: string): Promise<ConfigTokens> {
   try {
-    const proc = Bun.spawn([
-      cliPath,
-      "token",
-      "-u",
-      "-s",
-      TWITCH_SCOPES.join(" "),
-    ], {
-      stderr: "pipe",
-      stdout: "pipe",
-    });
+    const proc = Bun.spawn(
+      [cliPath, "token", "-u", "-s", TWITCH_SCOPES.join(" ")],
+      {
+        stderr: "pipe",
+        stdout: "pipe",
+      },
+    );
 
     const [stderr, stdout] = await Promise.all([
       new Response(proc.stderr).text(),
@@ -193,7 +196,7 @@ async function fetchTokens(cliPath: string): Promise<ConfigTokens> {
     if (proc.exitCode !== 0) {
       throw new TwitchCliError(
         `Twitch CLI exited with code ${proc.exitCode}`,
-        stderr || stdout
+        stderr || stdout,
       );
     }
 
@@ -204,7 +207,7 @@ async function fetchTokens(cliPath: string): Promise<ConfigTokens> {
     if (!accessMatch || !refreshMatch) {
       throw new TokenParsingError(
         "Failed to parse access or refresh token from CLI output",
-        output
+        output,
       );
     }
 
@@ -223,7 +226,10 @@ async function fetchTokens(cliPath: string): Promise<ConfigTokens> {
 /**
  * Fetches user information using access token
  */
-async function fetchUserInfo(cliPath: string, accessToken: string): Promise<UserInfo> {
+async function fetchUserInfo(
+  cliPath: string,
+  accessToken: string,
+): Promise<UserInfo> {
   try {
     const proc = Bun.spawn([cliPath, "token", "-v", accessToken], {
       stdout: "pipe",
@@ -240,7 +246,7 @@ async function fetchUserInfo(cliPath: string, accessToken: string): Promise<User
     if (proc.exitCode !== 0) {
       throw new TwitchCliError(
         `Token validation failed with code ${proc.exitCode}`,
-        stderr || stdout
+        stderr || stdout,
       );
     }
 
@@ -251,7 +257,7 @@ async function fetchUserInfo(cliPath: string, accessToken: string): Promise<User
     if (!idMatch) {
       throw new TokenParsingError(
         "Failed to parse User ID from token validation output",
-        output
+        output,
       );
     }
 
@@ -273,20 +279,16 @@ async function fetchUserInfo(cliPath: string, accessToken: string): Promise<User
 async function configureTwitchCli(
   cliPath: string,
   clientID: string,
-  clientSecret: string
+  clientSecret: string,
 ): Promise<void> {
   try {
-    const proc = Bun.spawn([
-      cliPath,
-      "configure",
-      "-i",
-      clientID,
-      "-s",
-      clientSecret,
-    ], {
-      stdout: "pipe",
-      stderr: "pipe",
-    });
+    const proc = Bun.spawn(
+      [cliPath, "configure", "-i", clientID, "-s", clientSecret],
+      {
+        stdout: "pipe",
+        stderr: "pipe",
+      },
+    );
 
     await proc.exited;
 
@@ -294,7 +296,7 @@ async function configureTwitchCli(
       const stderr = await new Response(proc.stderr).text();
       throw new TwitchCliError(
         `Failed to configure Twitch CLI (exit code: ${proc.exitCode})`,
-        stderr
+        stderr,
       );
     }
   } catch (error) {
@@ -315,7 +317,7 @@ function generateEnvContent(
   botTokens: ConfigTokens,
   broadcasterInfo: UserInfo,
   broadcasterTokens: ConfigTokens,
-  overlayToken: string
+  overlayToken: string,
 ): string {
   return [
     `CLIENT_ID=${clientID}`,
@@ -352,7 +354,7 @@ function validateInputs(clientID: string, clientSecret: string): void {
 export async function startConfigWithParams(
   lang: Lang,
   clientID: string,
-  clientSecret: string
+  clientSecret: string,
 ): Promise<void> {
   // Validate inputs
   validateInputs(clientID, clientSecret);
@@ -371,12 +373,16 @@ export async function startConfigWithParams(
     // Bot account setup
     console.log();
     log.cyanBright(`🤖 ${texts.promptLoginBot}`);
-    await waitForEnter(`${texts.promptLoginBot} (${texts.pressEnterToContinue})`);
+    await waitForEnter(
+      `${texts.promptLoginBot} (${texts.pressEnterToContinue})`,
+    );
 
     log.blue(texts.fetchingBotTokens);
     const botTokens = await fetchTokens(cliPath);
     const botInfo = await fetchUserInfo(cliPath, botTokens.accessToken);
-    log.success(`${texts.botAccountSuccess} ${botInfo.login || botInfo.userID}`);
+    log.success(
+      `${texts.botAccountSuccess} ${botInfo.login || botInfo.userID}`,
+    );
 
     // Broadcaster account setup
     console.log();
@@ -385,11 +391,18 @@ export async function startConfigWithParams(
 
     log.blue(texts.fetchingBroadcasterTokens);
     const broadcasterTokens = await fetchTokens(cliPath);
-    const broadcasterInfo = await fetchUserInfo(cliPath, broadcasterTokens.accessToken);
-    log.success(`${texts.broadcasterAccountSuccess} ${broadcasterInfo.login || broadcasterInfo.userID}`);
+    const broadcasterInfo = await fetchUserInfo(
+      cliPath,
+      broadcasterTokens.accessToken,
+    );
+    log.success(
+      `${texts.broadcasterAccountSuccess} ${broadcasterInfo.login || broadcasterInfo.userID}`,
+    );
 
     // Overlay token setup
-    let overlayToken = await askQuestion(colorize(`${texts.overlayToken} `, colors.magenta));
+    let overlayToken = await askQuestion(
+      colorize(`${texts.overlayToken} `, colors.magenta),
+    );
 
     if (!overlayToken?.trim()) {
       overlayToken = crypto.randomUUID();
@@ -405,7 +418,7 @@ export async function startConfigWithParams(
       botTokens,
       broadcasterInfo,
       broadcasterTokens,
-      overlayToken
+      overlayToken,
     );
 
     const envPath = path.join(import.meta.dir, ".env");
@@ -414,17 +427,22 @@ export async function startConfigWithParams(
     console.log();
     log.success(texts.configComplete);
     log.dim(`${texts.configSavedTo} ${envPath}`);
-
   } catch (error) {
     if (error instanceof TwitchCliError) {
-      throw new Error(`Twitch CLI Error: ${error.message}${error.details ? `\nDetails: ${error.details}` : ""}`);
+      throw new Error(
+        `Twitch CLI Error: ${error.message}${error.details ? `\nDetails: ${error.details}` : ""}`,
+      );
     }
 
     if (error instanceof TokenParsingError) {
-      throw new Error(`Token Parsing Error: ${error.message}${error.output ? `\nOutput: ${error.output}` : ""}`);
+      throw new Error(
+        `Token Parsing Error: ${error.message}${error.output ? `\nOutput: ${error.output}` : ""}`,
+      );
     }
 
     // Re-throw other errors with context
-    throw new Error(`Setup failed: ${error instanceof Error ? error.message : String(error)}`);
+    throw new Error(
+      `Setup failed: ${error instanceof Error ? error.message : String(error)}`,
+    );
   }
 }

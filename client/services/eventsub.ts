@@ -1,7 +1,7 @@
 import { EventSubWsListener } from "@twurple/eventsub-ws";
 import { ChatClient } from "@twurple/chat";
 import { ApiClient } from "@twurple/api";
-import { logger } from "../helpers/logger";
+import { logger } from "../../helpers/logger";
 import {
   BITS_REWARD_AMOUNT,
   REWARD_AMOUNTS,

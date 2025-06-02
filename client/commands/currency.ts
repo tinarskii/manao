@@ -1,8 +1,8 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
 import { CommandMeta } from "../types";
-import { t } from "../helpers/i18n";
-import { updateCurrency } from "../helpers/preference";
+import { t } from "../../helpers/i18n";
+import { updateCurrency } from "../../helpers/preferences";
 
 export default {
   name: { en: "currency", th: "สกุลเงิน" },

@@ -89,3 +89,15 @@ export interface PreferencesData {
   lang: "en" | "th";
   currency: string;
 }
+
+export interface SongData {
+  title: string;
+  author: string;
+  thumbnail: string;
+  id: string;
+}
+
+export interface SongRequestData {
+  user: string;
+  song: SongData;
+}

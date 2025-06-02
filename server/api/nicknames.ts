@@ -1,5 +1,5 @@
 import { Elysia } from "elysia";
-import { db } from "../../client/helpers/database";
+import { db } from "../../helpers/database";
 
 export function registerNicknameRoutes(app: Elysia) {
   // Get single nickname

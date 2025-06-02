@@ -1,8 +1,8 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
 import { CommandMeta } from "../types";
-import { t } from "../helpers/i18n";
-import { updateLang } from "../helpers/preference";
+import { t } from "../../helpers/i18n";
+import { updateLang } from "../../helpers/preferences";
 
 export default {
   name: { en: "language", th: "ภาษา" },

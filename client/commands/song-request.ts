@@ -1,10 +1,13 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { CommandMeta } from "../types";
+import { CommandMeta, SongRequestData } from "../types";
+import {
+  getYouTubeVideoInfo,
+  isPlaylistUrl,
+  searchYouTube,
+} from "../../helpers/youtube";
+import { t } from "../../helpers/i18n";
 import { songQueue } from "../services/chat";
-import { YouTube } from "youtube-sr";
-import ytdl from "@distube/ytdl-core";
-import { t } from "../helpers/i18n";
 
 export default {
   name: { en: "song-request", th: "ขอเพลง" },
@@ -23,19 +26,13 @@ export default {
   execute: async (
     client: { api: ApiClient; chat: ChatClient; io: any },
     meta: CommandMeta,
-
     message: string,
-    args: Array<string>,
+    args: string[],
   ) => {
-    const song = args.join(" ");
-    const songURL = song.match(
-      /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|live\/|v\/)?)([\w\-]+)(\S+)?$/,
-    )
-      ? song
-      : (await YouTube.search(song, { limit: 1, type: "video" }))[0].url;
+    const songQuery = args.join(" ");
+    const result = await searchYouTube(songQuery);
 
-    // Check if  songURL is playlist
-    if (songURL.match(/playlist/)) {
+    if (!result || isPlaylistUrl(result.url)) {
       await client.chat.say(
         meta.channel,
         `@${meta.user} ${t("song.errorSongRequestPlaylist", meta.lang)}`,
@@ -43,10 +40,8 @@ export default {
       return;
     }
 
-    const songInfo = await ytdl.getInfo(songURL);
-
-    // If song was not found
-    if (!songInfo) {
+    const info = await getYouTubeVideoInfo(result.videoId);
+    if (!info || info.lengthSeconds > 600 || info.isLiveContent) {
       await client.chat.say(
         meta.channel,
         `@${meta.user} ${t("song.errorSongNotFound", meta.lang)}`,
@@ -54,53 +49,33 @@ export default {
       return;
     }
 
-    // Check if the song is longer than 10 minutes
-    if (Number(songInfo.videoDetails.lengthSeconds) > 600) {
+    const inQueue = songQueue.findIndex(
+      (item: SongRequestData) => item.song.id === info.videoId,
+    );
+    if (inQueue !== -1) {
       await client.chat.say(
         meta.channel,
-        `@${meta.user} ${t("song.errorSongTooLong", meta.lang)}`,
+        `@${meta.user} ${t("song.errorSongAlreadyInQueue", meta.lang, inQueue + 1)}`,
       );
       return;
-    }
-
-    // Check if the video is not live
-    if (songInfo.videoDetails.isLiveContent) {
-      await client.chat.say(
-        meta.channel,
-        `@${meta.user} ${t("song.errorSongIsLive", meta.lang)}`,
-      );
-      return;
-    }
-
-    // Check if it's already in queue
-    for (let i = 0; i < songQueue.length; i++) {
-      if (songQueue[i].song.id === songInfo.videoDetails.videoId) {
-        await client.chat.say(
-          meta.channel,
-          `@${meta.user} ${t("song.errorSongAlreadyInQueue", meta.lang, i + 1)}`,
-        );
-        return;
-      }
     }
 
     const songData = {
       user: meta.user,
       song: {
-        title: songInfo.videoDetails.title,
-        author: songInfo.videoDetails.author.name,
-        thumbnail: songInfo.videoDetails.thumbnails[0].url,
-        id: songInfo.videoDetails.videoId,
+        title: info.title,
+        author: info.author,
+        thumbnail: info.thumbnail,
+        id: info.videoId,
       },
     };
 
     songQueue.push(songData);
-
     client.io.emit("songRequest", {
       index: songQueue.length - 1,
       queue: songQueue,
     });
 
-    // Determine queue position message
     const queuePosition =
       songQueue.length - 1 === 0
         ? t("song.songCurrentlyPlaying", meta.lang)
@@ -108,7 +83,7 @@ export default {
 
     await client.chat.say(
       meta.channel,
-      `@${meta.user} ${t("song.songAdded", meta.lang, songInfo.videoDetails.title, songInfo.videoDetails.author.name, queuePosition)}`,
+      `@${meta.user} ${t("song.songAdded", meta.lang, info.title, info.author, queuePosition)}`,
     );
   },
 };

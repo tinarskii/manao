@@ -3,7 +3,7 @@ import { ChatClient } from "@twurple/chat";
 import { CommandMeta } from "../types";
 import { version } from "../../package.json";
 import { version as twurpleVersion } from "@twurple/api/package.json";
-import { t } from "../helpers/i18n";
+import { t } from "../../helpers/i18n";
 
 export default {
   name: { en: "version", th: "เวอร์ชัน" },

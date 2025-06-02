@@ -1,6 +1,6 @@
 import { Elysia } from "elysia";
 import { songQueue } from "../../client/services/chat";
-import { db } from "../../client/helpers/database";
+import { db } from "../../helpers/database";
 
 export function registerMusicRoutes(app: Elysia) {
   // Current queue

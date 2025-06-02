@@ -55,7 +55,7 @@ socket.on("songQueue", (data) => {
 // On user request song using `!song-request`
 socket.on("songRequest", (data) => {
   queue = data.queue;
-  const {index} = data;
+  const { index } = data;
 
   if (index === 0) {
     currentSong = queue[0];

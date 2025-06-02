@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
 import { APP_DIR, token } from "../config";
 import { renderPage } from "../index";
-import { db } from "../../client/helpers/database";
+import { db } from "../../helpers/database";
 import { PreferencesData } from "../../client/types";
 
 /**
@@ -18,8 +18,13 @@ interface SecuredPage {
  * Fetch default song from the database
  */
 function fetchDefaultSong() {
-  const stmt = db.prepare("SELECT defaultSong FROM preferences WHERE userID = ?");
-  let defaultSong = stmt.get(Bun.env.BROADCASTER_ID!) as Pick<PreferencesData, "defaultSong">;
+  const stmt = db.prepare(
+    "SELECT defaultSong FROM preferences WHERE userID = ?",
+  );
+  let defaultSong = stmt.get(Bun.env.BROADCASTER_ID!) as Pick<
+    PreferencesData,
+    "defaultSong"
+  >;
 
   if (!defaultSong?.defaultSong) {
     defaultSong = {
@@ -337,14 +342,7 @@ export function registerSecuredPageRoutes(app: Elysia) {
    * Create handler for secured pages with token validation
    */
   const createSecuredHandler = (page: SecuredPage) => {
-    return ({
-      query,
-      set,
-    }: {
-      query: any;
-      set: any;
-      request: Request;
-    }) => {
+    return ({ query, set }: { query: any; set: any; request: Request }) => {
       // Handle token validation
       if (
         !query.token ||

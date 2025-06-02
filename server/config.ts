@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { logger } from "../client/helpers/logger";
+import { logger } from "../helpers/logger";
 
 // Environment
 export const isProduction = process.env.NODE_ENV === "production";

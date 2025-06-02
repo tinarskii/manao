@@ -2,7 +2,7 @@ import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
 import { CommandMeta } from "../types";
 import { songQueue } from "../services/chat";
-import { t } from "../helpers/i18n";
+import { t } from "../../helpers/i18n";
 
 export default {
   name: { en: "song-skip", th: "ข้ามเพลง" },

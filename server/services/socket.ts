@@ -1,6 +1,6 @@
 import { Server, Socket } from "socket.io";
 import { songQueue } from "../../client/services/chat";
-import { logger } from "../../client/helpers/logger";
+import { logger } from "../../helpers/logger";
 import { SOCKET_PORT } from "../config";
 import { Elysia } from "elysia";
 

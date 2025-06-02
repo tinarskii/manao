@@ -6,10 +6,10 @@ import {
 import { ApiClient } from "@twurple/api";
 import { PREFIX } from "../config/constants";
 import { handleCommand } from "./commandHandler";
-import { checkNickname } from "../helpers/twitch";
 import { io } from "../../server";
 import { MessageData, UserBadge } from "../types";
-import { logger } from "../helpers/logger";
+import { logger } from "../../helpers/logger";
+import { checkNickname } from "../../helpers/database";
 
 /**
  * Processes an incoming chat message

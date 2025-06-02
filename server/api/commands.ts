@@ -1,6 +1,6 @@
 import { Elysia } from "elysia";
 import { commands } from "../../client/services/chat";
-import { getLang, localizeCommandArgs } from "../../client/helpers/preference";
+import { getLang, localizeCommandArgs } from "../../helpers/preferences";
 
 export function registerCommandRoutes(app: Elysia) {
   app.get("/api/commands", () => {

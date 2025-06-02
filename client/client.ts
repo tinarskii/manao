@@ -2,7 +2,7 @@ import { validateEnv } from "./config/constants";
 import { setupAuthProvider } from "./services/auth";
 import { initializeChatClient } from "./services/chat";
 import { initializeEventSub } from "./services/eventsub";
-import { logger } from "./helpers/logger";
+import { logger } from "../helpers/logger";
 
 /**
  * Main application entry point
