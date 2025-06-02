@@ -166,7 +166,13 @@ $btnInstall.Add_Click({
         }
 
         $installBase = $folderBrowser.SelectedPath
-        $installPath = Join-Path $installBase "ManaoBot"
+
+        # If the selected folder already ends with "manao" or "manaobot", don't append "ManaoBot"
+        if ($installBase -match "\\(manao(bot)?)$") {
+            $installPath = $installBase
+        } else {
+            $installPath = Join-Path $installBase "ManaoBot"
+        }
         Write-Log "Installing to: $installPath" "info"
 
         # Git check
