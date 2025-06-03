@@ -66,7 +66,7 @@ if /i "%runSetup%"=="n" or "%runSetup%"=="N" (
     echo Skipping setup script.
 ) else (
     echo Running setup script...
-    bun run setup-ui.tsx
+    bun run setup-ui.ts
 )
 
 echo.

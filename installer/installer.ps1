@@ -62,7 +62,7 @@ if ($skipSetup) {
     Write-Host "Skipping setup script as requested."
 } else {
     Write-Host "Running setup script..."
-    bun run setup-ui.tsx
+    bun run setup-ui.ts
 }
 
 # Done

@@ -236,7 +236,7 @@ $btnInstall.Add_Click({
             Write-Log "Please complete the setup in the new terminal window." "info"
 
             # Open setup script in new terminal window
-            Start-Process -FilePath "powershell" -ArgumentList "-NoExit", "-Command", "cd '$installPath'; bun run setup-ui.tsx; Write-Host ''; Write-Host 'Setup completed! You can close this window.' -ForegroundColor Green; Write-Host 'Press any key to continue...'; Read-Host"
+            Start-Process -FilePath "powershell" -ArgumentList "-NoExit", "-Command", "cd '$installPath'; bun run setup-ui.ts; Write-Host ''; Write-Host 'Setup completed! You can close this window.' -ForegroundColor Green; Write-Host 'Press any key to continue...'; Read-Host"
 
             Write-Log "Setup script launched in new terminal." "success"
         } else {

@@ -9,6 +9,7 @@
     "build": "tsc -p . && cp .env dist",
     "build:css": "bun x @tailwindcss/cli -i ./server/public/css/tailwind.css -o ./server/public/css/dist/tailwind.css ",
     "build:watch": "tsc -p . --watch",
+    "build:installer": "Invoke-PS2EXE -InputFile .\\installer\\installer-ui.ps1 -OutputFile .\\installer\\installer-ui.exe",
     "dev": "bun build:css && bun index.ts --watch",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
