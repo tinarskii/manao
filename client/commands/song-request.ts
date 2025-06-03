@@ -1,6 +1,6 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { CommandMeta, SongRequestData } from "../types";
+import { CommandMeta, SongRequestData } from "../../types";
 import {
   getYouTubeVideoInfo,
   isPlaylistUrl,

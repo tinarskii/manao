@@ -12,6 +12,12 @@ export interface LocalizedStringArray {
 }
 
 export interface CommandArg {
+  name: string;
+  description: string;
+  required?: boolean;
+}
+
+export interface LocalizedCommandArg {
   name: LocalizedString;
   description: LocalizedString;
   required?: boolean;
@@ -21,7 +27,7 @@ export interface Command {
   name: LocalizedString;
   description: LocalizedString;
   aliases?: LocalizedStringArray;
-  args?: CommandArg[];
+  args?: LocalizedCommandArg[];
   modsOnly?: boolean;
   broadcasterOnly?: boolean;
   disabled?: boolean;

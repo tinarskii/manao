@@ -1,4 +1,4 @@
-import { translations } from "../client/config/translations";
+import { translations } from "../config/translations";
 
 /**
  * Internationalization helper function

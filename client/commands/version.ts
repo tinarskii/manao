@@ -1,6 +1,6 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { CommandMeta } from "../types";
+import { CommandMeta } from "../../types";
 import { version } from "../../package.json";
 import { version as twurpleVersion } from "@twurple/api/package.json";
 import { t } from "../../helpers/i18n";

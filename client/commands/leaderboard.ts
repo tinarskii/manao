@@ -1,6 +1,6 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { CommandMeta, UserData } from "../types";
+import { CommandMeta, UserData } from "../../types";
 import { db } from "../../helpers/database";
 import { t } from "../../helpers/i18n";
 

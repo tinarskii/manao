@@ -7,10 +7,10 @@ import {
   REWARD_AMOUNTS,
   REWARDS,
   SUB_REWARD_AMOUNT,
-} from "../config/constants";
+} from "../../config/constants";
 import { handleReward } from "../handlers/rewardHandler";
 import { io } from "../../server";
-import { FeedEvent } from "../types";
+import { FeedEvent } from "../../types";
 
 /**
  * Initializes the EventSub WebSocket listener for Twitch events

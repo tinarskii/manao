@@ -5,10 +5,12 @@ import { logger } from "../../helpers/logger";
 import { readdirSync } from "fs";
 import { join } from "node:path";
 import { handleMessage } from "../handlers/messageHandler";
-import { Command, CommandList, SongRequestData } from "../types";
+import { Command, CommandList, SongRequestData } from "../../types";
+import { fetchCommand } from "../../helpers/database";
 
 // Global command storage
 export const commands: CommandList = new Map();
+export const customCommands: CommandList = fetchCommand();
 export const songQueue: Array<SongRequestData> = [];
 
 /**
@@ -28,7 +30,7 @@ export async function initializeChatClient(
   chatClient.connect();
 
   chatClient.onConnect(async () => {
-    await loadCommands();
+    await loadCommands()
     logger.info("[Chat] Connected to Twitch chat");
   });
 
@@ -55,9 +57,9 @@ export async function initializeChatClient(
  * Loads command modules from the commands directory
  * and maps each command name and its aliases in both languages.
  */
-async function loadCommands() {
+export async function loadCommands() {
   try {
-    const commandsDir = join(__dirname, "../commands");
+    const commandsDir = join(import.meta.dir, "../commands");
     const commandFiles = readdirSync(commandsDir).filter(
       (file) => file.endsWith(".ts") || file.endsWith(".js"),
     );

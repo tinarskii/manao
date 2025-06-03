@@ -1,6 +1,6 @@
 import { RefreshingAuthProvider } from "@twurple/auth";
 import { logger } from "../../helpers/logger";
-import { SCOPES } from "../config/constants";
+import { SCOPES } from "../../config/constants";
 
 /**
  * Sets up and configures the Twitch authentication provider

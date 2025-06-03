@@ -2,7 +2,7 @@ import { Elysia } from "elysia";
 import { APP_DIR, token } from "../config";
 import { renderPage } from "../index";
 import { db } from "../../helpers/database";
-import { PreferencesData } from "../../client/types";
+import { PreferencesData } from "../../types";
 
 /**
  * Configuration for secured pages with consistent structure

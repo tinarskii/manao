@@ -1,6 +1,6 @@
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";
-import { CommandMeta } from "../types";
+import { CommandMeta } from "../../types";
 import { songQueue } from "../services/chat";
 import { t } from "../../helpers/i18n";
 

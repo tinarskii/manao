@@ -2,7 +2,7 @@ import { ChatClient } from "@twurple/chat";
 import { db, initAccount } from "../../helpers/database";
 import { logger } from "../../helpers/logger";
 import { io } from "../../server";
-import { FeedEvent } from "../types";
+import { FeedEvent } from "../../types";
 import { getCurrency } from "../../helpers/preferences";
 
 /**

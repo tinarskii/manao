@@ -86,6 +86,9 @@ export const translations = {
       errorArgsRequired: "Please provide the required arguments: {}",
       errorCommandHandler:
         "An error occurred while executing the command. The bot may stopped working.",
+      errorCommandNotFound: "Command {} not found, do you mean \"{}\"?",
+
+      executeReload: "Successfully started reloading commands"
     },
   },
   th: {
@@ -175,6 +178,9 @@ export const translations = {
       errorBroadcasterOnly: "คำสั่งนี้สำหรับผู้ถือสิทธิ์เท่านั้น",
       errorArgsRequired: "กรุณาใส่พารามิเตอร์ที่จำเป็น: {}",
       errorCommandHandler: "เกิดข้อผิดพลาดขณะเรียกใช้คำสั่ง บอทอาจหยุดทำงาน",
+      errorCommandNotFound: "ไม่พบคำสั่ง {} คุณหมายถึง \"{}\" หรือเปล่า?",
+
+      executeReload: "เริ่มต้นกระบวนการรีโหลดคำสั่งแล้ว",
     },
   },
 };

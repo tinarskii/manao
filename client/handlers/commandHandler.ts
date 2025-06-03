@@ -1,10 +1,12 @@
 import { ChatClient } from "@twurple/chat";
 import { ApiClient } from "@twurple/api";
-import { commands } from "../services/chat";
+import { commands, customCommands } from "../services/chat";
 import { logger } from "../../helpers/logger";
 import { io } from "../../server";
 import { getCurrency, getLang } from "../../helpers/preferences";
 import { t } from "../../helpers/i18n";
+import { Command, CommandList } from "../../types";
+import { closest } from "../../helpers/levenshtein";
 
 /**
  * Processes a chat command
@@ -21,23 +23,50 @@ export async function handleCommand(
   const lang = getLang();
   try {
     const args = message.split(" ").slice(1);
-    let commandName = message.split(" ")[0].slice(1);
+    const inputCommand = message.split(" ")[0].slice(1);
 
-    for (const command of commands.values()) {
-      if (
-        (command.aliases?.en || []).includes(commandName) ||
-        (command.aliases?.th || []).includes(commandName)
-      ) {
-        // @ts-ignore
-        commandName = command.name.en;
-        break;
+    /**
+     * Finds a command by checking name and aliases in both languages
+     * @param {CommandList} commandMap The command collection to search
+     * @param {string} searchTerm The command name/alias to find
+     * @returns {Command|null} Found command object or null
+     */
+    function findCommand(commandMap: CommandList, searchTerm: string): Command | null {
+      for (const command of commandMap.values()) {
+        // Check exact name matches first (most common case)
+        if (command.name.en === searchTerm || command.name.th === searchTerm) {
+          return command;
+        }
+
+        // Check aliases if they exist
+        const enAliases = command.aliases?.en || [];
+        const thAliases = command.aliases?.th || [];
+
+        if (enAliases.includes(searchTerm) || thAliases.includes(searchTerm)) {
+          return command;
+        }
       }
+      return null;
     }
 
-    const command = commands.get(commandName);
-    if (!command) return;
+    const command = findCommand(commands, inputCommand) || findCommand(customCommands, inputCommand);
 
-    // Verify broadcaster permission
+    if (!command) {
+      // Check for the closest command match
+      let inputLang = /[^\u0000-\u007F]/.test(inputCommand) ? "th" : "en" as "en" | "th";
+      const closestCommand = closest(inputCommand, [...commands.values(), ...customCommands.values()].map(c => c.name[inputLang]));
+      if (closestCommand) {
+        await chatClient.say(
+          channel,
+          `@${user}, ${t("command.errorCommandNotFound", lang, inputCommand, closestCommand)}`,
+        );
+      } else {
+        return;
+      }
+      return;
+    }
+
+    // Verify broadcaster permissions
     if (command.broadcasterOnly && userID !== channelID) {
       await chatClient.say(
         channel,
@@ -61,7 +90,7 @@ export async function handleCommand(
     // Verify required arguments
     if (command.args) {
       const requiredArgs = command.args.filter((arg) => arg.required);
-      const missingArgs = requiredArgs.filter((arg, index) => !args[index]);
+      const missingArgs = requiredArgs.filter((_, index) => !args[index]);
       if (missingArgs.length > 0) {
         const missingArgsNames = missingArgs
           .map((arg) => arg.name[lang])
@@ -90,7 +119,7 @@ export async function handleCommand(
       args,
     );
 
-    logger.info(`[Command] Executed: ${commandName} by ${user}`);
+    logger.info(`[Command] Executed: ${inputCommand} by ${user}`);
   } catch (error) {
     await chatClient.say(
       channel,

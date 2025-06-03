@@ -1,5 +1,5 @@
 import * as process from "process";
-import { logger } from "../../helpers/logger";
+import { logger } from "../helpers/logger";
 
 // Application constants
 export const PREFIX = "!";

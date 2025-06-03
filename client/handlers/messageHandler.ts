@@ -4,12 +4,12 @@ import {
   parseEmotePositions,
 } from "@twurple/chat";
 import { ApiClient } from "@twurple/api";
-import { PREFIX } from "../config/constants";
+import { PREFIX } from "../../config/constants";
 import { handleCommand } from "./commandHandler";
 import { io } from "../../server";
-import { MessageData, UserBadge } from "../types";
+import { MessageData, UserBadge } from "../../types";
 import { logger } from "../../helpers/logger";
-import { checkNickname } from "../../helpers/database";
+import { getNickname } from "../../helpers/database";
 
 /**
  * Processes an incoming chat message
@@ -64,7 +64,7 @@ async function handleRegularMessage(
 ) {
   try {
     // Get user nickname & determine role
-    const nickname = checkNickname(userID);
+    const nickname = getNickname(userID);
     const role = determineUserRole(msgObj.userInfo);
 
     // Process emotes in the message

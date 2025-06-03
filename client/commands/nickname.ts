@@ -1,4 +1,4 @@
-import { CommandMeta, UserData } from "../types";
+import { CommandMeta, UserData } from "../../types";
 import { db, initAccount } from "../../helpers/database";
 import { ApiClient } from "@twurple/api";
 import { ChatClient } from "@twurple/chat";

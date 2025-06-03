@@ -1,4 +1,4 @@
-import { validateEnv } from "./config/constants";
+import { validateEnv } from "../config/constants";
 import { setupAuthProvider } from "./services/auth";
 import { initializeChatClient } from "./services/chat";
 import { initializeEventSub } from "./services/eventsub";
