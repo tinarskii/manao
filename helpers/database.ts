@@ -1,5 +1,7 @@
 import { Database } from "bun:sqlite";
 import { Command, CommandList, UserData } from "../types";
+import { customCommands } from "../client/services/chat";
+import { logger } from "./logger";
 
 export const db = new Database("./bot-data.sqlite", { create: true });
 
@@ -36,7 +38,6 @@ export function initDatabase(): void {
       modsOnly        BOOLEAN DEFAULT false,
       broadcasterOnly BOOLEAN DEFAULT false,
       disabled        BOOLEAN DEFAULT false,
-      originalExecute TEXT,
       execute         TEXT
     )
   `);
@@ -72,20 +73,27 @@ export function getNickname(userID: string | number): string | null {
  */
 export function addCommand(command: Command): void {
   const stmt = db.prepare(`
-    INSERT OR IGNORE INTO commands (name, description, aliases, args, modsOnly, broadcasterOnly, disabled, originalExecute, execute)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT OR IGNORE INTO commands (name, description, aliases, args, modsOnly, broadcasterOnly, disabled, execute)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
-  stmt.run(
-    JSON.stringify(command.name),
-    JSON.stringify(command.description),
-    JSON.stringify(command.aliases || []),
-    JSON.stringify(command.args || []),
-    command.modsOnly || false,
-    command.broadcasterOnly || false,
-    command.disabled || false,
-    command.execute.toString(),
-  );
+  try {
+    stmt.run(
+      JSON.stringify(command.name),
+      JSON.stringify(command.description),
+      JSON.stringify(command.aliases || []),
+      JSON.stringify(command.args || []),
+      command.modsOnly || false,
+      command.broadcasterOnly || false,
+      command.disabled || false,
+      command.execute.toString(),
+    );
+    // Update the in-memory cache
+    customCommands.set(command.name.en, command);
+    logger.info(`[Custom Command] Added command: ${command.name.en}`);
+  } catch (error) {
+    throw new Error(`Failed to add command: ${error}`);
+  }
 }
 
 /**
@@ -94,15 +102,14 @@ export function addCommand(command: Command): void {
  */
 export function fetchCommand(): CommandList {
   const stmt = db.prepare("SELECT * FROM commands");
-  const commands = stmt.all() as Array<Command>
+  const commands = stmt.all() as Array<Command>;
 
   commands.forEach((c: Command) => {
     c.name = JSON.parse(String(c.name));
     c.description = JSON.parse(String(c.description));
     c.aliases = JSON.parse(String(c.aliases));
     c.args = JSON.parse(String(c.args));
-    c.execute = eval(String(c.execute));
-  })
+  });
 
   const commandList: CommandList = new Map();
   commands.forEach((c: Command) => {
@@ -110,4 +117,18 @@ export function fetchCommand(): CommandList {
   });
 
   return commandList || new Map();
+}
+
+/**
+ * Delete a command from the database.
+ * @param {string} commandName The name of the command to delete.
+ */
+export function deleteCommand(commandName: string): void {
+  const stmt = db.prepare("DELETE FROM commands WHERE name = ?");
+  stmt.run(commandName);
+
+  // Remove from the in-memory cache if it exists
+  if (customCommands.has(commandName)) {
+    customCommands.delete(commandName);
+  }
 }

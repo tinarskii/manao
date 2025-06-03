@@ -7,6 +7,7 @@ import { join } from "node:path";
 import { handleMessage } from "../handlers/messageHandler";
 import { Command, CommandList, SongRequestData } from "../../types";
 import { fetchCommand } from "../../helpers/database";
+import { getDisabledCommands } from "../../helpers/preferences";
 
 // Global command storage
 export const commands: CommandList = new Map();
@@ -30,7 +31,7 @@ export async function initializeChatClient(
   chatClient.connect();
 
   chatClient.onConnect(async () => {
-    await loadCommands()
+    await loadCommands();
     logger.info("[Chat] Connected to Twitch chat");
   });
 
@@ -72,6 +73,11 @@ export async function loadCommands() {
 
       for (const name of allNames) {
         commands.set(name.toLowerCase(), command);
+      }
+
+      // Check if command is disabled
+      if (getDisabledCommands().includes(command.name.en)) {
+        command.disabled = true;
       }
 
       logger.info(`[Commands] Loaded command: ${command.name.en}`);

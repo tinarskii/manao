@@ -1,6 +1,6 @@
 import { Elysia } from "elysia";
 import { commands } from "../../client/services/chat";
-import { getLang, localizeCommandArgs } from "../../helpers/preferences";
+import { getLang, localizeCommandArgs, toggleCommand } from "../../helpers/preferences";
 
 export function registerCommandRoutes(app: Elysia) {
   app.get("/api/commands", () => {
@@ -51,35 +51,18 @@ export function registerCommandRoutes(app: Elysia) {
     };
   });
 
-  app.delete("/api/commands/:commandName", ({ params: { commandName } }) => {
-    // @ts-ignore
-    const command = commands.get(commandName);
-    if (!command) {
-      return { error: "Command not found" };
-    }
-
-    commands.delete(commandName);
-    return { success: true, command };
-  });
-
   app.post(
     "/api/commands/:commandName/toggle",
     ({ params: { commandName } }) => {
-      // @ts-ignore
       const command = commands.get(commandName);
       if (!command) {
         return { error: "Command not found" };
       }
       command.disabled = !command.disabled;
-      if (command.disabled) {
-        command.originalExecute = command.execute;
-        command.execute = () => undefined;
-      } else {
-        command.execute = command.originalExecute;
-        delete command.originalExecute;
-      }
+      toggleCommand(command.name.en);
       return { success: true, enabled: command.disabled };
     },
   );
+
   return app;
 }
