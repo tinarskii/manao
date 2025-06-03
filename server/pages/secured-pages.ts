@@ -183,7 +183,7 @@ export function registerSecuredPageRoutes(app: Elysia) {
                 <div class="form-control">
                   <label class="label">
                     <span class="label-text flex items-center gap-2">
-                      <i class="fa-solid fa-hourglass-half"></i> Fade Duration
+                      <i class="fa-solid fa-hourglass-half"></i> Fade Duration (seconds)
                     </span>
                   </label>
                   <label class="input-group">
@@ -191,12 +191,9 @@ export function registerSecuredPageRoutes(app: Elysia) {
                       type="number" 
                       id="fade" 
                       class="input input-bordered w-full" 
-                      value="30" 
-                      min="5" 
-                      max="120"
+                      value="0" 
                       required
                     />
-                    <span>seconds</span>
                   </label>
                 </div>
                 `
@@ -379,7 +376,7 @@ export function registerSecuredPageRoutes(app: Elysia) {
           "{{ songAuthor }}": defaultSong.songAuthor,
           "{{ songThumbnail }}": defaultSong.songThumbnail,
           "{{ songID }}": defaultSong.songID,
-          "{{ fade }}": query.fade || "30",
+          "{{ fade }}": query.fade || "0",
           "{{ direction }}":
             query.direction === "ttb" ? "column-reverse" : "column",
         },
