@@ -7,6 +7,7 @@ import { getCurrency, getLang } from "../../helpers/preferences";
 import { t } from "../../helpers/i18n";
 import { closest } from "../../helpers/levenshtein";
 import { findCommand } from "../../helpers/command";
+import { addBalance, getBalance, getNickname, setBalance, subtractBalance } from "../../helpers/database";
 
 /**
  * Processes a chat command
@@ -150,6 +151,12 @@ export async function handleCommand(
         }
       }
 
+      const sendMessage = (message: string) => { return chatClient.say(channel, message); };
+      const getInput = (index: number | null) => {
+        if (!index) return args.join(" ")
+        else return args[index - 1];
+      }
+
       const context = {
         client: {
           chat: chatClient,
@@ -167,6 +174,12 @@ export async function handleCommand(
         },
         message,
         args,
+        sendMessage,
+        getInput,
+        getBalance,
+        addBalance,
+        subtractBalance,
+        setBalance
       };
 
       const script = String(customCommand.execute);

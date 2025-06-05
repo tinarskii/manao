@@ -67,6 +67,32 @@ export function getNickname(userID: string | number): string | null {
 }
 
 /**
+ * Gets the balance of a user from the database.
+ * @param {string | number} userID The ID of the user.
+ * @return {number} An object containing the user's balance.
+ */
+export function getBalance(userID: string | number): number {
+  return ((db.prepare("SELECT money FROM users WHERE user = ?")).get(userID) as Pick<UserData, "money">).money || 0;
+}
+
+export function addBalance(userID: string | number, amount: number): number {
+  const stmt = db.prepare("UPDATE users SET money = money + ? WHERE user = ?");
+  stmt.run(amount, userID);
+  return getBalance(userID)
+}
+export function subtractBalance(userID: string | number, amount: number): number {
+  const stmt = db.prepare("UPDATE users SET money = money - ? WHERE user = ?");
+  stmt.run(amount, userID);
+  return getBalance(userID)
+}
+export function setBalance(userID: string | number, amount: number): number {
+  const stmt = db.prepare("UPDATE users SET money = ? WHERE user = ?");
+  stmt.run(amount, userID);
+  return getBalance(userID)
+}
+
+
+/**
  * Add a custom command to the database.
  * @param {Command} command The command object to add.
  * @return {void}
