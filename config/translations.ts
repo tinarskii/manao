@@ -8,6 +8,7 @@ export const translations = {
       errorSongIsLive: "Can't play live videos",
       errorSongAlreadyInQueue: "Song is already in queue ({})",
       errorSongRemovedNoPermission: "You don't have permission to remove songs",
+      errorSongInvalidAction: "Invalid command, valid commands are: set, add",
 
       queueEmpty: "No songs in queue",
       queueLength: "{} song(s) in queue",
@@ -100,6 +101,7 @@ export const translations = {
       errorSongIsLive: "ไม่สามารถเล่นวิดิโอถ่ายทอดสดได้",
       errorSongAlreadyInQueue: "เพลงนี้อยู่ในคิวแล้ว ({})",
       errorSongRemovedNoPermission: "คุณไม่มีสิทธิ์ลบเพลงนี้",
+      errorSongInvalidAction: "คำสั่งไม่ถูกต้อง คำสั่งที่ถูกต้องคือ: set, add",
 
       queueEmpty: "ไม่มีเพลงในคิว",
       queueLength: "{} เพลงในคิว",
