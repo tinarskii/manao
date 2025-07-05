@@ -90,6 +90,10 @@ export default {
       db.prepare(
         "INSERT OR REPLACE INTO preferences (userID, defaultSong) VALUES (?, ?)",
       ).run(Number(Bun.env.BROADCASTER_ID), JSON.stringify(songsData));
+      await client.chat.say(
+        meta.channel,
+        `@${meta.user} ${t("song.songDefaultSet", meta.lang, songsData.length)}`,
+      );
     } else if (action === "add") {
       const existingData = db
         .prepare("SELECT defaultSong FROM preferences WHERE userID = ?")
@@ -101,11 +105,11 @@ export default {
       db.prepare(
         "INSERT OR REPLACE INTO preferences (userID, defaultSong) VALUES (?, ?)",
       ).run(Number(Bun.env.BROADCASTER_ID), JSON.stringify(updatedSongs));
-    }
 
-    await client.chat.say(
-      meta.channel,
-      `@${meta.user} ${t("song.songDefault", meta.lang, songsData.length)}`,
-    );
+      await client.chat.say(
+        meta.channel,
+        `@${meta.user} ${t("song.songDefaultAdd", meta.lang, updatedSongs.length)}`,
+      );
+    }
   },
 };
