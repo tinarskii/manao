@@ -28,40 +28,35 @@ echo Fetching available releases...
 echo.
 
 :: Create temporary file for releases
-set "tempFile=%temp%\manao_releases.txt"
+set "tempFile=%cd%\manao_releases.txt"
 powershell -Command "try { $releases = Invoke-RestMethod -Uri 'https://api.github.com/repos/tinarskii/manao/releases'; $releases | ForEach-Object { Write-Output $_.tag_name } } catch { Write-Output 'ERROR: Failed to fetch releases' }" > "%tempFile%"
 
 :: Check if fetch was successful
-findstr /C:"ERROR:" "%tempFile%" >nul
-if %errorlevel% equ 0 (
-    echo Failed to fetch releases from GitHub. Using latest version...
+
+echo Available versions:
+echo.
+set /a count=0
+for /f "tokens=*" %%i in (%tempFile%) do (
+    set /a count+=1
+    echo !count!. %%i
+    set "version!count!=%%i"
+)
+echo.
+echo !count! versions found.
+echo.
+
+set /p versionChoice=Select a version (1-!count!) or press Enter for latest:
+
+if "!versionChoice!"=="" (
     set "selectedVersion=latest"
+    echo Using latest version.
 ) else (
-    echo Available versions:
-    echo.
-    set /a count=0
-    for /f "tokens=*" %%i in (%tempFile%) do (
-        set /a count+=1
-        echo !count!. %%i
-        set "version!count!=%%i"
-    )
-    echo.
-    echo !count! versions found.
-    echo.
-
-    set /p versionChoice=Select a version (1-!count!) or press Enter for latest:
-
-    if "!versionChoice!"=="" (
-        set "selectedVersion=latest"
-        echo Using latest version.
+    if !versionChoice! geq 1 if !versionChoice! leq !count! (
+        set "selectedVersion=!version%versionChoice%!"
+        echo Selected version: !selectedVersion!
     ) else (
-        if !versionChoice! geq 1 if !versionChoice! leq !count! (
-            set "selectedVersion=!version%versionChoice%!"
-            echo Selected version: !selectedVersion!
-        ) else (
-            echo Invalid selection. Using latest version.
-            set "selectedVersion=latest"
-        )
+        echo Invalid selection. Using latest version.
+        set "selectedVersion=latest"
     )
 )
 
@@ -75,7 +70,7 @@ echo Select installation folder...
 echo.
 
 :: Create PowerShell script for folder selection
-set "psScript=%temp%\folderselect.ps1"
+set "psScript=%cd%\folderselect.ps1"
 echo Add-Type -AssemblyName System.Windows.Forms > "%psScript%"
 echo $folderBrowser = New-Object System.Windows.Forms.FolderBrowserDialog >> "%psScript%"
 echo $folderBrowser.Description = "Select installation folder for Manao Twitch Bot" >> "%psScript%"
@@ -115,7 +110,7 @@ echo.
 :: Check if the folder already exists
 if exist "%installPath%" (
     echo Folder %installPath% already exists.
-    set /p overwrite=Do you want to overwrite? (.env file will be gone) (Y/n):
+    set /p overwrite="Do you want to overwrite? (Y/n):"
     if /i "!overwrite!"=="n" (
         echo Installation cancelled.
         pause
@@ -176,16 +171,10 @@ echo.
 where bun >nul 2>nul
 if %errorlevel% neq 0 (
     echo Bun not found. Installing Bun...
-    powershell -Command "try { Invoke-WebRequest https://bun.sh/install.ps1 -OutFile install.ps1; Write-Output 'Downloaded' } catch { Write-Output 'ERROR' }" > "%temp%\bun_download.txt"
-    findstr /C:"ERROR" "%temp%\bun_download.txt" >nul
-    if %errorlevel% equ 0 (
-        echo Failed to download Bun installer.
-        pause
-        exit /b 1
-    )
+    powershell -Command "try { Invoke-WebRequest https://bun.sh/install.ps1 -OutFile install.ps1; Write-Output 'Downloaded' } catch { Write-Output 'ERROR' }" > "%cd%\bun_download.txt"
     powershell -ExecutionPolicy Bypass -File install.ps1
     del install.ps1 2>nul
-    del "%temp%\bun_download.txt" 2>nul
+    del "%cd%\bun_download.txt" 2>nul
 ) else (
     echo Bun is already installed.
 )
