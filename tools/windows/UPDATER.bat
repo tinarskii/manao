@@ -1,24 +1,37 @@
 @echo off
 setlocal enabledelayedexpansion
 
-echo ============================================
-echo         Updating Manao Twitch Bot...
-echo ============================================
-echo.
+echo Please select your Manao installation directory...
 
-:: Check if we're in a Manao installation directory
-if not exist "package.json" (
-    echo ERROR: package.json not found.
-    echo Please run this updater from the Manao installation directory.
+:: Use PowerShell to prompt for folder selection
+set "psCommand=Add-Type -AssemblyName System.Windows.Forms; $f = New-Object Windows.Forms.FolderBrowserDialog; if ($f.ShowDialog() -eq 'OK') { Write-Output $f.SelectedPath }"
+for /f "delims=" %%i in ('powershell -NoProfile -Command "%psCommand%"') do set "installPath=%%i"
+
+if "%installPath%"=="" (
+    echo No folder selected. Exiting.
     pause
     exit /b 1
 )
 
-:: Check if this is actually a Manao project
-findstr /i "manao" package.json >nul 2>nul
-if %errorlevel% neq 0 (
-    echo ERROR: This doesn't appear to be a Manao installation.
-    echo Please run this updater from the correct Manao directory.
+:: Change to selected directory
+cd /d "%installPath%"
+if errorlevel 1 (
+    echo Failed to access the selected directory.
+    pause
+    exit /b 1
+)
+
+echo.
+echo ============================================
+echo         Updating Manao Twitch Bot...
+echo ============================================
+echo.
+echo Selected folder: %cd%
+
+:: Check if this is actually a Manao project (package.json exists)
+if not exist "package.json" (
+    echo ERROR: This does not appear to be a Manao Twitch Bot installation.
+    echo Please select the correct directory containing the Manao project.
     pause
     exit /b 1
 )
@@ -223,7 +236,7 @@ echo.
 echo You can now run the bot using:
 echo bun run start
 echo.
-echo Or double-click: start-bot.bat
+echo Or double-click (in folder "tools/windows"): START_MANAO.bat
 echo ============================================
 echo.
 pause
