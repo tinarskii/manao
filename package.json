@@ -24,6 +24,7 @@
   "type": "module",
   "dependencies": {
     "@elysiajs/static": "^1.2.0",
+    "@inquirer/prompts": "^7.6.0",
     "@twurple/api": "^7.2.1",
     "@twurple/auth": "^7.2.1",
     "@twurple/chat": "^7.2.1",
