@@ -73,77 +73,43 @@ echo.
 set "tempFile=%temp%\manao_releases_update.txt"
 powershell -Command "try { $releases = Invoke-RestMethod -Uri 'https://api.github.com/repos/tinarskii/manao/releases'; $releases | ForEach-Object { Write-Output $_.tag_name } } catch { Write-Output 'ERROR: Failed to fetch releases' }" > "%tempFile%"
 
-:: Check if fetch was successful
-findstr /C:"ERROR:" "%tempFile%" >nul
-if %errorlevel% equ 0 (
-    echo Failed to fetch releases from GitHub. You can still update to latest.
-    echo.
-    echo Available options:
-    echo 1. Update to latest (git pull)
-    echo 2. Cancel update
-    echo.
-    set /p choice=Select an option (1-2):
-    if "!choice!"=="1" (
-        set "selectedVersion=latest"
-    ) else (
-        echo Update cancelled.
-        del "%tempFile%" 2>nul
-        pause
-        exit /b 0
-    )
+
+echo Available versions:
+echo 0. Latest (git pull)
+echo.
+set /a count=0
+for /f "tokens=*" %%i in (%tempFile%) do (
+    set /a count+=1
+    echo !count!. %%i
+    set "version!count!=%%i"
+)
+echo.
+echo !count! versions found.
+echo.
+
+set /p versionChoice=Select a version (0-!count!) or press Enter for latest:
+
+if "!versionChoice!"=="" (
+    set "selectedVersion=latest"
+    echo Updating to latest version.
+) else if "!versionChoice!"=="0" (
+    set "selectedVersion=latest"
+    echo Updating to latest version.
 ) else (
-    echo Available versions:
-    echo 0. Latest (git pull)
-    echo.
-    set /a count=0
-    for /f "tokens=*" %%i in (%tempFile%) do (
-        set /a count+=1
-        echo !count!. %%i
-        set "version!count!=%%i"
-    )
-    echo.
-    echo !count! versions found.
-    echo.
-
-    set /p versionChoice=Select a version (0-!count!) or press Enter for latest:
-
-    if "!versionChoice!"=="" (
-        set "selectedVersion=latest"
-        echo Updating to latest version.
-    ) else if "!versionChoice!"=="0" (
-        set "selectedVersion=latest"
-        echo Updating to latest version.
+    if !versionChoice! geq 1 if !versionChoice! leq !count! (
+        set "selectedVersion=!version%versionChoice%!"
+        echo Selected version: !selectedVersion!
     ) else (
-        if !versionChoice! geq 1 if !versionChoice! leq !count! (
-            set "selectedVersion=!version%versionChoice%!"
-            echo Selected version: !selectedVersion!
-        ) else (
-            echo Invalid selection. Updating to latest version.
-            set "selectedVersion=latest"
-        )
+        echo Invalid selection. Updating to latest version.
+        set "selectedVersion=latest"
     )
 )
+
 
 :: Clean up temp file
 del "%tempFile%" 2>nul
 
 echo.
-
-:: Check for uncommitted changes
-git status --porcelain 2>nul | findstr . >nul
-if %errorlevel% equ 0 (
-    echo WARNING: You have uncommitted changes in your installation.
-    echo These changes might be lost during the update.
-    echo.
-    git status --short
-    echo.
-    set /p continueUpdate=Do you want to continue? (y/N):
-    if /i not "!continueUpdate!"=="y" (
-        echo Update cancelled.
-        pause
-        exit /b 0
-    )
-)
 
 :: Backup .env* files and other important files
 set "backupDir=%temp%\manao_update_backup_%random%"
