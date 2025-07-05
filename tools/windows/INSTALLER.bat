@@ -221,19 +221,8 @@ if /i "%runSetup%"=="n" (
     echo Skipping setup script.
 ) else (
     echo Running setup script...
-    if exist "setup-ui.ts" (
-        bun run setup-ui.ts
-    ) else (
-        echo Setup script not found. You may need to run it manually later.
-    )
+    bun setup
 )
-
-:: Create start-bot.bat in installation directory
-echo Creating start-bot.bat...
-echo @echo off > start-bot.bat
-echo cd /d "%installPath%" >> start-bot.bat
-echo bun run start >> start-bot.bat
-echo pause >> start-bot.bat
 
 echo.
 echo ============================================
@@ -246,7 +235,7 @@ echo.
 echo bun run start
 echo.
 echo Or double-click the following file:
-echo %installPath%\start-bot.bat
+echo %installPath%\tools\START_MANAOBOT.bat
 echo ============================================
 echo.
 

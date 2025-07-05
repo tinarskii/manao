@@ -14,7 +14,8 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "prettier": "prettier --write .",
-    "prettier:check": "prettier --check ."
+    "prettier:check": "prettier --check .",
+    "setup": "bun run tools/setup.ts"
   },
   "keywords": [
     "twitch-bot"
