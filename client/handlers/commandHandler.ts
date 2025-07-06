@@ -186,7 +186,7 @@ export async function handleCommand(
 
       const executeCommand = new Function(
         "context",
-        `const { client, meta, message, args } = context;
+        `const { client, meta, message, args, sendMessage, getInput, getBalance, addBalance, subtractBalance, setBalance } = context;
          ${script}
         `,
       );
@@ -200,6 +200,7 @@ export async function handleCommand(
       channel,
       `@${user}, ${t("command.errorCommandHandler", lang)}`,
     );
-    logger.error(`[Command] Error executing ${message}:`, error);
+    logger.error(`[Command] Error executing ${message}:`);
+    console.log(error);
   }
 }
