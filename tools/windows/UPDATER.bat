@@ -159,7 +159,7 @@ echo Updating Manao Twitch Bot...
 if "%selectedVersion%"=="latest" (
     echo Pulling latest changes...
     git reset --hard HEAD >nul 2>nul
-    git pull origin
+    git pull origin main >nul 2>nul
     if %errorlevel% neq 0 (
         echo Failed to pull latest changes.
         goto :restore_and_exit
