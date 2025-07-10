@@ -86,7 +86,7 @@ function startApp() {
       tls: tlsOptions,
     },
     ({ hostname, port }) => {
-      logger.info(`[Elysia] Running on https://${hostname}:${port}`);
+      logger.info(`[Elysia] Running on http://${hostname}:${port}`);
     },
   );
 }

@@ -63,6 +63,7 @@ export const translations = {
     },
     misc: {
       eat: "🍲 You should eat {}",
+      times: "time(s)"
     },
     economy: {
       errorUserNotFound: "User not found: {}",

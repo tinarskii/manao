@@ -127,6 +127,7 @@ export function addCommand(command: Command): void {
  * @return {CommandList}
  */
 export function fetchCommand(): CommandList {
+  initDatabase();
   const stmt = db.prepare("SELECT * FROM commands");
   const commands = stmt.all() as Array<Command>;
 
