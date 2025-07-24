@@ -101,7 +101,10 @@ class ChatOverlay {
     this.customThemes = this.loadCustomThemes();
     this.messages = [];
 
+    this.customCSS = this.loadCustomCSS();
+
     this.initializeThemeSystem();
+    this.initializeCustomCSS();
     this.attachEvents();
     this.renderInitialMessage();
   }
@@ -110,6 +113,120 @@ class ChatOverlay {
     this.populateThemeDropdown();
     this.createThemeButtons();
     this.updateUIFromSettings();
+  }
+
+  initializeCustomCSS() {
+    this.createCustomCSSUI();
+    this.applyCustomCSS();
+  }
+
+  createCustomCSSUI() {
+    const customCSSSection = document.createElement("div");
+    customCSSSection.className = "custom-css-section p-4 bg-white rounded-lg mt-4";
+
+    customCSSSection.innerHTML = `
+      <h3 style="margin: 0 0 10px 0; font-size: 16px; font-weight: bold;">Custom CSS</h3>
+      <p style="margin: 0 0 10px 0; font-size: 12px; color: #666;">
+        Add custom CSS to override any styling. Changes apply immediately and persist across sessions. (Changes can not be viewed in the preview, only in the actual chat overlay.)
+      </p>
+      <textarea 
+        id="customCSSInput" 
+        style="width: 100%; height: 150px; font-family: monospace; font-size: 12px; padding: 8px; border: 1px solid #fff; color: black; border-radius: 4px; resize: vertical;"
+      ></textarea>
+      <div style="margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap;">
+        <button type="button" id="applyCSSBtn" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;">Apply CSS</button>
+        <button type="button" id="clearCSSBtn" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Clear CSS</button>
+        <button type="button" id="resetCSSBtn" class="btn btn-error" style="padding: 6px 12px; font-size: 12px;">Reset to Default</button>
+      </div>
+    `;
+
+    const themeButtons = this.controlsPanel.querySelector('.theme-buttons');
+    if (themeButtons && themeButtons.parentNode) {
+      themeButtons.parentNode.insertBefore(customCSSSection, themeButtons.nextSibling);
+    } else {
+      this.controlsPanel.appendChild(customCSSSection);
+    }
+
+    const cssInput = customCSSSection.querySelector('#customCSSInput');
+    cssInput.value = this.customCSS;
+
+    customCSSSection.querySelector('#applyCSSBtn').addEventListener('click', () => {
+      this.saveAndApplyCustomCSS();
+    });
+
+    customCSSSection.querySelector('#clearCSSBtn').addEventListener('click', () => {
+      this.clearCustomCSS();
+    });
+
+    customCSSSection.querySelector('#resetCSSBtn').addEventListener('click', () => {
+      this.resetCustomCSS();
+    });
+
+    let cssTimeout;
+    cssInput.addEventListener('input', () => {
+      clearTimeout(cssTimeout);
+      cssTimeout = setTimeout(() => {
+        this.saveAndApplyCustomCSS();
+      }, 1000);
+    });
+  }
+
+  loadCustomCSS() {
+    try {
+      return localStorage.getItem('chatCustomCSS') || '';
+    } catch (error) {
+      console.error('Error loading custom CSS:', error);
+      return '';
+    }
+  }
+
+  saveCustomCSS(css) {
+    try {
+      localStorage.setItem('chatCustomCSS', css);
+      this.customCSS = css;
+    } catch (error) {
+      console.error('Error saving custom CSS:', error);
+      alert('Failed to save custom CSS. Storage might be full.');
+    }
+  }
+
+  applyCustomCSS() {
+    // if (this.customCSSStyleElement) {
+    //   this.customCSSStyleElement.remove();
+    // }
+    //
+    // if (this.customCSS.trim()) {
+    //   this.customCSSStyleElement = document.createElement('style');
+    //   this.customCSSStyleElement.setAttribute('data-custom-css', 'true');
+    //   this.customCSSStyleElement.textContent = this.customCSS;
+    //   document.head.appendChild(this.customCSSStyleElement);
+    // }
+  }
+
+  saveAndApplyCustomCSS() {
+    const cssInput = document.getElementById('customCSSInput');
+    if (cssInput) {
+      const css = cssInput.value;
+      this.saveCustomCSS(css);
+      this.applyCustomCSS();
+      this.showNotification('Custom CSS applied successfully!');
+    }
+  }
+
+  clearCustomCSS() {
+    const cssInput = document.getElementById('customCSSInput');
+    if (cssInput) {
+      cssInput.value = '';
+      this.saveCustomCSS('');
+      this.applyCustomCSS();
+      this.showNotification('Custom CSS cleared!');
+    }
+  }
+
+  resetCustomCSS() {
+    if (confirm('Reset custom CSS to default (empty)? This will remove all custom styling.')) {
+      this.clearCustomCSS();
+    }
   }
 
   populateThemeDropdown() {

@@ -1,6 +1,50 @@
 // Create socket connection using the common function
 const socket = createSocketConnection();
 
+let isOverrideCSS = false;
+
+function addImportantToCSS(cssText) {
+  return cssText.replace(/([^;\s}]+)\s*:\s*([^;}{]+)(;?)/g, (match, prop, val, semi) => {
+    if (val.trim().endsWith('!important')) {
+      return match; // Already has !important
+    }
+    return `${prop}: ${val.trim()} !important${semi}`;
+  });
+}
+
+// Load and apply custom CSS from localStorage
+function loadAndApplyCustomCSS() {
+  try {
+    const customCSS = localStorage.getItem("chatCustomCSS");
+    if (!customCSS || !customCSS.trim()) return (isOverrideCSS = false);
+
+    // Remove any previous custom CSS
+    const existingStyle = document.querySelector(
+      'style[data-custom-css="true"]',
+    );
+    if (existingStyle) existingStyle.remove();
+
+    // Split out @import rules to put them at the top
+    const importRegex = /@import\s+url\([^)]+\);/gi;
+    const importRules = customCSS.match(importRegex) || [];
+    const cssWithoutImports = customCSS.replace(importRegex, "").trim();
+    const cssImportants = addImportantToCSS(cssWithoutImports);
+
+    // Create a <style> tag with imports first
+    const styleElement = document.createElement("style");
+    styleElement.setAttribute("data-custom-css", "true");
+    styleElement.textContent = `${importRules.join("\n")}\n${cssImportants}`;
+    document.head.appendChild(styleElement);
+
+    isOverrideCSS = true;
+  } catch (error) {
+    console.error("❌ Error loading custom CSS:", error);
+  }
+}
+
+// Apply custom CSS immediately
+loadAndApplyCustomCSS();
+
 // Get query parameters
 function getParam(name) {
   const urlParams = new URLSearchParams(window.location.search);
@@ -47,6 +91,7 @@ const bgColors = {
 // Add dynamic CSS for animations and background colors
 function injectDynamicCSS() {
   const style = document.createElement("style");
+  style.setAttribute("data-dynamic-css", "true");
   style.textContent = `
     /* Animation styles */
     .slideInRight {
@@ -64,6 +109,18 @@ function injectDynamicCSS() {
     .fadeIn {
       animation: fadeIn 0.75s ease forwards !important;
     }
+    .fadeInUp {
+      animation: fadeInUp 0.75s ease forwards !important;
+    }
+    .fadeInDown {
+      animation: fadeInDown 0.75s ease forwards !important;
+    }
+    .bounceInRight {
+      animation: bounceInRight 0.75s ease forwards !important;
+    }
+    .bounceInLeft {
+      animation: bounceInLeft 0.75s ease forwards !important;
+    }
     
     .slideOutRight {
       animation: slideOutRight 0.75s ease forwards !important;
@@ -79,6 +136,18 @@ function injectDynamicCSS() {
     }
     .fadeOut {
       animation: fadeOut 0.75s ease forwards !important;
+    }
+    .fadeOutUp {
+      animation: fadeOutUp 0.75s ease forwards !important;
+    }
+    .fadeOutDown {
+      animation: fadeOutDown 0.75s ease forwards !important;
+    }
+    .bounceOutRight {
+      animation: bounceOutRight 0.75s ease forwards !important;
+    }
+    .bounceOutLeft {
+      animation: bounceOutLeft 0.75s ease forwards !important;
     }
 
     @keyframes slideInRight {
@@ -101,6 +170,24 @@ function injectDynamicCSS() {
       0% { opacity: 0; }
       100% { opacity: 1; }
     }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInDown {
+      0% { opacity: 0; transform: translateY(-30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounceInRight {
+      0% { opacity: 0; transform: translateX(100%) scale(0.8); }
+      50% { opacity: 1; transform: translateX(-10px) scale(1.1); }
+      100% { opacity: 1; transform: translateX(0) scale(1); }
+    }
+    @keyframes bounceInLeft {
+      0% { opacity: 0; transform: translateX(-100%) scale(0.8); }
+      50% { opacity: 1; transform: translateX(10px) scale(1.1); }
+      100% { opacity: 1; transform: translateX(0) scale(1); }
+    }
     @keyframes slideOutRight {
       0% { opacity: 1; transform: translateX(0); }
       100% { opacity: 0; transform: translateX(100%); }
@@ -120,6 +207,24 @@ function injectDynamicCSS() {
     @keyframes fadeOut {
       0% { opacity: 1; }
       100% { opacity: 0; }
+    }
+    @keyframes fadeOutUp {
+      0% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-30px); }
+    }
+    @keyframes fadeOutDown {
+      0% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(30px); }
+    }
+    @keyframes bounceOutRight {
+      0% { opacity: 1; transform: translateX(0) scale(1); }
+      50% { opacity: 1; transform: translateX(-10px) scale(1.1); }
+      100% { opacity: 0; transform: translateX(100%) scale(0.8); }
+    }
+    @keyframes bounceOutLeft {
+      0% { opacity: 1; transform: translateX(0) scale(1); }
+      50% { opacity: 1; transform: translateX(10px) scale(1.1); }
+      100% { opacity: 0; transform: translateX(-100%) scale(0.8); }
     }
 
     /* Alignment styles */
@@ -171,8 +276,8 @@ document.getElementById("template-container").innerHTML = `
   <div data-from="{from}" data-id="{messageId}">
     <div class="chatbox-container {role}" id="{messageId}-container">
       <div class="meta" style="color: {color}">
-        <span class="name" id="{messageId}-author">{from}</span>
         <span class="badges"></span>
+        <span class="username" id="{messageId}-author">{from}</span>
       </div>
       <div class="message" id="{messageId}-msg">
         {message}
@@ -212,50 +317,64 @@ socket.on("message", (data) => {
     data.badges.forEach((badge) => {
       const img = document.createElement("img");
       img.src = badge;
+      img.className = "inline-block w-4 h-4 mr-1";
+      img.alt = `${data.role} badge`;
       badges.appendChild(img);
     });
   }
 
   // Apply styling
-  container.classList.add(animationIn);
-  container.style.borderRadius = `${borderRadius}px`;
-  container.style.fontFamily = fontFamily;
-  container.style.boxShadow = boxShadow ? "0 2px 8px rgba(0,0,0,0.25)" : "none";
-  container.style.textAlign = align;
-  container.style.fontSize = `${fontSize}px`;
-  container.style.color = textColor;
+  if (isOverrideCSS) {
+    container.classList.add(animationIn);
+    container.style.borderRadius = `${borderRadius}px`;
+    container.style.fontFamily = fontFamily;
+    container.style.boxShadow = boxShadow
+      ? "0 2px 8px rgba(0,0,0,0.25)"
+      : "none";
+    container.style.textAlign = align;
+    container.style.fontSize = `${fontSize}px`;
+    container.style.color = textColor;
 
-  // Apply text shadow setting
-  if (!textShadow) {
-    container.classList.add("no-text-shadow");
-  }
+    // Apply text shadow setting
+    if (!textShadow) {
+      container.classList.add("no-text-shadow");
+    } else {
+      // Apply text shadow to username and message
+      const username = container.querySelector(".username");
+      const message = container.querySelector(".message");
+      if (username) username.style.textShadow = "0 2px 8px rgba(0,0,0,0.7)";
+      if (message) message.style.textShadow = "0 2px 8px rgba(0,0,0,0.7)";
+    }
 
-  // Apply background opacity to the role-based background
-  const roleColors = bgColors[data.role] || bgColors.normal;
-  const bgWithOpacity = `linear-gradient(45deg, 
+    // Apply background opacity to the role-based background
+    const roleColors = bgColors[data.role] || bgColors.normal;
+    const bgWithOpacity = `linear-gradient(45deg, 
     rgba(${hexToRgb(roleColors.color1)}, ${backgroundOpacity}), 
     rgba(${hexToRgb(roleColors.color2)}, ${backgroundOpacity}))`;
-  container.style.background = bgWithOpacity;
+    container.style.background = bgWithOpacity;
 
-  // Apply border styling based on alignment
-  switch (align) {
-    case "center":
-      container.style.borderLeft = "none";
-      container.style.borderRight = "none";
-      container.style.borderBottom = `10px solid ${data.color}`;
-      break;
-    case "right":
-      container.style.borderLeft = "none";
-      container.style.borderBottom = "none";
-      container.style.borderRight = `10px solid ${data.color}`;
-      break;
-    default:
-      container.style.borderRight = "none";
-      container.style.borderBottom = "none";
-      container.style.borderLeft = `10px solid ${data.color}`;
+    // Apply border styling based on alignment
+    switch (align) {
+      case "center":
+        container.style.borderLeft = "none";
+        container.style.borderRight = "none";
+        container.style.borderBottom = `10px solid ${data.color}`;
+        break;
+      case "right":
+        container.style.borderLeft = "none";
+        container.style.borderBottom = "none";
+        container.style.borderRight = `10px solid ${data.color}`;
+        break;
+      default:
+        container.style.borderRight = "none";
+        container.style.borderBottom = "none";
+        container.style.borderLeft = `10px solid ${data.color}`;
+    }
+
+    // Add data attributes for CSS targeting
+    container.setAttribute("data-role", data.role);
+    container.classList.add(`align-${align}`);
   }
-
-  container.classList.add(`align-${align}`);
 
   // Add to log
   log.appendChild(chatElement);
@@ -282,8 +401,12 @@ socket.on("message", (data) => {
   if (parseFloat(timeout) > 0) {
     setTimeout(() => {
       if (chatElement && chatElement.parentNode) {
-        chatElement.classList.remove(animationIn);
-        chatElement.classList.add(animationOut);
+        const containerToAnimate =
+          chatElement.querySelector(".chatbox-container");
+        if (containerToAnimate) {
+          containerToAnimate.classList.remove(animationIn);
+          containerToAnimate.classList.add(animationOut);
+        }
         setTimeout(() => {
           if (chatElement && chatElement.parentNode) {
             chatElement.remove();
@@ -302,3 +425,19 @@ function hexToRgb(hex) {
     ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}`
     : "78, 78, 72";
 }
+
+// Listen for localStorage changes to update custom CSS in real-time
+window.addEventListener("storage", (e) => {
+  if (e.key === "chatCustomCSS") {
+    // Remove existing custom CSS
+    const existingCustomCSS = document.querySelector(
+      'style[data-custom-css="true"]',
+    );
+    if (existingCustomCSS) {
+      existingCustomCSS.remove();
+    }
+
+    // Apply new custom CSS
+    loadAndApplyCustomCSS();
+  }
+});
