@@ -154,17 +154,17 @@ class ChatOverlay {
     buttonContainer.style.cssText =
       "margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap;";
 
-    const saveBtn = this.createButton("Save Theme", "save-theme-btn", () =>
+    const saveBtn = this.createButton("Save Theme", "save-theme-btn btn btn-success", () =>
       this.showSaveThemeDialog(),
     );
     const deleteBtn = this.createButton(
       "Delete Theme",
-      "delete-theme-btn",
+      "delete-theme-btn btn btn-error",
       () => this.showDeleteThemeDialog(),
     );
     const resetBtn = this.createButton(
       "Reset to Default",
-      "reset-theme-btn",
+      "reset-theme-btn btn btn-secondary",
       () => this.resetToDefault(),
     );
 
@@ -180,23 +180,6 @@ class ChatOverlay {
     button.textContent = text;
     button.className = `theme-btn ${className}`;
     button.type = "button";
-    button.style.cssText = `
-      padding: 4px 8px; 
-      font-size: 12px; 
-      border: 1px solid #ccc; 
-      border-radius: 4px; 
-      background: #f5f5f5; 
-      cursor: pointer;
-      transition: background-color 0.2s;
-    `;
-    button.addEventListener(
-      "mouseover",
-      () => (button.style.backgroundColor = "#e0e0e0"),
-    );
-    button.addEventListener(
-      "mouseout",
-      () => (button.style.backgroundColor = "#f5f5f5"),
-    );
     button.addEventListener("click", onClick);
     return button;
   }
