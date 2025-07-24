@@ -1,0 +1,261 @@
+<main class="mx-auto flex max-w-[90dvw] flex-col gap-8 py-6 lg:flex-row">
+  <!-- Controls Panel -->
+  <section
+    id="controlsPanel"
+    class="bg-base-200 flex-shrink-0 space-y-6 rounded-2xl p-6 lg:w-1/2"
+  >
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text">Text Color</span>
+      </label>
+      <input
+        type="color"
+        id="textColor"
+        value="#ffffff"
+        class="input input-bordered"
+      />
+    </div>
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text">Font Size</span>
+      </label>
+      <input
+        type="range"
+        id="fontSize"
+        min="10"
+        max="36"
+        value="20"
+        class="range"
+      />
+      <span id="fontSizeDisplay" class="text-sm text-gray-400"></span>
+    </div>
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text">Background Opacity</span>
+      </label>
+      <input
+        type="range"
+        id="backgroundOpacity"
+        min="0"
+        max="1"
+        step="0.01"
+        value="0.85"
+        class="range"
+      />
+      <span id="backgroundOpacityDisplay" class="text-sm text-gray-400"></span>
+    </div>
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text">Border Radius</span>
+      </label>
+      <input
+        type="range"
+        id="rounded"
+        min="0"
+        max="30"
+        value="16"
+        class="range"
+      />
+      <span id="roundedDisplay" class="text-sm text-gray-400"></span>
+    </div>
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text">Alignment</span>
+      </label>
+      <select id="align" class="select select-bordered">
+        <option>left</option>
+        <option>center</option>
+        <option>right</option>
+      </select>
+    </div>
+    <div class="form-control">
+      <label class="label cursor-pointer">
+        <span class="label-text">Box Shadow</span>
+        <input
+          type="checkbox"
+          id="boxShadow"
+          checked
+          class="toggle toggle-primary"
+        />
+      </label>
+    </div>
+    <div class="form-control">
+      <label class="label cursor-pointer">
+        <span class="label-text">Text Shadow</span>
+        <input
+          type="checkbox"
+          id="textShadow"
+          checked
+          class="toggle toggle-primary"
+        />
+      </label>
+    </div>
+    <div class="form-control">
+      <label class="label cursor-pointer">
+        <span class="label-text">Hide Badges</span>
+        <input type="checkbox" id="hideBadges" class="toggle toggle-primary" />
+      </label>
+    </div>
+
+    <div class="divider">Role Backgrounds</div>
+    <div class="form-control">
+      <label class="label-text">Normal</label>
+      <div class="flex gap-2">
+        <input
+          type="color"
+          id="normalBgStart"
+          value="#4e4e48"
+          class="input input-bordered w-full"
+        />
+        <input
+          type="color"
+          id="normalBgEnd"
+          value="#38342b"
+          class="input input-bordered w-full"
+        />
+      </div>
+    </div>
+    <div class="form-control">
+      <label class="label-text">Subscriber</label>
+      <div class="flex gap-2">
+        <input
+          type="color"
+          id="subBgStart"
+          value="#8a8a0b"
+          class="input input-bordered w-full"
+        />
+        <input
+          type="color"
+          id="subBgEnd"
+          value="#b58923"
+          class="input input-bordered w-full"
+        />
+      </div>
+    </div>
+    <div class="form-control">
+      <label class="label-text">VIP</label>
+      <div class="flex gap-2">
+        <input
+          type="color"
+          id="vipBgStart"
+          value="#320b4d"
+          class="input input-bordered w-full"
+        />
+        <input
+          type="color"
+          id="vipBgEnd"
+          value="#6b136b"
+          class="input input-bordered w-full"
+        />
+      </div>
+    </div>
+    <div class="form-control">
+      <label class="label-text">Moderator</label>
+      <div class="flex gap-2">
+        <input
+          type="color"
+          id="modBgStart"
+          value="#0c4d0b"
+          class="input input-bordered w-full"
+        />
+        <input
+          type="color"
+          id="modBgEnd"
+          value="#157426"
+          class="input input-bordered w-full"
+        />
+      </div>
+    </div>
+    <div class="form-control">
+      <label class="label-text">Broadcaster</label>
+      <div class="flex gap-2">
+        <input
+          type="color"
+          id="broadcasterBgStart"
+          value="#4d0b0b"
+          class="input input-bordered w-full"
+        />
+        <input
+          type="color"
+          id="broadcasterBgEnd"
+          value="#6b1320"
+          class="input input-bordered w-full"
+        />
+      </div>
+    </div>
+
+    <div class="divider">Behavior</div>
+    <div class="form-control">
+      <label class="label-text">Animation In</label>
+      <select id="animationIn" class="select select-bordered">
+        <option value="slideInLeft">slideInLeft</option>
+        <option value="slideInRight" selected>slideInRight</option>
+        <option value="fadeIn">fadeIn</option>
+      </select>
+    </div>
+    <div class="form-control">
+      <label class="label-text">Animation Out</label>
+      <select id="animationOut" class="select select-bordered">
+        <option value="slideOutLeft" selected>slideOutLeft</option>
+        <option value="slideOutRight">slideOutRight</option>
+        <option value="fadeOut">fadeOut</option>
+      </select>
+    </div>
+    <div class="form-control">
+      <label class="label-text">Timeout (ms)</label>
+      <input
+        type="number"
+        id="timeout"
+        value="10000"
+        class="input input-bordered"
+      />
+    </div>
+    <div class="form-control">
+      <label class="label-text">Max Messages</label>
+      <input type="number" id="limit" value="5" class="input input-bordered" />
+    </div>
+    <div class="form-control">
+      <label class="label-text">Message Direction</label>
+      <select id="messageDirection" class="select select-bordered">
+        <option value="bottom" selected>Bottom to Top</option>
+        <option value="top">Top to Bottom</option>
+      </select>
+    </div>
+
+    <button id="copyBtn" class="btn btn-primary mt-4 w-full">
+      📋 Copy URL
+    </button>
+    <div
+      id="queryStringOutput"
+      class="mt-2 font-mono text-xs break-words text-gray-400"
+    ></div>
+  </section>
+
+  <!-- Preview Panel -->
+  <section class="bg-base-200 flex-1 rounded-2xl p-6">
+    <div class="mb-6 text-xl font-semibold">🔍 Live Preview</div>
+    <form id="addMessageForm" class="mb-6 grid grid-cols-4 gap-4">
+      <input
+        type="text"
+        id="newUsername"
+        placeholder="Username"
+        class="input input-bordered"
+      />
+      <select id="userRole" class="select select-bordered">
+        <option value="normal">Normal</option>
+        <option value="sub">Subscriber</option>
+        <option value="vip">VIP</option>
+        <option value="mod">Moderator</option>
+        <option value="broadcaster">Broadcaster</option>
+      </select>
+      <input
+        type="text"
+        id="newMessage"
+        placeholder="Type your message…"
+        class="input input-bordered col-span-2"
+      />
+      <button type="submit" class="btn btn-accent col-span-1">Add</button>
+    </form>
+    <div id="chatPreview" class="space-y-4"></div>
+  </section>
+</main>

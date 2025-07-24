@@ -90,8 +90,6 @@ export function registerSecuredPageRoutes(app: Elysia) {
 
   // Generate HTML for the authentication page with enhanced design and improved code
   const generateTokenPromptHtml = (path: string): string => {
-    const isChatPage = path === "chat";
-
     return `
     <!doctype html>
     <html lang="en">
@@ -153,53 +151,7 @@ export function registerSecuredPageRoutes(app: Elysia) {
                     />
                   </label>
                 </div>
-                
-                ${
-                  isChatPage
-                    ? `
-                <!-- Chat Direction Options -->
-                <div class="form-control">
-                  <label class="label">
-                    <span class="label-text flex items-center gap-2">
-                      <i class="fa-solid fa-arrow-down"></i> Message Direction
-                    </span>
-                  </label>
-                  <div class="bg-base-200 rounded-lg p-1">
-                    <div class="grid grid-cols-2 gap-2">
-                      <input type="radio" id="ttb" name="direction" value="ttb" class="hidden peer/ttb" checked />
-                      <label for="ttb" class="peer-checked/ttb:bg-primary peer-checked/ttb:text-primary-content btn btn-sm normal-case transition-all duration-200 flex gap-2 items-center justify-center">
-                        <i class="fa-solid fa-arrow-down"></i> Top to Bottom
-                      </label>
-                      
-                      <input type="radio" id="btt" name="direction" value="btt" class="hidden peer/btt" />
-                      <label for="btt" class="peer-checked/btt:bg-primary peer-checked/btt:text-primary-content btn btn-sm normal-case transition-all duration-200 flex gap-2 items-center justify-center">
-                        <i class="fa-solid fa-arrow-up"></i> Bottom to Top
-                      </label>
-                    </div>
-                  </div>
-                </div>
                                 
-                <!-- Fade Input -->
-                <div class="form-control">
-                  <label class="label">
-                    <span class="label-text flex items-center gap-2">
-                      <i class="fa-solid fa-hourglass-half"></i> Fade Duration (seconds)
-                    </span>
-                  </label>
-                  <label class="input-group">
-                    <input 
-                      type="number" 
-                      id="fade" 
-                      class="input input-bordered w-full" 
-                      value="0" 
-                      required
-                    />
-                  </label>
-                </div>
-                `
-                    : ""
-                }
-                
                 <!-- Submit Button -->
                 <div class="form-control mt-6">
                   <button 
@@ -273,16 +225,8 @@ export function registerSecuredPageRoutes(app: Elysia) {
             try {
               setLoading(true);
               
-              // Get direction and fade values if on chat page
               let params = new URLSearchParams();
               params.append('token', inputToken);
-              
-              if (targetPath === 'chat') {
-                const direction = document.querySelector('input[name="direction"]:checked').value;
-                const fade = document.getElementById('fade').value;
-                params.append('direction', direction);
-                params.append('fade', fade);
-              }
               
               const response = await fetch('/api/validate-token', {
                 method: 'POST',
@@ -291,12 +235,10 @@ export function registerSecuredPageRoutes(app: Elysia) {
               });
               
               if (response.ok) {
-                // Save token and redirect
                 localStorage.setItem('token', inputToken);
-                window.location.href = '/' + targetPath + '?' + params.toString();
-              } else {
-                const data = await response.json().catch(() => ({}));
-                showError(data.message || 'Invalid token. Please try again.');
+                const originalParams = new URLSearchParams(window.location.search);
+                originalParams.set('token', inputToken);
+                window.location.href = \`/\$\{targetPath\}?\$\{originalParams.toString()\}\`;
               }
             } catch (error) {
               console.error('Authentication error:', error);
@@ -306,8 +248,7 @@ export function registerSecuredPageRoutes(app: Elysia) {
             }
           };
           
-          // Auto-redirect if a token exists (except for chat page which needs additional params)
-          if (storedToken && targetPath !== 'chat') {
+          if (storedToken) {
             validateToken(storedToken);
           }
           
@@ -341,10 +282,7 @@ export function registerSecuredPageRoutes(app: Elysia) {
   const createSecuredHandler = (page: SecuredPage) => {
     return ({ query, set }: { query: any; set: any; request: Request }) => {
       // Handle token validation
-      if (
-        !query.token ||
-        ((!query.fade || !query.direction) && page.path === "chat")
-      ) {
+      if (!query.token) {
         set.headers["Content-Type"] = "text/html";
         return generateTokenPromptHtml(page.path);
       }
@@ -376,9 +314,6 @@ export function registerSecuredPageRoutes(app: Elysia) {
           "{{ songAuthor }}": defaultSong.songAuthor,
           "{{ songThumbnail }}": defaultSong.songThumbnail,
           "{{ songID }}": defaultSong.songID,
-          "{{ fade }}": query.fade || "0",
-          "{{ direction }}":
-            query.direction === "ttb" ? "column-reverse" : "column",
         },
       });
     };

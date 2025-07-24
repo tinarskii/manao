@@ -14,18 +14,24 @@ body {
   display: flex;
   flex-direction: column-reverse;
   row-gap: 1em;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
 }
 
 .chatbox-container {
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   padding: 0.75em;
-  border-radius: 0 0 1em;
+  border-radius: 16px;
   border-left: 10px solid;
   font-family: "Outfit", "Noto Sans Thai Looped", sans-serif;
+  position: relative;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
+/* Default role backgrounds - these will be overridden by JavaScript */
 .chatbox-container.normal {
   background: linear-gradient(
     45deg,
@@ -71,40 +77,217 @@ body {
   align-items: center;
   column-gap: 0.25em;
   width: 100%;
-  font-size: 2em;
+  font-size: 1em;
   font-weight: 700;
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.75);
+  margin-bottom: 0.25em;
+}
+
+.name {
+  font-weight: bold;
 }
 
 .badges {
   display: flex;
   align-items: center;
   column-gap: 0.25em;
-  font-size: 1.5em;
-  font-weight: 700;
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.75);
 }
 
-.badges img,
-.message img {
-  width: 24px;
-  height: 24px;
+.badges img {
+  width: 1.2em;
+  height: 1.2em;
+  vertical-align: middle;
 }
 
 .message {
   color: white;
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.75);
-  font-size: 1.25rem;
+  font-size: 1rem;
   word-wrap: break-word;
   word-break: break-word;
-  z-index: 5;
+  line-height: 1.4;
 }
 
-#log > div {
-  animation: fadeInRight 0.75s ease forwards;
-  -webkit-animation: fadeInRight 0.75s ease forwards;
+.message img {
+  width: 1.5em;
+  height: 1.5em;
+  vertical-align: middle;
+  margin: 0 0.1em;
 }
 
+/* Alignment classes */
+.align-left {
+  align-self: flex-start;
+  max-width: 80%;
+}
+
+.align-center {
+  align-self: center;
+  max-width: 80%;
+  text-align: center;
+}
+
+.align-right {
+  align-self: flex-end;
+  max-width: 80%;
+  text-align: right;
+}
+
+/* Remove text shadow when disabled */
+.no-text-shadow .meta,
+.no-text-shadow .message {
+  text-shadow: none !important;
+}
+
+/* Animation classes - these will be enhanced by JavaScript */
+.slideInRight {
+  animation: slideInRight 0.75s ease forwards;
+}
+
+.slideInLeft {
+  animation: slideInLeft 0.75s ease forwards;
+}
+
+.slideInUp {
+  animation: slideInUp 0.75s ease forwards;
+}
+
+.slideInDown {
+  animation: slideInDown 0.75s ease forwards;
+}
+
+.fadeIn {
+  animation: fadeIn 0.75s ease forwards;
+}
+
+.slideOutRight {
+  animation: slideOutRight 0.75s ease forwards;
+}
+
+.slideOutLeft {
+  animation: slideOutLeft 0.75s ease forwards;
+}
+
+.slideOutUp {
+  animation: slideOutUp 0.75s ease forwards;
+}
+
+.slideOutDown {
+  animation: slideOutDown 0.75s ease forwards;
+}
+
+.fadeOut {
+  animation: fadeOut 0.75s ease forwards;
+}
+
+/* Base animations */
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slideOutLeft {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slideOutUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes slideOutDown {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Legacy animation for backwards compatibility */
 @keyframes fadeInRight {
   0% {
     opacity: 0;

@@ -97,7 +97,9 @@ export default {
     } else if (action === "add") {
       const existingData = db
         .prepare("SELECT defaultSong FROM preferences WHERE userID = ?")
-        .get(Number(Bun.env.BROADCASTER_ID)) as { defaultSong: string } | undefined;
+        .get(Number(Bun.env.BROADCASTER_ID)) as
+        | { defaultSong: string }
+        | undefined;
       const existingSongs = existingData
         ? JSON.parse(existingData.defaultSong)
         : [];

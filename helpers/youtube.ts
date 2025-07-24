@@ -172,9 +172,8 @@ export async function searchYouTube(
   apiKey?: string,
 ): Promise<SearchResult | null> {
   return apiKey
-    ? (await searchYouTubeAPI(query, apiKey)) ||
-        (await searchYouTubeScraper(query))
-    : await searchYouTubeScraper(query);
+    ? (await searchYouTubeAPI(query, apiKey)) || searchYouTubeScraper(query)
+    : searchYouTubeScraper(query);
 }
 
 export async function getYouTubeVideoInfo(
@@ -183,7 +182,6 @@ export async function getYouTubeVideoInfo(
 ): Promise<YouTubeVideoInfo | null> {
   const videoId = extractVideoId(videoIdOrUrl) || videoIdOrUrl;
   return apiKey
-    ? (await getVideoInfoAPI(videoId, apiKey)) ||
-        (await getVideoInfoScraper(videoId))
-    : await getVideoInfoScraper(videoId);
+    ? (await getVideoInfoAPI(videoId, apiKey)) || getVideoInfoScraper(videoId)
+    : getVideoInfoScraper(videoId);
 }

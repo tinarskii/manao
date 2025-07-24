@@ -1,6 +1,5 @@
 import { Elysia } from "elysia";
 import { customCommands } from "../../client/services/chat";
-import { getLang, localizeCommandArgs } from "../../helpers/preferences";
 import { Command } from "../../types";
 import { addCommand, deleteCommand } from "../../helpers/database";
 import { findCommand } from "../../helpers/command";

@@ -32,6 +32,25 @@ export function registerPageRoutes(app: Elysia) {
       script: "/js/queue.js",
     });
   });
+  app.get("/viewers", ({ set }) => {
+    set.headers["Content-Type"] = "text/html";
+    return renderPage({
+      path: `${APP_DIR}/viewers.html`,
+      pageName: "View Count - Manaobot Web",
+      script: "/js/viewers.js",
+      excludeTailwind: true,
+      excludeTemplate: true,
+    });
+  });
+  app.get("/customization/chat", ({ set }) => {
+    set.headers["Content-Type"] = "text/html";
+    return renderPage({
+      path: `${APP_DIR}/customization/chat.html`,
+      pageName: "Chat Customization - Manaobot Web",
+      stylesheet: "/css/customization/chat.css",
+      script: "/js/customization/chat.js",
+    });
+  });
 
   return app;
 }

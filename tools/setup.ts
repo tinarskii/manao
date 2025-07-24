@@ -39,7 +39,7 @@ async function openBrowser(url: string): Promise<void> {
 }
 
 async function fetchTokens(cliPath: string): Promise<ConfigTokens> {
-  const { stdout, stderr } = Bun.spawnSync([
+  const { stderr } = Bun.spawnSync([
     cliPath,
     "token",
     "-u",
@@ -152,7 +152,7 @@ async function startConfig(): Promise<void> {
   );
   console.log(
     lang[currentlang as keyof typeof lang].goTo +
-    chalk.blueBright("https://dev.twitch.tv/console/apps"),
+      chalk.blueBright("https://dev.twitch.tv/console/apps"),
   );
   console.log(
     chalk.gray(`→ ${lang[currentlang as keyof typeof lang].createAppInfo1}`),

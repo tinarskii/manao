@@ -7,7 +7,12 @@ import { getCurrency, getLang } from "../../helpers/preferences";
 import { t } from "../../helpers/i18n";
 import { closest } from "../../helpers/levenshtein";
 import { findCommand } from "../../helpers/command";
-import { addBalance, getBalance, getNickname, setBalance, subtractBalance } from "../../helpers/database";
+import {
+  addBalance,
+  getBalance,
+  setBalance,
+  subtractBalance,
+} from "../../helpers/database";
 
 /**
  * Processes a chat command
@@ -31,7 +36,7 @@ export async function handleCommand(
 
     if (!command && !customCommand) {
       // Check for the closest command match
-      let inputLang = /[^\u0000-\u007F]/.test(inputCommand)
+      const inputLang = /[^\u0000-\u007F]/.test(inputCommand)
         ? "th"
         : ("en" as "en" | "th");
       const closestCommand = closest(
@@ -151,11 +156,13 @@ export async function handleCommand(
         }
       }
 
-      const sendMessage = (message: string) => { return chatClient.say(channel, message); };
+      const sendMessage = (message: string) => {
+        return chatClient.say(channel, message);
+      };
       const getInput = (index: number | null) => {
-        if (!index) return args.join(" ")
+        if (!index) return args.join(" ");
         else return args[index - 1];
-      }
+      };
 
       const context = {
         client: {
@@ -179,7 +186,7 @@ export async function handleCommand(
         getBalance,
         addBalance,
         subtractBalance,
-        setBalance
+        setBalance,
       };
 
       const script = String(customCommand.execute);

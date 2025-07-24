@@ -106,9 +106,9 @@ export function getDisabledCommands(): Array<string> {
 
 /**
  * Toggle a command's disabled state.
-  * @param {string} commandName The name of the command to toggle.
-  * @returns {boolean} True if the command was successfully toggled, false otherwise.
-  */
+ * @param {string} commandName The name of the command to toggle.
+ * @returns {boolean} True if the command was successfully toggled, false otherwise.
+ */
 export function toggleCommand(commandName: string): boolean {
   const disabledCommands = getDisabledCommands();
   const commandIndex = disabledCommands.indexOf(commandName);
