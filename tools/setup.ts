@@ -238,7 +238,6 @@ OVERLAY_TOKEN=${overlayToken}
 async function run() {
   try {
     await startConfig();
-    process.exit(0);
   } catch (err: any) {
     console.error(chalk.bold.red("Configuration failed:"), err.message);
     process.exit(1);

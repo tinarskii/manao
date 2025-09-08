@@ -1,12 +1,12 @@
 {
   "name": "manaobot",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "description": "Collection of utilities for Twitch chat and API",
   "main": "index.ts",
   "scripts": {
     "start": "bun build:css && bun index.ts",
     "start:watch": "bun --watch index.ts",
-    "build": "tsc -p . && cp .env dist",
+    "build:bin": "./tools/windows/build.bat",
     "build:css": "bun x @tailwindcss/cli -i ./server/public/css/tailwind.css -o ./server/public/css/dist/tailwind.css ",
     "build:watch": "tsc -p . --watch",
     "build:installer": "Invoke-PS2EXE -InputFile .\\installer\\installer-ui.ps1 -OutputFile .\\installer\\installer-ui.exe",

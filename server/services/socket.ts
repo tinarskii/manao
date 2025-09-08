@@ -3,6 +3,7 @@ import { songQueue } from "../../client/services/chat";
 import { logger } from "../../helpers/logger";
 import { SOCKET_PORT } from "../config";
 import { Elysia } from "elysia";
+import type { AddressInfo } from "net";
 
 export function setupSocketIO(app: Elysia) {
   const io = new Server({
@@ -12,7 +13,9 @@ export function setupSocketIO(app: Elysia) {
       allowedHeaders: ["Content-Type"],
       credentials: true,
     },
-  }).listen(SOCKET_PORT);
+  }).listen(SOCKET_PORT)
+
+  logger.info(`[Socket.io] Running on port: ${(io.httpServer.address() as AddressInfo)?.port}`);
 
   // Register event handlers
   io.on("connection", handleSocketConnection);

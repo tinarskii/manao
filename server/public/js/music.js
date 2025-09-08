@@ -1,5 +1,3 @@
-// Music player functionality
-
 // Create socket connection using the common function
 const socket = createSocketConnection();
 
@@ -7,6 +5,8 @@ let currentSong;
 let queue;
 let defaultSongs;
 let defaultSongIndex = 0;
+const urlParams = new URLSearchParams(window.location.search);
+const theme = urlParams.get("theme") || "default";
 
 let playSeconds = 0;
 

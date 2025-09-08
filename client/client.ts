@@ -9,9 +9,7 @@ import { logger } from "../helpers/logger";
  */
 export async function main() {
   try {
-    // Validate environment variables
-    validateEnv();
-
+    if (!validateEnv()) throw new Error("Missing environment variables");
     // Setup authentication provider
     const authProvider = setupAuthProvider();
 

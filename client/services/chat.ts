@@ -2,12 +2,12 @@ import { ChatClient } from "@twurple/chat";
 import { ApiClient } from "@twurple/api";
 import { RefreshingAuthProvider } from "@twurple/auth";
 import { logger } from "../../helpers/logger";
-import { readdirSync } from "fs";
-import { join } from "node:path";
 import { handleMessage } from "../handlers/messageHandler";
 import { Command, CommandList, SongRequestData } from "../../types";
 import { fetchCommand } from "../../helpers/database";
 import { getDisabledCommands } from "../../helpers/preferences";
+import { Glob } from "bun";
+import { isProduction } from "../../server/config";
 
 // Global command storage
 export const commands: CommandList = new Map();
@@ -24,7 +24,7 @@ export async function initializeChatClient(
 
   const chatClient = new ChatClient({
     authProvider,
-    channels: [process.env.TW_CHANNEL ?? "tinarskii"],
+    channels: [Bun.env.TW_CHANNEL ?? "tinarskii"],
   });
 
   // Connect to chat
@@ -60,13 +60,29 @@ export async function initializeChatClient(
  */
 export async function loadCommands() {
   try {
-    const commandsDir = join(import.meta.dir, "../commands");
-    const commandFiles = readdirSync(commandsDir).filter(
-      (file) => file.endsWith(".ts") || file.endsWith(".js"),
-    );
+    const glob = new Glob("**/*");
+    const allFiles = [];
 
-    for (const file of commandFiles) {
-      const command: Command = (await import(join(commandsDir, file))).default;
+    for (const file of glob.scanSync(".")) {
+      if (file.startsWith("node_modules")) continue;
+      allFiles.push(file);
+    }
+
+    const commandFiles = allFiles
+      .filter(file =>
+        (file.startsWith("client/commands/") || file.startsWith("client\\commands\\")) &&
+        (file.endsWith(".ts") || file.endsWith(".js"))
+      )
+      .map(file => {
+        // Normalize path separators and remove directory + extension
+        return file
+          .replace(/client[\/\\]commands[\/\\]/, "") // Remove directory with either separator
+          .replace(/\.(ts|js)$/, ""); // Remove extension
+      });
+
+    for (const cmdFile of commandFiles) {
+      const filePath = isProduction ? `./client/commands/${cmdFile}` : `../commands/${cmdFile}`;
+      const command: Command = (await import(filePath)).default;
 
       // Register command using all possible names/aliases in both languages
       const allNames = [command.name.en].filter(Boolean);

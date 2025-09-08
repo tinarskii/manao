@@ -6,6 +6,7 @@ import { registerPageRoutes } from "./pages";
 import { APP_DIR, PORT, PUBLIC_DIR, tlsOptions } from "./config";
 import { staticPlugin } from "@elysiajs/static";
 import { registerValidateTokenRoutes } from "./api/validateToken";
+import { validateEnv } from "../config/constants";
 
 // Initialize Elysia app
 const app = new Elysia();
@@ -30,6 +31,7 @@ app.get("/js/socket.io/socket.io.js", () => {
 
 // Setup Socket.IO with Express - this now starts its own server
 const io = setupSocketIO(app);
+export const CURRENT_SOCKET_IO_PORT = io.httpServer.address()?.port;
 
 // renderPage function
 export async function renderPage(opt: {
