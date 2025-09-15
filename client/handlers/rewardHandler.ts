@@ -43,7 +43,7 @@ export function handleReward(
 
     // Send confirmation message in chat
     chatClient.say(
-      Bun.env.TW_CHANNEL!,
+      process.env.TW_CHANNEL!,
       `@${data.userName} 💵 ${type === "Redeem" ? "แลกรับ" : "ได้รับ"} ${amount} ${currency} สำเร็จแล้ว!${
         type !== "Redeem" ? " ขอบคุณที่สนับสนุนช่องนี้ด้วยนะ!" : ""
       }`,
@@ -59,7 +59,7 @@ export function handleReward(
 
     // Notify in chat if there was an error
     chatClient.say(
-      Bun.env.TW_CHANNEL!,
+      process.env.TW_CHANNEL!,
       `@${data.userName} เกิดข้อผิดพลาดในการประมวลผลรางวัล กรุณาแจ้งผู้ดูแล`,
     );
   }

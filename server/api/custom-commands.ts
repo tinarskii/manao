@@ -30,7 +30,6 @@ export function registerCustomCommandRoutes(app: Elysia) {
 
     try {
       addCommand(newCommand);
-      customCommands.set(newCommand.name.en, newCommand);
     } catch (error) {
       console.error("Error adding command:", error);
       return { error: "Failed to add command" };
@@ -68,7 +67,6 @@ export function registerCustomCommandRoutes(app: Elysia) {
 
       // Save the updated command to the database
       addCommand(command);
-      customCommands.set(command.name.en, command);
 
       return { success: true, command };
     },

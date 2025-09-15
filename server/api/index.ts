@@ -4,7 +4,6 @@ import { registerCommandRoutes } from "./commands";
 import { registerMusicRoutes } from "./music";
 import { registerCustomCommandRoutes } from "./custom-commands";
 import { getLang } from "../../helpers/preferences";
-import { CURRENT_SOCKET_IO_PORT } from "../index";
 
 export function registerApiRoutes(app: Elysia) {
   // Base route
@@ -20,11 +19,6 @@ export function registerApiRoutes(app: Elysia) {
   app.get("/api/lang", () => {
     return { lang: getLang() };
   });
-
-  // Get current socket.io port
-  app.get("/socket.io-port", () => {
-    return CURRENT_SOCKET_IO_PORT;
-  })
 
   // Register API route groups
   registerNicknameRoutes(app);

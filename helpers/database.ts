@@ -1,5 +1,6 @@
 import { Database } from "bun:sqlite";
 import { Command, CommandList, UserData } from "../types";
+import { customCommands } from "../client/services/chat";
 import { logger } from "./logger";
 
 export const db = new Database("./bot-data.sqlite", { create: true });
@@ -122,6 +123,8 @@ export function addCommand(command: Command): void {
       command.disabled || false,
       command.execute.toString(),
     );
+    // Update the in-memory cache
+    customCommands.set(command.name.en, command);
     logger.info(`[Custom Command] Added command: ${command.name.en}`);
   } catch (error) {
     throw new Error(`Failed to add command: ${error}`);
@@ -159,4 +162,9 @@ export function fetchCommand(): CommandList {
 export function deleteCommand(commandName: string): void {
   const stmt = db.prepare("DELETE FROM commands WHERE name = ?");
   stmt.run(commandName);
+
+  // Remove from the in-memory cache if it exists
+  if (customCommands.has(commandName)) {
+    customCommands.delete(commandName);
+  }
 }

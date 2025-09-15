@@ -54,7 +54,7 @@ function setupRewardListeners(
   // Set up listeners for each reward
   Object.entries(REWARDS).forEach(([key, rewardId]) => {
     listener.onChannelRedemptionAddForReward(
-      Bun.env.BROADCASTER_ID!,
+      process.env.BROADCASTER_ID!,
       rewardId,
       (data) => {
         const rewardAmount = REWARD_AMOUNTS[rewardId];

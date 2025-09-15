@@ -61,13 +61,16 @@ export const BITS_REWARD_AMOUNT = 54;
  */
 export function validateEnv() {
   const missingVars = REQUIRED_ENV_VARS.filter(
-    (varName) => !Bun.env[varName],
+    (varName) => !process.env[varName],
   );
 
+  if (missingVars.length > 0) {
+    throw new Error(`Missing environment variables: ${missingVars.join(", ")}`);
+  }
+
   // Set defaults for expiration values if not present
-  Bun.env.EXPIRES_IN = Bun.env.EXPIRES_IN || "0";
-  Bun.env.OBTAINMENT_TIMESTAMP = Bun.env.OBTAINMENT_TIMESTAMP || "0";
+  process.env.EXPIRES_IN = process.env.EXPIRES_IN || "0";
+  process.env.OBTAINMENT_TIMESTAMP = process.env.OBTAINMENT_TIMESTAMP || "0";
 
   logger.info("[Config] Environment variables validated");
-  return missingVars.length === 0;
 }
